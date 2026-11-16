@@ -153,8 +153,8 @@ export const Transactions = () => {
     <div className="flex flex-col border border-neutral-border rounded-md">
       <div className="flex justify-between p-3">
         <h2 className="text-h5">Recent Transactions</h2>
-        <Link to="/expenses" className={buttonVariants()}>
-          View More
+        <Link to="/accounts" className={buttonVariants()}>
+          View More Transactions
         </Link>
       </div>
       <Table>
