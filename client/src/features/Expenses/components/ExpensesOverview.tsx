@@ -1,8 +1,8 @@
-import { OverviewItem } from "@/components/base";
+import { OverviewItem, OverviewItemsContainer } from "@/components/base";
 
 export const ExpensesOverview = () => {
   return (
-    <div className="flex gap-2">
+    <OverviewItemsContainer>
       <OverviewItem
         content={1000}
         subContent={
@@ -20,6 +20,6 @@ export const ExpensesOverview = () => {
         subContent={<p className="text-text-success">Across accounts</p>}
         title={"Transactions"}
       />
-    </div>
+    </OverviewItemsContainer>
   );
 };

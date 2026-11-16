@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { OverviewItemsContainer } from "@/components/base";
 import { Button } from "@/components/vendors";
 import {
   TotalBalance,
@@ -35,11 +36,11 @@ export const Overview = () => {
           </Button>
         </div>
       </div>
-      <div className="flex gap-2">
+      <OverviewItemsContainer>
         <TotalBalance />
         <TotalCurrentMonthSpend />
         <TotalBillsWithinThirtyDays />
-      </div>
+      </OverviewItemsContainer>
     </div>
   );
 };

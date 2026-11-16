@@ -1,5 +1,9 @@
 import type { Dispatch, SetStateAction } from "react";
-import { OverviewItem, LoadingOverviewItem } from "@/components/base";
+import {
+  OverviewItem,
+  OverviewItemsContainer,
+  LoadingOverviewItem,
+} from "@/components/base";
 import type { Account } from "@/utils/types";
 import { cn, formatDate } from "@/utils/functions";
 
@@ -20,11 +24,11 @@ export const AccountSelection = ({
 }: AccountSelectionProps) => {
   if (isLoading) {
     return (
-      <div className="flex gap-2">
+      <OverviewItemsContainer>
         <LoadingOverviewItem />
         <LoadingOverviewItem />
         <LoadingOverviewItem />
-      </div>
+      </OverviewItemsContainer>
     );
   }
 
@@ -37,7 +41,7 @@ export const AccountSelection = ({
   }
 
   return (
-    <div className="flex flex-wrap overflow-x gap-2">
+    <OverviewItemsContainer className="flex-wrap overflow-x ">
       {accounts.map((account) => {
         const { balance, color, id, institution, name, openedAt } = account;
 
@@ -69,6 +73,6 @@ export const AccountSelection = ({
           />
         );
       })}
-    </div>
+    </OverviewItemsContainer>
   );
 };
