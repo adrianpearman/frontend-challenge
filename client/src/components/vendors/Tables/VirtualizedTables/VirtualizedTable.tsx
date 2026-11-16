@@ -31,7 +31,12 @@ export const VirtualizedTable = <TData extends RowData>({
     <div>
       <div
         ref={setScrollElement}
-        style={{ overflow: "auto", position: "relative", height: "800px" }}
+        style={{
+          maxHeight: "500px",
+          minHeight: "100px",
+          overflow: "auto",
+          position: "relative",
+        }}
       >
         <table style={{ display: "grid" }}>
           <thead
