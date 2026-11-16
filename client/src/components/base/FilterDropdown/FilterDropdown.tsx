@@ -8,10 +8,12 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/vendors";
+import { cn } from "@/utils/functions";
 
 type FilterOption<T> = { label: string; value: T };
 
 type FilterDropdownProps<T extends string | number> = {
+  dropdownClassName?: string;
   label: string;
   onChange: (value: T) => void;
   options: FilterOption<T>[];
@@ -21,6 +23,7 @@ type FilterDropdownProps<T extends string | number> = {
 
 // Single-choice dropdown used by the transaction table controls.
 export const FilterDropdown = <T extends string | number>({
+  dropdownClassName = "",
   label,
   onChange,
   options,
@@ -31,7 +34,7 @@ export const FilterDropdown = <T extends string | number>({
     <DropdownMenuTrigger
       render={<Button variant="secondary">{triggerLabel}</Button>}
     />
-    <DropdownMenuContent className="w-48">
+    <DropdownMenuContent className={cn("w-48", dropdownClassName)}>
       <DropdownMenuGroup>
         <DropdownMenuLabel>{label}</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={value} onValueChange={onChange}>
