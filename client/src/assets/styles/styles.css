@@ -107,3 +107,15 @@
     cursor: pointer;
   }
 }
+
+/* Calendar range selection. The vendor calendar uses bg-primary/bg-muted, which this theme does not define. Unlayered so it beats the day button utility text colours. */
+[data-slot="calendar"] [data-range-middle="true"] {
+  background-color: var(--color-brand-ghost-green);
+}
+
+[data-slot="calendar"] [data-range-start="true"],
+[data-slot="calendar"] [data-range-end="true"],
+[data-slot="calendar"] [data-selected-single="true"] {
+  background-color: var(--color-brand-slate-green);
+  color: var(--color-text-alternate);
+}
