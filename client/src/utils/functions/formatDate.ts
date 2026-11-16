@@ -19,9 +19,9 @@ export const formatDate = ({
     return "";
   }
 
-  // A bare "YYYY-MM-DD" parses as UTC midnight (the previous day west of UTC); "T00:00" makes it local.
+  // A bare "YYYY-MM" or "YYYY-MM-DD" parses as UTC midnight (the previous day west of UTC); "T00:00" makes it local.
   const newDate = new Date(
-    typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)
+    typeof date === "string" && /^\d{4}-\d{2}(-\d{2})?$/.test(date)
       ? `${date}T00:00`
       : date,
   );
