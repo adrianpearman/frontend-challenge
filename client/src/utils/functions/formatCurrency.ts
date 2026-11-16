@@ -1,3 +1,4 @@
+import { useBaseUIStore } from "@/store/BaseUIStore";
 import { CurrencyDenominationMap } from "@/utils/consts";
 import type { CurrencyCode } from "@/utils/types";
 
@@ -8,6 +9,6 @@ type FormatCurrencyArgs = {
 
 export const formatCurrency = ({
   amount,
-  currency = "CAD",
+  currency = useBaseUIStore.getState().selectedCurrency,
 }: FormatCurrencyArgs) =>
   `${CurrencyDenominationMap[currency]}${(amount / 100).toFixed(2)} ${currency}`;
