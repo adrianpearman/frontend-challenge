@@ -2,6 +2,7 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { format, subDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
+import { FilterDropdown } from "@/components/base";
 import {
   Button,
   Calendar,
@@ -11,7 +12,6 @@ import {
   VirtualizedTable,
 } from "@/components/vendors";
 import { AccountsTableColumns } from "@/features/Accounts/components/AccountsTableColumns";
-import { FilterDropdown } from "@/features/Accounts/components/FilterDropdown";
 import {
   createFetchCategories,
   createFetchRecentTransactions,
