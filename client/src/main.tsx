@@ -18,6 +18,12 @@ const queryClient = new QueryClient({
 });
 
 const router = createRouter({ routeTree });
+
+declare module "react" {
+  interface CSSProperties {
+    "--content-color"?: string;
+  }
+}
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;

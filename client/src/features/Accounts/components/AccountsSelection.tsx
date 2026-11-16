@@ -47,13 +47,15 @@ export const AccountSelection = ({
 
         return (
           <OverviewItem
-            amount={balance?.posted ?? 0}
+            content={balance?.posted ?? 0}
             className={cn(
               "cursor-pointer min-w-[calc(33%-16px)]",
               color && "bg-(--account-color)/10",
               isSelected && "bg-brand-ghost-green border-brand-slate-green",
             )}
-            content={
+            key={account.id}
+            onClickFn={() => updateStateFn(id)}
+            subContent={
               <p className="text-body-small">
                 Opened:{" "}
                 {formatDate({
@@ -62,9 +64,7 @@ export const AccountSelection = ({
                 })}
               </p>
             }
-            key={account.id}
-            onClickFn={() => updateStateFn(id)}
-            style={color ? { "--account-color": color } : undefined}
+            style={color ? { "--content-color": color } : undefined}
             title={titleContent}
           />
         );

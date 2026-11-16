@@ -80,8 +80,8 @@ export const TotalCurrentMonthSpend = () => {
 
   return (
     <OverviewItem
-      amount={currentSpend ?? 0}
-      content={displayedContent()}
+      content={currentSpend ?? 0}
+      subContent={displayedContent()}
       title={"Spent this month"}
     />
   );

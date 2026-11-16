@@ -59,8 +59,8 @@ export const BillsOverview = () => {
   return (
     <div className="flex gap-2">
       <OverviewItem
-        amount={billData?.totals.net ?? 0}
-        content={
+        content={billData?.totals.net ?? 0}
+        subContent={
           <p
             className={cn(
               (billData?.totals.net ?? 0) > 0
@@ -74,8 +74,8 @@ export const BillsOverview = () => {
         title={"Bills due (30 days)"}
       />
       <OverviewItem
-        amount={incomeData?.totals.net ?? 0}
-        content={
+        content={incomeData?.totals.net ?? 0}
+        subContent={
           <p
             className={cn(
               (incomeData?.totals.net ?? 0) > 0
@@ -89,8 +89,8 @@ export const BillsOverview = () => {
         title={"Income expected (30 days)"}
       />
       <OverviewItem
-        amount={differentialIncomeBilling}
-        content={
+        content={differentialIncomeBilling}
+        subContent={
           <p
             className={cn(
               (incomeData?.totals.net ?? 0) > 0
