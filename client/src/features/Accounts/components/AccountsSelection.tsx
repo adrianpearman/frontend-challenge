@@ -54,7 +54,7 @@ export const AccountSelection = ({
             content={balance?.posted ?? 0}
             className={cn(
               "cursor-pointer min-w-[calc(33%-16px)]",
-              color && "bg-(--account-color)/10",
+              color && "bg-(--content-color)/10",
               isSelected && "bg-brand-ghost-green border-brand-slate-green",
             )}
             key={account.id}
