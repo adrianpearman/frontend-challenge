@@ -1,3 +1,9 @@
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/")({
+  component: RouteComponent,
+});
+
 /**
  * Starting point, on purpose almost empty.
  *
@@ -9,12 +15,12 @@
  * design system, and switch to TypeScript if you want it — nothing here is load
  * bearing.
  */
-export default function App() {
+function RouteComponent() {
   return (
     <main className="app">
       <h1>Personal Finance Manager</h1>
       <p>
-        Frontend starting point. The API is at <code>/api</code> — see{' '}
+        Frontend starting point. The API is at <code>/api</code> — see{" "}
         <code>docs/API.md</code> for the contract.
       </p>
     </main>
