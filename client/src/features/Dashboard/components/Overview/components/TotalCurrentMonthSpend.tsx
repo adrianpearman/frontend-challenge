@@ -64,6 +64,7 @@ export const TotalCurrentMonthSpend = () => {
     return (
       <p
         className={cn(
+          "text-body-small",
           higherSpendMonth ? "text-text-error" : "text-text-success",
         )}
       >

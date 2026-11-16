@@ -30,7 +30,9 @@ export const TotalBalance = () => {
     <OverviewItem
       content={convertedTotalBalance}
       subContent={
-        <p className="text-text-success">Across {data?.data.length} accounts</p>
+        <p className="text-body-small text-text-success">
+          Across {data?.data.length} accounts
+        </p>
       }
       title={"Total Balance"}
     />

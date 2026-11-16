@@ -67,6 +67,7 @@ export const BillsOverview = () => {
         subContent={
           <p
             className={cn(
+              "text-body-small",
               (billData?.totals.net ?? 0) > 0
                 ? "text-text-success"
                 : "text-text-error",
@@ -82,6 +83,7 @@ export const BillsOverview = () => {
         subContent={
           <p
             className={cn(
+              "text-body-small",
               (incomeData?.totals.net ?? 0) > 0
                 ? "text-text-success"
                 : "text-text-error",
@@ -97,6 +99,7 @@ export const BillsOverview = () => {
         subContent={
           <p
             className={cn(
+              "text-body-small",
               (incomeData?.totals.net ?? 0) > 0
                 ? "text-text-success"
                 : "text-text-error",

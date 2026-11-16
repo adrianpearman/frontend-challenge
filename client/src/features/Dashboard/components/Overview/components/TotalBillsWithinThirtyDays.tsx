@@ -40,7 +40,7 @@ export const TotalBillsWithinThirtyDays = () => {
     <OverviewItem
       content={convertedTotalBalance}
       subContent={
-        <p className="text-text-success">
+        <p className="text-body-small text-text-success">
           {data?.totals.occurrenceCount ?? 0} upcoming
         </p>
       }
