@@ -12,16 +12,16 @@ export const Navigation = () => {
       to: "/accounts",
     },
     {
-      name: "Expense Reports",
-      to: "/expenses",
-    },
-    {
       name: "Bills & Income",
       to: "/bills",
     },
     {
       name: "Budget Projection",
       to: "/budget",
+    },
+    {
+      name: "Expense Reports",
+      to: "/expenses",
     },
   ];
 
