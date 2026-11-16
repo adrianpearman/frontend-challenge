@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { BaseOverviewItem } from "@/components/base";
+import { OverviewItem } from "@/components/base";
 import { useBaseUIStore } from "@/store/BaseUIStore";
 import { createFetchDashboardMetrics } from "@/utils/api/requests";
 import { CurrencyConversionMap } from "@/utils/consts";
@@ -27,7 +27,7 @@ export const TotalBalance = () => {
   }, [data]);
 
   return (
-    <BaseOverviewItem
+    <OverviewItem
       amount={convertedTotalBalance}
       content={
         <p className="text-text-success">Across {data?.data.length} accounts</p>

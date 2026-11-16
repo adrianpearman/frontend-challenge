@@ -1,2 +1,2 @@
-export { BaseOverviewItem } from "@/components/base/OverviewItems/BaseOverviewItem";
+export { OverviewItem } from "@/components/base/OverviewItems/OverviewItem";
 export { LoadingOverviewItem } from "@/components/base/OverviewItems/LoadingOverviewItem";

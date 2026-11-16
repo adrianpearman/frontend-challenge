@@ -1,5 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
-import { BaseOverviewItem } from "@/components/base";
+import { OverviewItem } from "@/components/base";
 import { useBaseUIStore } from "@/store/BaseUIStore";
 import { createFetchMonthlyExpenses } from "@/utils/api/requests";
 import { CurrencyConversionMap } from "@/utils/consts";
@@ -79,7 +79,7 @@ export const TotalCurrentMonthSpend = () => {
   };
 
   return (
-    <BaseOverviewItem
+    <OverviewItem
       amount={currentSpend ?? 0}
       content={displayedContent()}
       title={"Spent this month"}

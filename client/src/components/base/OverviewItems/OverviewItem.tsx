@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { cn, formatCurrency } from "@/utils/functions";
 
-type BaseOverviewItemProps = {
+type OverviewItemProps = {
   amount: number;
   className?: string;
   content: React.ReactNode;
@@ -10,14 +10,14 @@ type BaseOverviewItemProps = {
   title: string;
 };
 
-export const BaseOverviewItem = ({
+export const OverviewItem = ({
   amount,
   className = "",
   content,
   onClickFn,
   style,
   title,
-}: BaseOverviewItemProps) => {
+}: OverviewItemProps) => {
   const handleClick = () => {
     if (!onClickFn) {
       return;

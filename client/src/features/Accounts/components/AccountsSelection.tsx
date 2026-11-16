@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { BaseOverviewItem, LoadingOverviewItem } from "@/components/base";
+import { OverviewItem, LoadingOverviewItem } from "@/components/base";
 import type { Account } from "@/utils/types";
 import { cn, formatDate } from "@/utils/functions";
 
@@ -46,7 +46,7 @@ export const AccountSelection = ({
         const titleContent = `${institution ? `${institution} - ${name}` : name}`;
 
         return (
-          <BaseOverviewItem
+          <OverviewItem
             amount={balance?.posted ?? 0}
             className={cn(
               "cursor-pointer min-w-[calc(33%-16px)]",

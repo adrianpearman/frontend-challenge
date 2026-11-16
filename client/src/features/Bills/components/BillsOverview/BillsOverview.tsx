@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BaseOverviewItem, LoadingOverviewItem } from "@/components/base";
+import { OverviewItem, LoadingOverviewItem } from "@/components/base";
 import { createFetchOccurrences } from "@/utils/api/requests";
 import { cn } from "@/utils/functions";
 
@@ -58,7 +58,7 @@ export const BillsOverview = () => {
 
   return (
     <div className="flex gap-2">
-      <BaseOverviewItem
+      <OverviewItem
         amount={billData?.totals.net ?? 0}
         content={
           <p
@@ -73,7 +73,7 @@ export const BillsOverview = () => {
         }
         title={"Bills due (30 days)"}
       />
-      <BaseOverviewItem
+      <OverviewItem
         amount={incomeData?.totals.net ?? 0}
         content={
           <p
@@ -88,7 +88,7 @@ export const BillsOverview = () => {
         }
         title={"Income expected (30 days)"}
       />
-      <BaseOverviewItem
+      <OverviewItem
         amount={differentialIncomeBilling}
         content={
           <p
