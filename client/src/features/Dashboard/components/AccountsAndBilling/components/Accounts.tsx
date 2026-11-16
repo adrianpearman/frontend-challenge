@@ -44,13 +44,8 @@ export const Accounts = () => {
 
   return (
     <div className="flex-1 border border-neutral-border rounded-md flex flex-col">
-      <div className="flex justify-between p-3">
-        <h2 className="text-h5">Accounts</h2>
-        <div className="flex gap-2">
-          <Link to="/accounts" className={buttonVariants()}>
-            View More
-          </Link>
-        </div>
+      <div className="flex justify-between p-3.5">
+        <h2 className="text-h5">Accounts Overview</h2>
       </div>
       <AccountsAndBillingTable
         tableHeader={["Account", "Type", "Balance"]}
