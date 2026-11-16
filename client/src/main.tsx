@@ -3,12 +3,17 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "@/routeTree.gen";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useDevServicesStore } from "@/store/DevServicesStore";
 
 import "@/styles/styles.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {},
+    queries: {
+      // Same as the default of 3 retries, unless switched off on the Settings page.
+      retry: (failureCount) =>
+        !useDevServicesStore.getState().disableRetries && failureCount < 3,
+    },
   },
 });
 
