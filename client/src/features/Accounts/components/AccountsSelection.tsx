@@ -51,12 +51,13 @@ export const AccountSelection = ({
 
         return (
           <OverviewItem
-            content={balance?.posted ?? 0}
             className={cn(
               "cursor-pointer min-w-[calc(33%-16px)]",
               color && "bg-(--content-color)/10",
               isSelected && "bg-brand-ghost-green border-brand-slate-green",
             )}
+            content={balance?.posted ?? 0}
+            currency={balance?.currency}
             key={account.id}
             onClickFn={() => updateStateFn(id)}
             subContent={

@@ -95,8 +95,8 @@ export const AccountTable = ({
     placeholderData: keepPreviousData, // keep rows on screen while filters change
   });
 
-  // No `kind` filter: transactions can be income or expenses.
   const { data: categories } = useQuery(createFetchCategories({}));
+
   const categoryOptions = [
     { label: "All categories", value: ALL },
     ...(categories?.data ?? []).map(({ id, name }) => ({
