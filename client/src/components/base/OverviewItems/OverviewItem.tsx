@@ -1,9 +1,11 @@
 import type { CSSProperties } from "react";
 import { cn, formatCurrency } from "@/utils/functions";
+import type { CurrencyCode } from "@/utils/types";
 
 type OverviewItemProps = {
-  content: number | string;
   className?: string;
+  content: number | string;
+  currency?: CurrencyCode;
   onClickFn?: () => void;
   subContent: React.ReactNode;
   style?: CSSProperties;
@@ -11,8 +13,9 @@ type OverviewItemProps = {
 };
 
 export const OverviewItem = ({
-  content,
   className = "",
+  content,
+  currency = "CAD",
   onClickFn,
   subContent,
   style,
@@ -36,7 +39,7 @@ export const OverviewItem = ({
       <p className="text-body-small">{title}</p>
       <h2 className="text-h4">
         {typeof content === "number"
-          ? formatCurrency({ amount: content })
+          ? formatCurrency({ amount: content, currency })
           : content}
       </h2>
       {subContent}
