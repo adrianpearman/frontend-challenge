@@ -4,6 +4,10 @@ import { routeTree } from "@/routeTree.gen";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useDevServicesStore } from "@/store/DevServicesStore";
+import { Global } from "recharts";
+
+// Each Recharts chart is its own Redux store; stop it streaming chart state into Redux DevTools.
+Global.devToolsEnabled = false;
 
 import "@/assets/styles/styles.css";
 

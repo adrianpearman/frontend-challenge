@@ -2515,6 +2515,11 @@ react-dom@^19:
   dependencies:
     scheduler "^0.28.0"
 
+react-is@^19.3.1:
+  version "19.3.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.3.1.tgz#81f7f7e431fc9b5bd9781b0a9f19997f08dee51b"
+  integrity sha512-RRieF6IyxQBkcK6pP8xOHprLTPW6QjRkbGdImtqNme+/hYVwCZkLQLdlZGOhUqXwkS9IEynaGvPJtv6XB/cz0Q==
+
 "react-redux@8.x.x || 9.x.x":
   version "9.3.1"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-9.3.1.tgz#d51a471d02e8580838d3f38a67a9370072aefa01"

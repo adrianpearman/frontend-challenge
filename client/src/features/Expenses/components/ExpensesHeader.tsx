@@ -1,27 +1,23 @@
 import type { Dispatch, SetStateAction } from "react";
 import { FilterDropdown } from "@/components/base";
 import { Button } from "@/components/vendors";
+import { shiftMonth } from "@/utils/functions";
 
 type ExpensesHeaderProps = {
   accountOptions: { label: string; value: string }[];
-  currentMonth: string; // YYYY-MM
+  currentMonth: string;
+  earliestMonth: string | undefined;
   selectedAccount: string;
   setCurrentMonth: Dispatch<SetStateAction<string>>;
   setSelectedAccount: (id: string) => void;
 };
 
-// Local date math so month rollover (Jan -> Dec) is handled by Date.
-const shiftMonth = (month: string, delta: number) => {
-  const [year, m] = month.split("-").map(Number);
-  const date = new Date(year, m - 1 + delta);
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-};
-
 export const ExpensesHeader = ({
-  currentMonth,
-  setCurrentMonth,
   accountOptions,
+  currentMonth,
+  earliestMonth,
   selectedAccount,
+  setCurrentMonth,
   setSelectedAccount,
 }: ExpensesHeaderProps) => {
   const [year, m] = currentMonth.split("-").map(Number);
@@ -41,6 +37,9 @@ export const ExpensesHeader = ({
       <div className="flex gap-2 items-center">
         <Button
           aria-label="Previous month"
+          disabled={
+            earliestMonth === undefined || currentMonth <= earliestMonth
+          }
           variant="secondary"
           onClick={() => setCurrentMonth((month) => shiftMonth(month, -1))}
         >
