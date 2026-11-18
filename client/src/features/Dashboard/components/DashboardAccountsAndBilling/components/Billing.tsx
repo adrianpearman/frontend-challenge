@@ -20,22 +20,18 @@ export const Billing = () => {
     if (!data || data === undefined) {
       return [];
     }
-    // Overview Page will only showcase 5 with an option to navigate to a different page to see more
     const rowData: React.ReactNode[][] = data.data.slice(0, 5).map((row) => {
       return [
         <TruncateText
           content={<span>{row.name}</span>}
           data-row-category-id={row.id}
+          key={`billing-row-item-${row.id}`}
         />,
         formatDate({
           date: row.nextDueDate,
           format: "short",
         }),
-        <BalanceCell
-          amount={row.amount}
-          className="text-text-success"
-          currency={row.currency}
-        />,
+        <BalanceCell amount={row.amount} currency={row.currency} />,
       ];
     });
 
