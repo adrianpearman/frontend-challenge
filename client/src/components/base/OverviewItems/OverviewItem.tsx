@@ -9,6 +9,7 @@ type OverviewItemProps = {
   onClickFn?: () => void;
   subContent: React.ReactNode;
   style?: CSSProperties;
+  tabIndex?: number;
   title: React.ReactNode;
 };
 
@@ -19,6 +20,7 @@ export const OverviewItem = ({
   onClickFn,
   subContent,
   style,
+  tabIndex = -1,
   title,
 }: OverviewItemProps) => {
   const handleClick = () => {
@@ -34,7 +36,13 @@ export const OverviewItem = ({
         `flex-1 border border-neutral-border rounded-md p-4 flex flex-col gap-2 min-h-32 ${className}`,
       )}
       onClick={handleClick}
+      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        handleClick();
+      }}
       style={style}
+      tabIndex={tabIndex}
     >
       {title}
       <h2 className="text-h4">
