@@ -4,7 +4,7 @@ import { BaseLayoutComponent, BaseFeatureComponent } from "@/components/base";
 import {
   AccountsHeader,
   AccountSelection,
-  AccountTable,
+  AccountsTable,
 } from "@/features/Accounts/components";
 import { createFetchDashboardMetrics } from "@/utils/api/requests";
 
@@ -33,7 +33,7 @@ export const Accounts = () => {
           isLoading={isLoading}
           updateStateFn={setCurrentAccount}
         />
-        <AccountTable
+        <AccountsTable
           accountsMap={accountsMap}
           currentAccount={currentAccount}
           numberOfAccounts={data?.meta.total ?? 0}

@@ -1,8 +1,9 @@
 import type { Dispatch, SetStateAction } from "react";
 import {
+  LoadingOverviewItem,
   OverviewItem,
   OverviewItemsContainer,
-  LoadingOverviewItem,
+  TruncateText,
 } from "@/components/base";
 import type { Account } from "@/utils/types";
 import { cn, formatDate } from "@/utils/functions";
@@ -70,7 +71,15 @@ export const AccountSelection = ({
               </p>
             }
             style={color ? { "--content-color": color } : undefined}
-            title={<p className="text-body-small">{titleContent}</p>}
+            title={
+              <div className="flex justify-between">
+                <TruncateText
+                  className="text-body-small max-w-3/4"
+                  content={titleContent ?? ""}
+                />
+                <div>drop</div>
+              </div>
+            }
           />
         );
       })}

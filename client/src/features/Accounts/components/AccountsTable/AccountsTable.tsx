@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
   VirtualizedTable,
 } from "@/components/vendors";
-import { AccountsTableColumns } from "@/features/Accounts/components/AccountsTableColumns";
+import { AccountsTableColumns } from "@/features/Accounts/components/AccountsTable/AccountsTableColumns";
 import {
   createFetchCategories,
   createFetchRecentTransactions,
@@ -40,17 +40,17 @@ const STATUS_OPTIONS: {
 
 const toIsoDate = (date: Date) => format(date, "yyyy-MM-dd"); // local date, not UTC
 
-type AccountTableProps = {
+type AccountsTableProps = {
   accountsMap: Map<string, string>;
   currentAccount: string;
   numberOfAccounts: number;
 };
 
-export const AccountTable = ({
+export const AccountsTable = ({
   accountsMap,
   currentAccount,
   numberOfAccounts,
-}: AccountTableProps) => {
+}: AccountsTableProps) => {
   const [pageSize, setPageSize] = useState<PageSize>(50);
   const [status, setStatus] = useState<TransactionStatus | typeof ALL>(ALL);
   const [categoryId, setCategoryId] = useState<string>(ALL);
