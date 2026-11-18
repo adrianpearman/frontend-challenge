@@ -65,10 +65,11 @@ export const ExpensesCharts = ({
           }),
         ),
         categoryData: expenses.map((c): CategoryChartDataObject => ({
-          label: c.name,
-          total: c.outflow,
           color: c.color as CategoryChartDataObject["color"],
+          currency: currency ?? "CAD",
+          label: c.name,
           percentage: c.outflow / totalOutflow,
+          total: c.outflow,
         })),
       };
     },
