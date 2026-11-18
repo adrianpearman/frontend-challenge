@@ -18,6 +18,11 @@ export type CurrencyDenominationMapType = {
 };
 
 // UI Types
+export type DropdownOption = {
+  value: string;
+  label: string;
+};
+
 export type NavigationItemProps = {
   to: string;
   name: string;
