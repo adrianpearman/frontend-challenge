@@ -165,7 +165,7 @@ export const AccountsTable = ({
           </Popover>
         </div>
       </div>
-      <p className="p-3">{data?.meta.count} transaction(s)</p>
+      {data && <p className="p-3">{data.meta.count} transaction(s)</p>}
       {isLoading && (
         <div className="flex flex-col gap-2 p-3">
           {Array.from({ length: 5 }).map((_, i) => (

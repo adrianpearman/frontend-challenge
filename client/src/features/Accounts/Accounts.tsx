@@ -10,8 +10,11 @@ import { createFetchDashboardMetrics } from "@/utils/api/requests";
 
 export const Accounts = () => {
   const [currentAccount, setCurrentAccount] = useState<string>("");
+  const [showArchived, setShowArchived] = useState(false);
   const { data, isError, isLoading } = useQuery(
-    createFetchDashboardMetrics({}),
+    createFetchDashboardMetrics({
+      params: showArchived ? { includeArchived: true } : undefined,
+    }),
   );
 
   const accountsMap = new Map(
@@ -25,6 +28,12 @@ export const Accounts = () => {
         <AccountsHeader
           currentAccount={currentAccount}
           resetStateFn={handleResetSelectedAccounts}
+          showArchived={showArchived}
+          toggleShowArchivedFn={() => {
+            // A selected archived account would vanish when hiding, so clear the selection.
+            setShowArchived((v) => !v);
+            setCurrentAccount("");
+          }}
         />
         <AccountSelection
           accounts={(data && data.data) ?? []}

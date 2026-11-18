@@ -8,8 +8,7 @@ export type TextFieldName =
   | "openingBalance"
   | "creditLimit"
   | "institution"
-  | "openedAt"
-  | "color";
+  | "openedAt";
 
 export const TEXT_FIELDS: {
   name: TextFieldName;
@@ -35,5 +34,9 @@ export const TEXT_FIELDS: {
   },
   { name: "institution", label: "Institution", placeholder: "RBC" },
   { name: "openedAt", label: "Opened on", type: "date" },
-  { name: "color", label: "Colour", placeholder: "#2563eb" },
+];
+
+export const ARCHIVED_OPTIONS = [
+  { value: "active", label: "Active" },
+  { value: "archived", label: "Archived" },
 ];

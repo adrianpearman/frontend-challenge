@@ -4,11 +4,15 @@ import { baseUIStoreActions } from "@/store/BaseUIStore";
 type AccountsHeaderProps = {
   currentAccount: string;
   resetStateFn: () => void;
+  showArchived: boolean;
+  toggleShowArchivedFn: () => void;
 };
 
 export const AccountsHeader = ({
   currentAccount,
   resetStateFn,
+  showArchived,
+  toggleShowArchivedFn,
 }: AccountsHeaderProps) => {
   return (
     <div className="flex flex-col gap-4">
@@ -23,6 +27,13 @@ export const AccountsHeader = ({
               Show all account transactions
             </Button>
           )}
+          <Button
+            aria-pressed={showArchived}
+            onClick={toggleShowArchivedFn}
+            variant={showArchived ? "secondary" : "outline"}
+          >
+            {showArchived ? "Hide archived" : "Show archived"}
+          </Button>
           <Button
             onClick={() => baseUIStoreActions.openDrawer("add_expense")}
             variant="secondary"

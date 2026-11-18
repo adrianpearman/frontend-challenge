@@ -117,10 +117,17 @@ export const AccountSelection = ({
               tabIndex={0}
               title={
                 <div className="flex justify-between">
-                  <TruncateText
-                    className="text-body-small max-w-3/4"
-                    content={titleContent ?? ""}
-                  />
+                  <div className="flex items-center gap-2 min-w-0 max-w-3/4">
+                    <TruncateText
+                      className="text-body-small"
+                      content={titleContent ?? ""}
+                    />
+                    {archivedAt !== null && (
+                      <span className="shrink-0 rounded-sm bg-background-secondary px-1.5 py-0.5 text-body-small text-text-secondary">
+                        Archived
+                      </span>
+                    )}
+                  </div>
                   <div
                     onClick={(e) => e.stopPropagation()}
                     onKeyDown={(e) => e.stopPropagation()}

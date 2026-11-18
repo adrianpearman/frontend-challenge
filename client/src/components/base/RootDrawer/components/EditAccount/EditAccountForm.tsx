@@ -28,6 +28,7 @@ import {
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { updateAccountMutation } from "@/utils/api/requests";
 import {
+  ARCHIVED_OPTIONS,
   FORM_ID,
   TEXT_FIELDS,
   toCents,
@@ -47,7 +48,7 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
         account.creditLimit === null ? "" : toDollars(account.creditLimit),
       institution: account.institution ?? "",
       openedAt: account.openedAt ?? "",
-      color: account.color ?? "",
+      archived: account.archivedAt !== null,
     },
     validators: { onSubmit: formSchema },
     onSubmit: async ({ value }) => {
@@ -67,7 +68,10 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
                 : null,
             institution: value.institution.trim() || null,
             openedAt: value.openedAt || undefined,
-            color: value.color.trim() || undefined,
+            // Keep the original archive date if it was already archived.
+            archivedAt: value.archived
+              ? (account.archivedAt ?? new Date().toLocaleDateString("en-CA"))
+              : null,
           },
         });
         toast.success("Account updated.");
@@ -184,6 +188,38 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
                   />
                 ),
               )}
+              <form.Field
+                name="archived"
+                children={(field) => (
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Status</FieldLabel>
+                    <Select
+                      items={ARCHIVED_OPTIONS}
+                      value={field.state.value ? "archived" : "active"}
+                      onValueChange={(v) => field.handleChange(v === "archived")}
+                    >
+                      <SelectTrigger
+                        id={field.name}
+                        onBlur={field.handleBlur}
+                        className="w-full"
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ARCHIVED_OPTIONS.map((o) => (
+                          <SelectItem key={o.value} value={o.value}>
+                            {o.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FieldDescription>
+                      Archived accounts are left out of reports. Nothing is
+                      deleted.
+                    </FieldDescription>
+                  </Field>
+                )}
+              />
             </FieldGroup>
           </form>
         </CardContent>
