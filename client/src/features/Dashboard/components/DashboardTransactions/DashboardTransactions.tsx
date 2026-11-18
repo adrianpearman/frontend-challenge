@@ -18,16 +18,7 @@ import {
   createFetchRecentTransactions,
 } from "@/utils/api/requests";
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
-
-type TableCellType = {
-  cell: React.ReactNode;
-  className: string;
-};
-
-type TableRowItem = {
-  id: string;
-  data: TableCellType[];
-};
+import type { TableCellType, TableRowItem } from "@/utils/types";
 
 const tableHeaderCells: TableCellType[] = [
   {
