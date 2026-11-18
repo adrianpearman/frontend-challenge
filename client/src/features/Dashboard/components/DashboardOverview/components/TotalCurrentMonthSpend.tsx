@@ -1,13 +1,9 @@
 import { useQueries } from "@tanstack/react-query";
-import { OverviewItem } from "@/components/base";
-import { useBaseUIStore } from "@/store/BaseUIStore";
+import { LoadingOverviewItem, OverviewItem } from "@/components/base";
 import { createFetchMonthlyExpenses } from "@/utils/api/requests";
-import { CurrencyConversionMap } from "@/utils/consts";
-import { cn, formatDate } from "@/utils/functions";
+import { cn, formatDate, safeDivide } from "@/utils/functions";
 
 export const TotalCurrentMonthSpend = () => {
-  const selectedCurrency = useBaseUIStore((state) => state.selectedCurrency);
-
   const currentDate = new Date();
   const previousDate = new Date(
     currentDate.getFullYear(),
@@ -37,13 +33,8 @@ export const TotalCurrentMonthSpend = () => {
   const isLoading = current.isLoading || previous.isLoading;
   const isError = current.isError || previous.isError;
 
-  const formattedCurrentSpend =
-    currentSpend * (CurrencyConversionMap[selectedCurrency ?? "CAD"] ?? 1);
-
-  console.log(formattedCurrentSpend);
-
   if (isLoading) {
-    return "LOADING";
+    return <LoadingOverviewItem />;
   }
 
   if (isError) {
@@ -53,13 +44,14 @@ export const TotalCurrentMonthSpend = () => {
   const displayedContent = () => {
     const higherSpendMonth = currentSpend > previousSpend;
     const equalSpend = currentSpend === previousSpend;
-    const differential = Math.floor(
-      ((currentSpend - previousSpend) / previousSpend) * 100,
-    );
+    const ratio = safeDivide(currentSpend - previousSpend, previousSpend);
 
-    if (equalSpend) {
+    if (equalSpend || ratio === null) {
       return <p className="text-text-secondary">-</p>;
     }
+
+    // Sign is rendered separately, so show the magnitude only.
+    const differential = Math.floor(Math.abs(ratio) * 100);
 
     return (
       <p

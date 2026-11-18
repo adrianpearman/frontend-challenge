@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { VirtualizedTable } from "@/components/vendors";
+import { Skeleton, VirtualizedTable } from "@/components/vendors";
 import { RenderedBillTableColumns } from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
 import {
   createFetchCategories,
@@ -29,7 +29,13 @@ export const RenderedBillTable = ({
   );
 
   if (isLoading || loadingAccountsData) {
-    return "";
+    return (
+      <div className="flex flex-col gap-2 p-3">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Skeleton className="h-10" key={`loading-row-${i}`} />
+        ))}
+      </div>
+    );
   }
 
   if (isError || loadingAccountsError) {

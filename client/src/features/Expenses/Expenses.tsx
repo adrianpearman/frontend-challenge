@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BaseFeatureComponent, BaseLayoutComponent } from "@/components/base";
+import { Skeleton } from "@/components/vendors";
 import {
   ExpensesCharts,
   ExpensesHeader,
@@ -57,7 +58,15 @@ export const Expenses = () => {
   )?.currency;
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <BaseLayoutComponent>
+        <BaseFeatureComponent>
+          <Skeleton className="h-10 w-1/3" />
+          <Skeleton className="h-32" />
+          <Skeleton className="h-72" />
+        </BaseFeatureComponent>
+      </BaseLayoutComponent>
+    );
   }
 
   if (isError) {

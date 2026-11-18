@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { OverviewItem } from "@/components/base";
+import { LoadingOverviewItem, OverviewItem } from "@/components/base";
 import { useBaseUIStore } from "@/store/BaseUIStore";
 import { createFetchDashboardMetrics } from "@/utils/api/requests";
 import { CurrencyConversionMap } from "@/utils/consts";
@@ -8,7 +8,7 @@ import { CurrencyConversionMap } from "@/utils/consts";
 export const TotalBalance = () => {
   const selectedCurrency = useBaseUIStore((state) => state.selectedCurrency);
 
-  const { data } = useQuery(createFetchDashboardMetrics({}));
+  const { data, isLoading } = useQuery(createFetchDashboardMetrics({}));
 
   const convertedTotalBalance = useMemo(() => {
     if (!data) {
@@ -25,6 +25,8 @@ export const TotalBalance = () => {
       return total + Math.floor(available * rate);
     }, 0);
   }, [data]);
+
+  if (isLoading) return <LoadingOverviewItem />;
 
   return (
     <OverviewItem

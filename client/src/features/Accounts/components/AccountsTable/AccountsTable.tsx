@@ -9,6 +9,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Skeleton,
   VirtualizedTable,
 } from "@/components/vendors";
 import { AccountsTableColumns } from "@/features/Accounts/components/AccountsTable/AccountsTableColumns";
@@ -165,6 +166,13 @@ export const AccountsTable = ({
         </div>
       </div>
       <p className="p-3">{data?.meta.count} transaction(s)</p>
+      {isLoading && (
+        <div className="flex flex-col gap-2 p-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton className="h-10" key={`loading-row-${i}`} />
+          ))}
+        </div>
+      )}
       {!isLoading && !isError && (
         <VirtualizedTable
           columns={AccountsTableColumns}

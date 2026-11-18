@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
   buttonVariants,
+  Skeleton,
   Table,
   TableBody,
   TableCaption,
@@ -139,7 +140,15 @@ export const DashboardTransactions = () => {
   };
 
   if (isLoading) {
-    return "LOADING";
+    return (
+      <div className="flex flex-col border border-neutral-border rounded-md">
+        <div className="flex flex-col gap-2 p-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton className="h-10" key={`loading-row-${i}`} />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (isError) {

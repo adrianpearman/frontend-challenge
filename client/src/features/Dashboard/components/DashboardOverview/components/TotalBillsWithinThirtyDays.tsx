@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { OverviewItem } from "@/components/base";
+import { LoadingOverviewItem, OverviewItem } from "@/components/base";
 import { useBaseUIStore } from "@/store/BaseUIStore";
 import { createFetchOccurrences } from "@/utils/api/requests";
 import { CurrencyConversionMap } from "@/utils/consts";
@@ -16,7 +16,7 @@ export const TotalBillsWithinThirtyDays = () => {
     today.getDate() + 30,
   ).toLocaleDateString("en-CA");
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     createFetchOccurrences({ params: { from, to, kind: "bill" } }),
   );
 
@@ -35,6 +35,8 @@ export const TotalBillsWithinThirtyDays = () => {
       return total - Math.floor(available * rate);
     }, 0);
   }, [data]);
+
+  if (isLoading) return <LoadingOverviewItem />;
 
   return (
     <OverviewItem

@@ -5,7 +5,13 @@ import {
   OverviewItemsContainer,
 } from "@/components/base";
 import { createFetchMonthlyExpenses } from "@/utils/api/requests";
-import { cn, formatCurrency, formatDate, shiftMonth } from "@/utils/functions";
+import {
+  cn,
+  formatCurrency,
+  formatDate,
+  safeDivide,
+  shiftMonth,
+} from "@/utils/functions";
 import type { CategoryTotals, CurrencyCode } from "@/utils/types";
 
 type ExpensesOverviewProps = {
@@ -52,16 +58,23 @@ export const ExpensesOverview = ({
       null,
     );
 
-  const monthDifferentialTotalExpense =
-    (((currentExpenses?.outflow ?? 1) - (previousExpenses?.outflow ?? 1)) /
-      (previousExpenses?.outflow ?? 1)) *
-    100;
+  const currentOutflow = currentExpenses?.outflow ?? 0;
+  const transactionCount = currentExpenses?.transactionCount ?? 0;
 
-  const formattedLargestCategoryExpense =
-    (((currentExpenses?.outflow ?? 1) -
-      (currentMonthLargestCategory?.outflow ?? 1)) /
-      (currentExpenses?.outflow ?? 1)) *
-    100;
+  // null when there's no previous month (or it was 0) — a % change is undefined then.
+  const monthDifferentialRatio = safeDivide(
+    currentOutflow - (previousExpenses?.outflow ?? 0),
+    previousExpenses?.outflow,
+  );
+  const monthDifferentialTotalExpense =
+    monthDifferentialRatio === null ? null : monthDifferentialRatio * 100;
+
+  const largestCategoryShare =
+    (safeDivide(currentMonthLargestCategory?.outflow ?? 0, currentOutflow) ??
+      0) * 100;
+
+  const averagePerTransaction =
+    safeDivide(currentOutflow, transactionCount) ?? 0;
 
   if (isError) {
     return (
@@ -85,44 +98,48 @@ export const ExpensesOverview = ({
     <OverviewItemsContainer>
       <OverviewItem
         currency={currency}
-        content={currentExpenses?.outflow ?? 1}
+        content={currentOutflow}
         subContent={
-          <p
-            className={cn(
-              "text-body-small",
-              monthDifferentialTotalExpense < 0
-                ? "text-text-success"
-                : "text-text-error",
-            )}
-          >
-            {monthDifferentialTotalExpense.toFixed(2)}% compared to{" "}
-            {formatDate({
-              date: previousExpenses?.month ?? "",
-              format: "long",
-              showYear: false,
-              showDay: false,
-            })}
-          </p>
+          monthDifferentialTotalExpense === null ? (
+            <p className="text-body-small text-text-secondary">
+              No previous month to compare
+            </p>
+          ) : (
+            <p
+              className={cn(
+                "text-body-small",
+                monthDifferentialTotalExpense <= 0
+                  ? "text-text-success"
+                  : "text-text-error",
+              )}
+            >
+              {monthDifferentialTotalExpense.toFixed(2)}% compared to{" "}
+              {formatDate({
+                date: previousExpenses?.month ?? "",
+                format: "long",
+                showYear: false,
+                showDay: false,
+              })}
+            </p>
+          )
         }
         title={<p className="text-body-small">Total Spent</p>}
       />
       <OverviewItem
-        content={currentMonthLargestCategory?.name ?? ""}
+        content={currentMonthLargestCategory?.name ?? "—"}
         subContent={
           <p className="text-body-small">{`${formatCurrency({
-            amount: currentMonthLargestCategory?.outflow ?? 1,
-          })} · ${formattedLargestCategoryExpense.toFixed(2)}%`}</p>
+            amount: currentMonthLargestCategory?.outflow ?? 0,
+          })} · ${largestCategoryShare.toFixed(2)}%`}</p>
         }
         title={<p className="text-body-small">Largest category</p>}
       />
       <OverviewItem
-        content={(currentExpenses?.transactionCount ?? 0).toString()}
+        content={transactionCount.toString()}
         subContent={
           <p className="text-body-small">
             {`${formatCurrency({
-              amount:
-                (currentExpenses?.outflow ?? 1) /
-                (currentExpenses?.transactionCount ?? 1),
+              amount: averagePerTransaction,
             })} per transaction`}
           </p>
         }

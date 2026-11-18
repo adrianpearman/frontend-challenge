@@ -47,7 +47,10 @@ export const OverviewItem = ({
       {title}
       <h2 className="text-h4">
         {typeof content === "number"
-          ? formatCurrency({ amount: content, currency })
+          ? formatCurrency({
+              amount: Number.isFinite(content) ? content : 0,
+              currency,
+            })
           : content}
       </h2>
       {subContent}
