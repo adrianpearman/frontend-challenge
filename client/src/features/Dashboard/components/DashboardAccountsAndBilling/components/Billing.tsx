@@ -6,7 +6,7 @@ import {
   AccountsAndBillingTable,
   BalanceCell,
   LoadingTableComponent,
-} from "@/features/Dashboard/components/AccountsAndBilling/components/AccountsAndBillingTable";
+} from "@/features/Dashboard/components/DashboardAccountsAndBilling/components/AccountsAndBillingTable";
 import { createFetchScheduledTransactions } from "@/utils/api/requests";
 import { formatDate } from "@/utils/functions";
 

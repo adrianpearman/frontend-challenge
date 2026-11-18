@@ -4,7 +4,7 @@ import {
   AccountsAndBillingTable,
   BalanceCell,
   LoadingTableComponent,
-} from "@/features/Dashboard/components/AccountsAndBilling/components/AccountsAndBillingTable";
+} from "@/features/Dashboard/components/DashboardAccountsAndBilling/components/AccountsAndBillingTable";
 import { createFetchDashboardMetrics } from "@/utils/api/requests";
 import { AccountTypeMap } from "@/utils/consts";
 
