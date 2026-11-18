@@ -34,7 +34,7 @@ export const TotalBalance = () => {
           Across {data?.data.length} accounts
         </p>
       }
-      title={"Total Balance"}
+      title={<p className="text-body-small">Total Balance</p>}
     />
   );
 };
