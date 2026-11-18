@@ -1,7 +1,5 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import { buttonVariants } from "@/components/vendors";
 import {
   AccountsAndBillingTable,
   BalanceCell,
@@ -22,7 +20,7 @@ export const Accounts = () => {
 
     const rowData: React.ReactNode[][] = data.data.map((row) => {
       return [
-        row.name,
+        <span data-row-category-id={row.id}>{row.name}</span>,
         AccountTypeMap[row.type],
         <BalanceCell
           amount={row.balance?.available ?? 0}
@@ -48,6 +46,7 @@ export const Accounts = () => {
         <h2 className="text-h5">Accounts Overview</h2>
       </div>
       <AccountsAndBillingTable
+        table="accounts"
         tableHeader={["Account", "Type", "Balance"]}
         tableRows={formattedRowData}
       />
