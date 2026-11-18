@@ -34,6 +34,7 @@ export const AccountsAndBillingTable = ({
     const categoryRow =
       isValidElement<{ "data-row-category-id"?: string }>(row[0]) &&
       row[0].props["data-row-category-id"];
+
     if (!categoryRow) return;
 
     const tableType = table === "accounts";
