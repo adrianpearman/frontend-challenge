@@ -1,4 +1,4 @@
-import { useForm, useStore } from "@tanstack/react-form";
+import { useForm, useSelector } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -87,7 +87,7 @@ export const CreateAccountForm = () => {
     },
   });
 
-  const accountType = useStore(form.store, (s) => s.values.type);
+  const accountType = useSelector(form.store, (s) => s.values.type);
 
   const handleResetButton = () => {
     form.reset();

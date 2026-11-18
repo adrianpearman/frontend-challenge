@@ -26,7 +26,7 @@ export const Navigation = () => {
   ];
 
   return (
-    <nav className="w-56 px-4 pt-8 flex flex-col gap-6 bg-brand-deep-green text-text-alternate">
+    <nav className="w-52 px-4 pt-8 flex flex-col gap-6 bg-brand-deep-green text-text-alternate">
       <p>Ledgerly</p>
       <ul className="flex flex-col">
         {navLinks.map((link, i) => {

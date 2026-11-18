@@ -1,4 +1,4 @@
-import { useForm, useStore } from "@tanstack/react-form";
+import { useForm, useSelector } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -78,7 +78,7 @@ export const CreateCategoryForm = () => {
   });
 
   // A parent must be the same kind, so the options follow the selected kind.
-  const kind = useStore(form.store, (s) => s.values.kind);
+  const kind = useSelector(form.store, (s) => s.values.kind);
   const { data: categories } = useQuery(
     createFetchCategories({ params: { kind } }),
   );
