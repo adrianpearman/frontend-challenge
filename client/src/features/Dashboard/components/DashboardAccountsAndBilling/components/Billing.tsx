@@ -16,14 +16,6 @@ export const Billing = () => {
     createFetchScheduledTransactions({}),
   );
 
-  if (isError) {
-    return <div>ERROR</div>;
-  }
-
-  if (isLoading) {
-    return <LoadingTableComponent />;
-  }
-
   const formattedRowData = useMemo(() => {
     if (!data || data === undefined) {
       return [];
@@ -50,6 +42,18 @@ export const Billing = () => {
     return rowData;
   }, [data]);
 
+  if (isError) {
+    return (
+      <p className="flex-1 border border-neutral-border rounded-md p-3 text-body-small text-text-error">
+        Could not load upcoming bills & income.
+      </p>
+    );
+  }
+
+  if (isLoading) {
+    return <LoadingTableComponent />;
+  }
+
   return (
     <div className="flex-1 border border-neutral-border rounded-md flex flex-col">
       <div className="flex justify-between p-3">
@@ -62,7 +66,7 @@ export const Billing = () => {
       </div>
       <AccountsAndBillingTable
         table="billing"
-        tableHeader={["Account", "Type", "Balance"]}
+        tableHeader={["Bill", "Date", "Amount"]}
         tableRows={formattedRowData}
       />
     </div>

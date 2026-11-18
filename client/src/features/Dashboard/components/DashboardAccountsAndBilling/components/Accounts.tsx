@@ -37,7 +37,11 @@ export const Accounts = () => {
   }, [data]);
 
   if (isError) {
-    return <div>ERROR</div>;
+    return (
+      <p className="flex-1 border border-neutral-border rounded-md p-3 text-body-small text-text-error">
+        Could not load accounts.
+      </p>
+    );
   }
 
   if (isLoading) {
