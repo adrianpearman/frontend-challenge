@@ -1,3 +1,3 @@
-export { AccountsAndBilling } from "@/features/Dashboard/components/AccountsAndBilling";
-export { Overview } from "@/features/Dashboard/components/Overview";
-export { Transactions } from "@/features/Dashboard/components/Transactions";
+export { DashboardAccountsAndBilling } from "@/features/Dashboard/components/DashboardAccountsAndBilling";
+export { DashboardOverview } from "@/features/Dashboard/components/DashboardOverview";
+export { DashboardTransactions } from "@/features/Dashboard/components/DashboardTransactions";

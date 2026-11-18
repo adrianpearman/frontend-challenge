@@ -5,12 +5,12 @@ import {
   TotalBalance,
   TotalBillsWithinThirtyDays,
   TotalCurrentMonthSpend,
-} from "@/features/Dashboard/components/Overview/components";
+} from "@/features/Dashboard/components/DashboardOverview/components";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { createFetchDashboardMetrics } from "@/utils/api/requests";
 import { formatDate } from "@/utils/functions";
 
-export const Overview = () => {
+export const DashboardOverview = () => {
   const { dataUpdatedAt } = useQuery(createFetchDashboardMetrics({}));
 
   return (

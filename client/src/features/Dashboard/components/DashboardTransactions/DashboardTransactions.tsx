@@ -52,7 +52,7 @@ const tableHeaderCells: TableCellType[] = [
   },
 ];
 
-export const Transactions = () => {
+export const DashboardTransactions = () => {
   const {
     data: transactionData,
     isError: transactionError,
