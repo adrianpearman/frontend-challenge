@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { TruncateText } from "@/components/base";
 import {
   Button,
-  buttonVariants,
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -89,7 +88,7 @@ export const ShowAccountDetails = () => {
           id,
           data: [
             {
-              cell: description,
+              cell: <TruncateText content={description ?? ""} />,
               className: "w-1/2",
             },
             {
@@ -115,7 +114,13 @@ export const ShowAccountDetails = () => {
     return formattedExpenses;
   }, [accountsData, transactionsData]);
 
-  console.log(transactionsData);
+  if (isLoading) {
+    return <div>loading</div>;
+  }
+
+  if (isError) {
+    return <div>isError</div>;
+  }
 
   return (
     <div className="flex flex-col justify-between h-full overflow-auto">
