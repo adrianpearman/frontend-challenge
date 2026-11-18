@@ -6,18 +6,21 @@ import {
 } from "@/components/vendors";
 
 type TruncateTextProps = {
-  content: string;
-  displayedContent: React.ReactElement;
+  content: React.ReactNode;
+  width?: number;
 };
 
-export const TruncateText = ({
-  content,
-  displayedContent,
-}: TruncateTextProps) => {
+export const TruncateText = ({ content, width = 150 }: TruncateTextProps) => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger render={displayedContent} />
+        <TooltipTrigger
+          render={
+            <p className="truncate" style={{ maxWidth: width }}>
+              {content}
+            </p>
+          }
+        />
         <TooltipContent>
           <p>{content}</p>
         </TooltipContent>
