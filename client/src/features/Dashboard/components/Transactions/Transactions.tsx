@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/vendors";
+import { baseUIStoreActions } from "@/store/BaseUIStore";
 import {
   createFetchCategories,
   createFetchDashboardMetrics,
@@ -19,7 +20,7 @@ import {
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
 
 type TableCellType = {
-  cell: ReactNode;
+  cell: React.ReactNode;
   className: string;
 };
 
@@ -104,7 +105,7 @@ export const Transactions = () => {
           category && category.name ? categoriesMap.get(category.name) : "";
 
         return {
-          id: id,
+          id,
           data: [
             {
               cell: formatDate({
@@ -141,6 +142,11 @@ export const Transactions = () => {
     return formattedExpenses;
   }, [accountData, categoriesData, transactionData]);
 
+  const handleRowSelected = (row: TableRowItem) => {
+    baseUIStoreActions.setTransactionID(row.id);
+    baseUIStoreActions.openDrawer("show_transaction");
+  };
+
   if (isLoading) {
     return "LOADING";
   }
@@ -176,13 +182,20 @@ export const Transactions = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tableRows.map((invoice) => (
-            <TableRow key={invoice.id}>
-              {invoice.data.map((cell, i) => {
+          {tableRows.map((row) => (
+            <TableRow
+              key={row.id}
+              onClick={() => handleRowSelected(row)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLTableRowElement>) =>
+                e.key === "Enter" && handleRowSelected(row)
+              }
+              tabIndex={0}
+            >
+              {row.data.map((cell, i) => {
                 return (
                   <TableCell
-                    className={`px-3 ${cell.className}`}
-                    key={`table-row-${invoice.id}-cell-item-${i}`}
+                    className={`cursor-pointer px-3 text-body-small ${cell.className}`}
+                    key={`table-row-${row.id}-cell-item-${i}`}
                   >
                     {cell.cell}
                   </TableCell>
