@@ -2,10 +2,14 @@ import { Button } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 
 type AccountsHeaderProps = {
+  currentAccount: string;
   resetStateFn: () => void;
 };
 
-export const AccountsHeader = ({ resetStateFn }: AccountsHeaderProps) => {
+export const AccountsHeader = ({
+  currentAccount,
+  resetStateFn,
+}: AccountsHeaderProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
@@ -14,11 +18,13 @@ export const AccountsHeader = ({ resetStateFn }: AccountsHeaderProps) => {
           <p className="text-body-small">Every account and it's transactions</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={resetStateFn} variant="outline">
-            Show all account transactions
-          </Button>
+          {currentAccount !== "" && (
+            <Button onClick={resetStateFn} variant="outline">
+              Show all account transactions
+            </Button>
+          )}
           <Button
-            // onClick={() => baseUIStoreActions.setShowApplicationDrawer(true)}
+            onClick={() => baseUIStoreActions.openDrawer("add_expense")}
             variant="secondary"
           >
             Add Expense

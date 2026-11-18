@@ -22,7 +22,10 @@ export const Accounts = () => {
   return (
     <BaseLayoutComponent>
       <BaseFeatureComponent>
-        <AccountsHeader resetStateFn={handleResetSelectedAccounts} />
+        <AccountsHeader
+          currentAccount={currentAccount}
+          resetStateFn={handleResetSelectedAccounts}
+        />
         <AccountSelection
           accounts={(data && data.data) ?? []}
           currentAccount={currentAccount}
