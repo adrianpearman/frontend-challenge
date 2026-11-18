@@ -1,5 +1,6 @@
 import type { YAxisTickContentProps } from "recharts";
 import type { CategoryChartDataObject } from "@/features/Expenses/utils/types";
+import { formatCurrency } from "@/utils/functions";
 
 export const RightYAxisComponents = ({
   data,
@@ -9,6 +10,8 @@ export const RightYAxisComponents = ({
   y,
 }: YAxisTickContentProps & { data: CategoryChartDataObject[] }) => {
   const row = data[payload.index];
+
+  console.log(row);
 
   return (
     <foreignObject height={20} width={Number(width)} x={x} y={Number(y) - 10}>
@@ -20,7 +23,13 @@ export const RightYAxisComponents = ({
           fontSize: "var(--text-body-small)",
         }}
       >
-        <span>{`$${row.total}`}</span>
+        <span>
+          {formatCurrency({
+            amount: row.total,
+            currency: row.currency,
+            showCurrency: false,
+          })}
+        </span>
         <span className="w-12 text-right">
           {`${(row.percentage * 100).toFixed(1)}%`}
         </span>
