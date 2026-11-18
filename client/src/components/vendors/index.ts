@@ -1,4 +1,5 @@
 export * from "@/components/vendors/Accordion";
+export * from "@/components/vendors/AlertDialog";
 export * from "@/components/vendors/Buttons";
 export * from "@/components/vendors/Calendar";
 export * from "@/components/vendors/Cards";
