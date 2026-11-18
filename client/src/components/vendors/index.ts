@@ -15,3 +15,4 @@ export { Separator } from "@/components/vendors/Separator";
 export { Skeleton } from "@/components/vendors/Skeleton";
 export * from "@/components/vendors/Tables";
 export { Textarea } from "@/components/vendors/Textarea";
+export * from "@/components/vendors/Tooltip";
