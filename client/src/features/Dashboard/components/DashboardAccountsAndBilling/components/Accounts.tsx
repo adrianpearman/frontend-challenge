@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { TruncateText } from "@/components/base";
 import {
   AccountsAndBillingTable,
   BalanceCell,
@@ -20,7 +21,10 @@ export const Accounts = () => {
 
     const rowData: React.ReactNode[][] = data.data.map((row) => {
       return [
-        <span data-row-category-id={row.id}>{row.name}</span>,
+        <TruncateText
+          content={<span>{row.name}</span>}
+          data-row-category-id={row.id}
+        />,
         AccountTypeMap[row.type],
         <BalanceCell
           amount={row.balance?.available ?? 0}

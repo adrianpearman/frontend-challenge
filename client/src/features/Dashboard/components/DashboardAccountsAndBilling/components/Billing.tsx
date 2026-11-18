@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { TruncateText } from "@/components/base";
 import { buttonVariants } from "@/components/vendors";
 import {
   AccountsAndBillingTable,
@@ -30,7 +31,10 @@ export const Billing = () => {
     // Overview Page will only showcase 5 with an option to navigate to a different page to see more
     const rowData: React.ReactNode[][] = data.data.slice(0, 5).map((row) => {
       return [
-        <span data-row-category-id={row.id}>{row.name}</span>,
+        <TruncateText
+          content={<span>{row.name}</span>}
+          data-row-category-id={row.id}
+        />,
         formatDate({
           date: row.nextDueDate,
           format: "short",
