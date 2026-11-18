@@ -104,7 +104,7 @@ export const ExpensesOverview = ({
             })}
           </p>
         }
-        title={"Total Spent"}
+        title={<p className="text-body-small">Total Spent</p>}
       />
       <OverviewItem
         content={currentMonthLargestCategory?.name ?? ""}
@@ -113,7 +113,7 @@ export const ExpensesOverview = ({
             amount: currentMonthLargestCategory?.outflow ?? 1,
           })} · ${formattedLargestCategoryExpense.toFixed(2)}%`}</p>
         }
-        title={"Largest category"}
+        title={<p className="text-body-small">Largest category</p>}
       />
       <OverviewItem
         content={(currentExpenses?.transactionCount ?? 0).toString()}
@@ -126,7 +126,7 @@ export const ExpensesOverview = ({
             })} per transaction`}
           </p>
         }
-        title={"Transactions"}
+        title={<p className="text-body-small">Transactions</p>}
       />
     </OverviewItemsContainer>
   );

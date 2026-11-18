@@ -9,7 +9,7 @@ type OverviewItemProps = {
   onClickFn?: () => void;
   subContent: React.ReactNode;
   style?: CSSProperties;
-  title: string;
+  title: React.ReactNode;
 };
 
 export const OverviewItem = ({
@@ -36,7 +36,7 @@ export const OverviewItem = ({
       onClick={handleClick}
       style={style}
     >
-      <p className="text-body-small">{title}</p>
+      {title}
       <h2 className="text-h4">
         {typeof content === "number"
           ? formatCurrency({ amount: content, currency })

@@ -76,7 +76,7 @@ export const BillsOverview = () => {
             {billData?.totals.occurrenceCount ?? 0} source(s)
           </p>
         }
-        title={"Bills due (30 days)"}
+        title={<p className="text-body-small">Bills due (30 days)</p>}
       />
       <OverviewItem
         content={incomeData?.totals.net ?? 0}
@@ -92,7 +92,7 @@ export const BillsOverview = () => {
             {incomeData?.totals.occurrenceCount ?? 0} source(s)
           </p>
         }
-        title={"Income expected (30 days)"}
+        title={<p className="text-body-small">Income expected (30 days)</p>}
       />
       <OverviewItem
         content={differentialIncomeBilling}
@@ -108,7 +108,7 @@ export const BillsOverview = () => {
             After all scheduled transactions in period
           </p>
         }
-        title={"Net (30 days)"}
+        title={<p className="text-body-small">Net (30 days)</p>}
       />
     </OverviewItemsContainer>
   );

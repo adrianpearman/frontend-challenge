@@ -44,7 +44,7 @@ export const TotalBillsWithinThirtyDays = () => {
           {data?.totals.occurrenceCount ?? 0} upcoming
         </p>
       }
-      title={"Bills due (30 days)"}
+      title={<p className="text-body-small">Bills due (30 days)</p>}
     />
   );
 };

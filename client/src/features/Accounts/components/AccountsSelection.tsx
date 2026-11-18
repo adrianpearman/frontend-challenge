@@ -70,7 +70,7 @@ export const AccountSelection = ({
               </p>
             }
             style={color ? { "--content-color": color } : undefined}
-            title={titleContent}
+            title={<p className="text-body-small">{titleContent}</p>}
           />
         );
       })}
