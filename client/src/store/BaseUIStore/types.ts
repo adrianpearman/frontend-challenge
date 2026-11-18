@@ -4,6 +4,7 @@ type DisplayedDrawerOptions =
   | "add_account"
   | "add_category"
   | "add_expense"
+  | "edit_account"
   | "edit_transaction"
   | "show_account"
   | "show_transaction"
