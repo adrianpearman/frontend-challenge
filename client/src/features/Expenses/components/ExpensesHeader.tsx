@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import { FilterDropdown } from "@/components/base";
 import { Button } from "@/components/vendors";
+import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { shiftMonth } from "@/utils/functions";
 
 type ExpensesHeaderProps = {
@@ -35,6 +36,14 @@ export const ExpensesHeader = ({
         <p className="text-body-small">Spending by category per month</p>
       </div>
       <div className="flex gap-2 items-center">
+        <div>
+          <Button
+            onClick={() => baseUIStoreActions.openDrawer("add_category")}
+            variant="secondary"
+          >
+            Add Category
+          </Button>
+        </div>
         <Button
           aria-label="Previous month"
           disabled={
