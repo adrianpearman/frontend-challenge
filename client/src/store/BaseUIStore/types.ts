@@ -13,6 +13,7 @@ type BaseUIActions = {
   closeDrawer: () => void;
   openDrawer: (drawer: DisplayedDrawerOptions) => void;
   setAccountID: (transaction: string) => void;
+  setDisplayedDrawerOptions: (transaction: DisplayedDrawerOptions) => void;
   setSelectedCurrency: (currency: CurrencyCode) => void;
   setShowApplicationDrawer: (state: boolean) => void;
   setTransactionID: (transaction: string) => void;

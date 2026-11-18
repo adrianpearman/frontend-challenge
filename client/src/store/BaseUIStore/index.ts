@@ -33,6 +33,9 @@ export const useBaseUIStore = create<BaseUIStore>()(
         setAccountID: (state) => {
           set({ accountID: state });
         },
+        setDisplayedDrawerOptions: (drawer) => {
+          set({ displayedDrawerOptions: drawer });
+        },
         setSelectedCurrency: (state) => {
           set({ selectedCurrency: state });
         },
