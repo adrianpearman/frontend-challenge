@@ -121,6 +121,7 @@ export const AccountSelection = ({
                     <TruncateText
                       className="text-body-small"
                       content={titleContent ?? ""}
+                      width="max-w-full"
                     />
                     {archivedAt !== null && (
                       <span className="shrink-0 rounded-sm bg-background-secondary px-1.5 py-0.5 text-body-small text-text-secondary">
