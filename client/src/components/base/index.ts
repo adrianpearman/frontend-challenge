@@ -4,3 +4,4 @@ export * from "@/components/base/Layouts";
 export { Navigation } from "@/components/base/Navigation";
 export { RootDrawer } from "@/components/base/RootDrawer";
 export { TruncateText } from "@/components/base/TruncateText";
+export { DatePicker } from "@/components/base/DatePicker";

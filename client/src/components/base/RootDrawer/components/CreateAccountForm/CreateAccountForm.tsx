@@ -1,3 +1,4 @@
+import { DatePicker } from "@/components/base";
 import { useForm, useSelector } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
@@ -303,15 +304,11 @@ export const CreateAccountForm = () => {
                               <FieldLabel htmlFor={field.name}>
                                 Opened on
                               </FieldLabel>
-                              <Input
+                              <DatePicker
                                 id={field.name}
-                                name={field.name}
-                                type="date"
                                 value={field.state.value}
                                 onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
+                                onChange={field.handleChange}
                                 aria-invalid={isInvalid}
                               />
                               {isInvalid && (
