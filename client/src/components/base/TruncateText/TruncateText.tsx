@@ -13,8 +13,8 @@ type TruncateTextProps = Omit<React.ComponentProps<"p">, "content"> & {
 
 export const TruncateText = ({
   content,
-  width = "max-w-[125px]",
   className,
+  width = "max-w-[125px]",
   ...props
 }: TruncateTextProps) => {
   return (
