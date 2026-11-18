@@ -1,4 +1,5 @@
-import { useForm, useSelector } from "@tanstack/react-form";
+import { useSelector } from "@tanstack/react-form";
+import { useAppForm } from "@/components/base/AppForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -20,16 +21,7 @@ import {
   CardHeader,
   CardTitle,
   Field,
-  FieldDescription,
-  FieldError,
   FieldGroup,
-  FieldLabel,
-  Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/components/vendors";
 import { formSchema } from "@/components/base/RootDrawer/components/CreateCategoryForm/utils/formSchema";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
@@ -42,7 +34,7 @@ import type { DropdownOption } from "@/utils/types";
 export const CreateCategoryForm = () => {
   const { mutateAsync, isPending } = useMutation(createCategoryMutation());
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: "",
       kind: "expense" as "expense" | "income",
@@ -108,102 +100,34 @@ export const CreateCategoryForm = () => {
             }}
           >
             <FieldGroup>
-              <form.Field
+              <form.AppField
                 name="name"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="Groceries"
-                        autoComplete="off"
-                      />
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.TextField label="Name" placeholder="Groceries" />
+                )}
               />
-              <form.Field
+              <form.AppField
                 name="kind"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Kind</FieldLabel>
-                      <Select
-                        items={KIND_OPTIONS}
-                        value={field.state.value || null}
-                        onValueChange={(v) => {
-                          field.handleChange((v ?? "") as never);
-                          // The old parent belongs to the other kind.
-                          form.setFieldValue("parentId", "");
-                        }}
-                      >
-                        <SelectTrigger
-                          id={field.name}
-                          onBlur={field.handleBlur}
-                          aria-invalid={isInvalid}
-                          className="w-full"
-                        >
-                          <SelectValue placeholder="Select a kind" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {KIND_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>
-                              {o.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.SelectField
+                    label="Kind"
+                    options={KIND_OPTIONS}
+                    placeholder="Select a kind"
+                    // The old parent belongs to the other kind.
+                    onValueChange={() => form.setFieldValue("parentId", "")}
+                  />
+                )}
               />
-              <form.Field
+              <form.AppField
                 name="monthlyBudget"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Monthly budget
-                      </FieldLabel>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type="text"
-                        inputMode="decimal"
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="250.00"
-                        autoComplete="off"
-                      />
-                      <FieldDescription>
-                        Leave empty for no budget.
-                      </FieldDescription>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.TextField
+                    label="Monthly budget"
+                    inputMode="decimal"
+                    placeholder="250.00"
+                    description="Leave empty for no budget."
+                  />
+                )}
               />
 
               <Accordion>
@@ -211,65 +135,21 @@ export const CreateCategoryForm = () => {
                   <AccordionTrigger>Additional</AccordionTrigger>
                   <AccordionContent>
                     <FieldGroup>
-                      <form.Field
+                      <form.AppField
                         name="parentId"
-                        children={(field) => (
-                          <Field>
-                            <FieldLabel htmlFor={field.name}>
-                              Parent category
-                            </FieldLabel>
-                            <Select
-                              items={parentOptions}
-                              value={field.state.value || null}
-                              onValueChange={(v) => field.handleChange(v ?? "")}
-                            >
-                              <SelectTrigger
-                                id={field.name}
-                                onBlur={field.handleBlur}
-                                className="w-full"
-                              >
-                                <SelectValue placeholder="No parent" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {parentOptions.map((o) => (
-                                  <SelectItem key={o.value} value={o.value}>
-                                    {o.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </Field>
+                        children={(f) => (
+                          <f.SelectField
+                            label="Parent category"
+                            options={parentOptions}
+                            placeholder="No parent"
+                          />
                         )}
                       />
-                      <form.Field
+                      <form.AppField
                         name="color"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>
-                                Colour
-                              </FieldLabel>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="#16a34a"
-                                autoComplete="off"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.TextField label="Colour" placeholder="#16a34a" />
+                        )}
                       />
                     </FieldGroup>
                   </AccordionContent>

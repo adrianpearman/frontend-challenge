@@ -1,4 +1,4 @@
-import { useForm } from "@tanstack/react-form";
+import { useAppForm } from "@/components/base/AppForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -15,22 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/vendors/Cards";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/vendors/Field";
-import { Input } from "@/components/vendors/Inputs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/vendors/Select";
-import { Textarea } from "@/components/vendors/Textarea";
+import { Field, FieldGroup } from "@/components/vendors/Field";
 import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
 import {
   createFetchCategories,
@@ -91,7 +76,7 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
   const backToDetails = () =>
     baseUIStoreActions.setDisplayedDrawerOptions("show_upcoming");
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: item.name,
       kind: item.kind,
@@ -144,11 +129,27 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
   });
 
   const textFields = [
-    ["name", "Name", "text", "Rent"],
-    ["amount", "Amount", "text", "1200.00"],
-    ["startDate", "Start date", "date", ""],
-    ["endDate", "End date", "date", ""],
-    ["variance", "Variance", "text", "0.00"],
+    { name: "name", label: "Name", placeholder: "Rent" },
+    {
+      name: "amount",
+      label: "Amount",
+      inputMode: "decimal",
+      placeholder: "1200.00",
+      description: "Positive number; the sign comes from the kind.",
+    },
+    { name: "startDate", label: "Start date", type: "date" },
+    {
+      name: "endDate",
+      label: "End date",
+      type: "date",
+      description: "Leave empty to repeat indefinitely.",
+    },
+    {
+      name: "variance",
+      label: "Variance",
+      inputMode: "decimal",
+      placeholder: "0.00",
+    },
   ] as const;
 
   const selectFields = [
@@ -179,121 +180,29 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
             }}
           >
             <FieldGroup>
-              {textFields.map(([name, label, type, placeholder]) => (
-                <form.Field
+              {textFields.map(({ name, ...props }) => (
+                <form.AppField
                   key={name}
                   name={name}
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-                        <Input
-                          id={field.name}
-                          name={field.name}
-                          type={type}
-                          inputMode={
-                            name === "amount" || name === "variance"
-                              ? "decimal"
-                              : undefined
-                          }
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          aria-invalid={isInvalid}
-                          placeholder={placeholder}
-                          autoComplete="off"
-                        />
-                        {name === "amount" && (
-                          <FieldDescription>
-                            Positive number; the sign comes from the kind.
-                          </FieldDescription>
-                        )}
-                        {name === "endDate" && (
-                          <FieldDescription>
-                            Leave empty to repeat indefinitely.
-                          </FieldDescription>
-                        )}
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
+                  children={(f) => <f.TextField {...props} />}
                 />
               ))}
               {selectFields.map(([name, label, options, required]) => (
-                <form.Field
+                <form.AppField
                   key={name}
                   name={name}
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-                        <Select
-                          items={options}
-                          value={field.state.value || null}
-                          onValueChange={(v) =>
-                            field.handleChange((v ?? "") as never)
-                          }
-                        >
-                          <SelectTrigger
-                            id={field.name}
-                            onBlur={field.handleBlur}
-                            aria-invalid={isInvalid}
-                            className="w-full"
-                          >
-                            <SelectValue
-                              placeholder={
-                                required
-                                  ? `Select ${label.toLowerCase()}`
-                                  : `No ${label.toLowerCase()}`
-                              }
-                            />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {options.map((o) => (
-                              <SelectItem key={o.value} value={o.value}>
-                                {o.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
+                  children={(f) => (
+                    <f.SelectField
+                      label={label}
+                      options={options}
+                      placeholder={`${required ? "Select" : "No"} ${label.toLowerCase()}`}
+                    />
+                  )}
                 />
               ))}
-              <form.Field
+              <form.AppField
                 name="notes"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Notes</FieldLabel>
-                      <Textarea
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        rows={4}
-                        className="min-h-24 resize-none"
-                      />
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => <f.TextareaField label="Notes" />}
               />
             </FieldGroup>
           </form>

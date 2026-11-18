@@ -1,5 +1,5 @@
-import { DatePicker } from "@/components/base";
-import { useForm, useSelector } from "@tanstack/react-form";
+import { useSelector } from "@tanstack/react-form";
+import { useAppForm } from "@/components/base/AppForm";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -17,16 +17,7 @@ import {
   CardHeader,
   CardTitle,
   Field,
-  FieldDescription,
-  FieldError,
   FieldGroup,
-  FieldLabel,
-  Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/components/vendors";
 import { formSchema } from "@/components/base/RootDrawer/components/CreateAccountForm/utils/formSchema";
 import {
@@ -42,7 +33,7 @@ import type { AccountType, CurrencyCode } from "@/utils/types";
 export const CreateAccountForm = () => {
   const { mutateAsync, isPending } = useMutation(createAccountMutation());
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: "",
       type: "" as AccountType,
@@ -112,148 +103,54 @@ export const CreateAccountForm = () => {
             }}
           >
             <FieldGroup>
-              <form.Field
+              <form.AppField
                 name="name"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="Everyday Chequing"
-                        autoComplete="off"
-                      />
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.TextField label="Name" placeholder="Everyday Chequing" />
+                )}
               />
-              {(
-                [
-                  ["type", "Type", ACCOUNT_TYPE_OPTIONS, "Select a type"],
-                  [
-                    "currency",
-                    "Currency",
-                    CURRENCY_OPTIONS,
-                    "Select a currency",
-                  ],
-                ] as const
-              ).map(([name, label, options, placeholder]) => (
-                <form.Field
-                  key={name}
-                  name={name}
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-                        <Select
-                          items={options}
-                          value={field.state.value || null}
-                          onValueChange={(v) =>
-                            field.handleChange((v ?? "") as never)
-                          }
-                        >
-                          <SelectTrigger
-                            id={field.name}
-                            onBlur={field.handleBlur}
-                            aria-invalid={isInvalid}
-                            className="w-full"
-                          >
-                            <SelectValue placeholder={placeholder} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {options.map((o) => (
-                              <SelectItem key={o.value} value={o.value}>
-                                {o.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        {name === "currency" && (
-                          <FieldDescription>
-                            Can't be changed after the account is created.
-                          </FieldDescription>
-                        )}
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
-                />
-              ))}
-              <form.Field
+              <form.AppField
+                name="type"
+                children={(f) => (
+                  <f.SelectField
+                    label="Type"
+                    options={ACCOUNT_TYPE_OPTIONS}
+                    placeholder="Select a type"
+                  />
+                )}
+              />
+              <form.AppField
+                name="currency"
+                children={(f) => (
+                  <f.SelectField
+                    label="Currency"
+                    options={CURRENCY_OPTIONS}
+                    placeholder="Select a currency"
+                    description="Can't be changed after the account is created."
+                  />
+                )}
+              />
+              <form.AppField
                 name="openingBalance"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Opening balance
-                      </FieldLabel>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type="text"
-                        inputMode="decimal"
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="0.00"
-                        autoComplete="off"
-                      />
-                      <FieldDescription>
-                        Use a negative amount for money owed.
-                      </FieldDescription>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.TextField
+                    label="Opening balance"
+                    inputMode="decimal"
+                    placeholder="0.00"
+                    description="Use a negative amount for money owed."
+                  />
+                )}
               />
               {accountType === "credit_card" && (
-                <form.Field
+                <form.AppField
                   name="creditLimit"
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name}>
-                          Credit limit
-                        </FieldLabel>
-                        <Input
-                          id={field.name}
-                          name={field.name}
-                          type="text"
-                          inputMode="decimal"
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          aria-invalid={isInvalid}
-                          placeholder="5000.00"
-                          autoComplete="off"
-                        />
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
+                  children={(f) => (
+                    <f.TextField
+                      label="Credit limit"
+                      inputMode="decimal"
+                      placeholder="5000.00"
+                    />
+                  )}
                 />
               )}
 
@@ -262,90 +159,23 @@ export const CreateAccountForm = () => {
                   <AccordionTrigger>Additional</AccordionTrigger>
                   <AccordionContent>
                     <FieldGroup>
-                      <form.Field
+                      <form.AppField
                         name="institution"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>
-                                Institution
-                              </FieldLabel>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="RBC"
-                                autoComplete="off"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.TextField label="Institution" placeholder="RBC" />
+                        )}
                       />
-                      <form.Field
+                      <form.AppField
                         name="openedAt"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>
-                                Opened on
-                              </FieldLabel>
-                              <DatePicker
-                                id={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={field.handleChange}
-                                aria-invalid={isInvalid}
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.DatePickerField label="Opened on" />
+                        )}
                       />
-                      <form.Field
+                      <form.AppField
                         name="color"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>
-                                Colour
-                              </FieldLabel>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="#2563eb"
-                                autoComplete="off"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.TextField label="Colour" placeholder="#2563eb" />
+                        )}
                       />
                     </FieldGroup>
                   </AccordionContent>

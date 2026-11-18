@@ -1,5 +1,4 @@
-import { DatePicker } from "@/components/base";
-import { useForm } from "@tanstack/react-form";
+import { useAppForm } from "@/components/base/AppForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -17,17 +16,7 @@ import {
   CardHeader,
   CardTitle,
   Field,
-  FieldDescription,
-  FieldError,
   FieldGroup,
-  FieldLabel,
-  Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Textarea,
 } from "@/components/vendors";
 import {
   FORM_ID,
@@ -61,7 +50,7 @@ export const AddExpenseForm = () => {
   const projectOptions: DropdownOption[] =
     projects?.data.map((p) => ({ value: p.id, label: p.name })) ?? [];
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       accountId: "",
       date: today(),
@@ -128,118 +117,39 @@ export const AddExpenseForm = () => {
             }}
           >
             <FieldGroup>
-              <form.Field
+              <form.AppField
                 name="accountId"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Account</FieldLabel>
-                      <Select
-                        items={accountOptions}
-                        value={field.state.value || null}
-                        onValueChange={(v) => field.handleChange(v ?? "")}
-                      >
-                        <SelectTrigger
-                          id={field.name}
-                          onBlur={field.handleBlur}
-                          aria-invalid={isInvalid}
-                          className="w-full"
-                        >
-                          <SelectValue placeholder="Select an account" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {accountOptions.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>
-                              {o.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.SelectField
+                    label="Account"
+                    options={accountOptions}
+                    placeholder="Select an account"
+                  />
+                )}
               />
-              <form.Field
+              <form.AppField
                 name="amount"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Amount</FieldLabel>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type="text"
-                        inputMode="decimal"
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="45.99"
-                        autoComplete="off"
-                      />
-                      <FieldDescription>
-                        In the account's currency.
-                      </FieldDescription>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.TextField
+                    label="Amount"
+                    inputMode="decimal"
+                    placeholder="45.99"
+                    description="In the account's currency."
+                  />
+                )}
               />
-              <form.Field
+              <form.AppField
                 name="date"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Date</FieldLabel>
-                      <DatePicker
-                        id={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={field.handleChange}
-                        aria-invalid={isInvalid}
-                      />
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => <f.DatePickerField label="Date" />}
               />
-              <form.Field
+              <form.AppField
                 name="description"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Description</FieldLabel>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="Weekly groceries"
-                        autoComplete="off"
-                      />
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.TextField
+                    label="Description"
+                    placeholder="Weekly groceries"
+                  />
+                )}
               />
 
               <Accordion>
@@ -247,35 +157,11 @@ export const AddExpenseForm = () => {
                   <AccordionTrigger>Additional</AccordionTrigger>
                   <AccordionContent>
                     <FieldGroup>
-                      <form.Field
+                      <form.AppField
                         name="merchant"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>
-                                Merchant
-                              </FieldLabel>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="Loblaws"
-                                autoComplete="off"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.TextField label="Merchant" placeholder="Loblaws" />
+                        )}
                       />
                       {(
                         [
@@ -284,103 +170,36 @@ export const AddExpenseForm = () => {
                           ["status", "Status", STATUS_OPTIONS],
                         ] as const
                       ).map(([name, label, options]) => (
-                        <form.Field
+                        <form.AppField
                           key={name}
                           name={name}
-                          children={(field) => (
-                            <Field>
-                              <FieldLabel htmlFor={field.name}>
-                                {label}
-                              </FieldLabel>
-                              <Select
-                                items={options}
-                                value={field.state.value || null}
-                                onValueChange={(v) =>
-                                  field.handleChange((v ?? "") as never)
-                                }
-                              >
-                                <SelectTrigger
-                                  id={field.name}
-                                  onBlur={field.handleBlur}
-                                  className="w-full"
-                                >
-                                  <SelectValue
-                                    placeholder={`No ${label.toLowerCase()}`}
-                                  />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {options.map((o) => (
-                                    <SelectItem key={o.value} value={o.value}>
-                                      {o.label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </Field>
+                          children={(f) => (
+                            <f.SelectField
+                              label={label}
+                              options={options}
+                              placeholder={`No ${label.toLowerCase()}`}
+                            />
                           )}
                         />
                       ))}
-                      <form.Field
+                      <form.AppField
                         name="tags"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>Tags</FieldLabel>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="food, weekly"
-                                autoComplete="off"
-                              />
-                              <FieldDescription>
-                                Separate tags with commas.
-                              </FieldDescription>
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.TextField
+                            label="Tags"
+                            placeholder="food, weekly"
+                            description="Separate tags with commas."
+                          />
+                        )}
                       />
-                      <form.Field
+                      <form.AppField
                         name="notes"
-                        children={(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <FieldLabel htmlFor={field.name}>
-                                Notes
-                              </FieldLabel>
-                              <Textarea
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="Anything worth remembering about this expense"
-                                rows={4}
-                                className="min-h-24 resize-none"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
+                        children={(f) => (
+                          <f.TextareaField
+                            label="Notes"
+                            placeholder="Anything worth remembering about this expense"
+                          />
+                        )}
                       />
                     </FieldGroup>
                   </AccordionContent>

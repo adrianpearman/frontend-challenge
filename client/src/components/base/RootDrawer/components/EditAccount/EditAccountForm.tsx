@@ -1,4 +1,5 @@
-import { useForm, useSelector } from "@tanstack/react-form";
+import { useSelector } from "@tanstack/react-form";
+import { useAppForm } from "@/components/base/AppForm";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -15,10 +16,8 @@ import {
   CardTitle,
   Field,
   FieldDescription,
-  FieldError,
   FieldGroup,
   FieldLabel,
-  Input,
   Select,
   SelectContent,
   SelectItem,
@@ -38,7 +37,7 @@ import type { Account, AccountType } from "@/utils/types";
 export const EditAccountForm = ({ account }: { account: Account }) => {
   const { mutateAsync, isPending } = useMutation(updateAccountMutation());
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: account.name,
       type: account.type as AccountType,
@@ -104,89 +103,26 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
             }}
           >
             <FieldGroup>
-              <form.Field
+              <form.AppField
                 name="type"
-                children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Type</FieldLabel>
-                      <Select
-                        items={ACCOUNT_TYPE_OPTIONS}
-                        value={field.state.value || null}
-                        onValueChange={(v) =>
-                          field.handleChange((v ?? "") as AccountType)
-                        }
-                      >
-                        <SelectTrigger
-                          id={field.name}
-                          onBlur={field.handleBlur}
-                          aria-invalid={isInvalid}
-                          className="w-full"
-                        >
-                          <SelectValue placeholder="Select a type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ACCOUNT_TYPE_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>
-                              {o.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
+                children={(f) => (
+                  <f.SelectField
+                    label="Type"
+                    options={ACCOUNT_TYPE_OPTIONS}
+                    placeholder="Select a type"
+                  />
+                )}
               />
               {TEXT_FIELDS.filter(
                 ({ name }) =>
                   name !== "creditLimit" || accountType === "credit_card",
-              ).map(
-                ({
-                  name,
-                  label,
-                  placeholder,
-                  type,
-                  inputMode,
-                  description,
-                }) => (
-                  <form.Field
-                    key={name}
-                    name={name}
-                    children={(field) => {
-                      const isInvalid =
-                        field.state.meta.isTouched && !field.state.meta.isValid;
-                      return (
-                        <Field data-invalid={isInvalid}>
-                          <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-                          <Input
-                            id={field.name}
-                            name={field.name}
-                            type={type ?? "text"}
-                            inputMode={inputMode}
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                            aria-invalid={isInvalid}
-                            placeholder={placeholder}
-                            autoComplete="off"
-                          />
-                          {description && (
-                            <FieldDescription>{description}</FieldDescription>
-                          )}
-                          {isInvalid && (
-                            <FieldError errors={field.state.meta.errors} />
-                          )}
-                        </Field>
-                      );
-                    }}
-                  />
-                ),
-              )}
+              ).map(({ name, ...props }) => (
+                <form.AppField
+                  key={name}
+                  name={name}
+                  children={(f) => <f.TextField {...props} />}
+                />
+              ))}
               <form.Field
                 name="archived"
                 children={(field) => (
