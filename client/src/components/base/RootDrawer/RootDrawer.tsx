@@ -21,6 +21,12 @@ const CreateCategoryForm = lazy(() =>
   })),
 );
 
+const EditAccount = lazy(() =>
+  import("@/components/base/RootDrawer/components").then((m) => ({
+    default: m.EditAccount,
+  })),
+);
+
 const EditScheduledTransaction = lazy(() =>
   import("@/components/base/RootDrawer/components").then((m) => ({
     default: m.EditScheduledTransaction,
@@ -68,6 +74,7 @@ export const RootDrawer = () => {
             {displayedDrawer === "add_account" && <CreateAccountForm />}
             {displayedDrawer === "add_category" && <CreateCategoryForm />}
             {displayedDrawer === "add_expense" && <AddExpenseForm />}
+            {displayedDrawer === "edit_account" && <EditAccount />}
             {displayedDrawer === "edit_transaction" && (
               <EditScheduledTransaction />
             )}

@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { LoadingDrawerDetails } from "@/components/base/RootDrawer/components";
+import {
+  ErrorLoadingDrawerComponent,
+  LoadingDrawerDetails,
+} from "@/components/base/RootDrawer/components";
 import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
 import { createFetchScheduledItem } from "@/utils/api/requests";
@@ -61,7 +64,7 @@ export const ShowUpcomingTransaction = () => {
   };
 
   if (isError) {
-    return <LoadingDrawerDetails />;
+    return <ErrorLoadingDrawerComponent drawerName="upcoming transaction" />;
   }
 
   if (isLoading) {

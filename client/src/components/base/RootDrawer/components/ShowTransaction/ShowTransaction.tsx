@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useBaseUIStore } from "@/store/BaseUIStore";
-import { LoadingDrawerDetails } from "@/components/base/RootDrawer/components";
+import {
+  ErrorLoadingDrawerComponent,
+  LoadingDrawerDetails,
+} from "@/components/base/RootDrawer/components";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
 import { createFetchTransaction } from "@/utils/api/requests";
 import { formatCurrency, formatDate } from "@/utils/functions";
@@ -39,11 +42,7 @@ export const ShowTransaction = () => {
   }
 
   if (isError) {
-    return (
-      <div>
-        <p>ERROR</p>
-      </div>
-    );
+    return <ErrorLoadingDrawerComponent drawerName="transaction" />;
   }
 
   const displayedContext: Record<string, string | string[]>[] = [

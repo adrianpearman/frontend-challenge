@@ -4,6 +4,7 @@ import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import { LoadingDrawerDetails } from "@/components/base/RootDrawer/components/LoadingDrawerDetails";
+import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent";
 import { formSchema } from "@/components/base/RootDrawer/components/EditScheduledTransaction/utils/formSchema";
 import { Button } from "@/components/vendors/Buttons";
 import {
@@ -68,7 +69,9 @@ export const EditScheduledTransaction = () => {
   });
 
   if (!transactionID) return null;
-  if (isLoading || isError || !data) return <LoadingDrawerDetails />;
+  if (isError)
+    return <ErrorLoadingDrawerComponent drawerName="scheduled transaction" />;
+  if (isLoading || !data) return <LoadingDrawerDetails />;
 
   // Mounted only once the item has loaded so the form's defaultValues are the real values.
   return <EditScheduledTransactionForm item={data.data} />;

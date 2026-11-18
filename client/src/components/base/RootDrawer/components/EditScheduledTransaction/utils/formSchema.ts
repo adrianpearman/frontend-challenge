@@ -28,11 +28,16 @@ export const formSchema = z
       "yearly",
     ]),
     startDate: z.string().regex(isoDate, "Pick a start date."),
-    endDate: z.string().refine((v) => !v || isoDate.test(v), "Pick a valid date."),
+    endDate: z
+      .string()
+      .refine((v) => !v || isoDate.test(v), "Pick a valid date."),
     autoPay: z.enum(["yes", "no"]),
     status: z.enum(["active", "paused"]),
     variance: z.string().regex(money, "Enter an amount like 5.00."),
-    notes: z.string().trim().max(2000, "Notes must be at most 2000 characters."),
+    notes: z
+      .string()
+      .trim()
+      .max(2000, "Notes must be at most 2000 characters."),
   })
   .refine((v) => !v.endDate || v.endDate >= v.startDate, {
     path: ["endDate"],

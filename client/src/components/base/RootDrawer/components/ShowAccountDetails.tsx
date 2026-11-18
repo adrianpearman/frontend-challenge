@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { TruncateText } from "@/components/base";
+import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components";
 import {
   Button,
   Table,
@@ -119,7 +120,7 @@ export const ShowAccountDetails = () => {
   }
 
   if (isError) {
-    return <div>isError</div>;
+    return <ErrorLoadingDrawerComponent drawerName="account details" />;
   }
 
   return (
