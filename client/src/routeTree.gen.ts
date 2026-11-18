@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountsRouteImport } from './routes/accounts'
 import { Route as BillsRouteImport } from './routes/bills'
-import { Route as BudgetRouteImport } from './routes/budget'
 import { Route as ExpensesRouteImport } from './routes/expenses'
 import { Route as SettingsRouteImport } from './routes/settings'
 
@@ -31,11 +30,6 @@ const BillsRoute = BillsRouteImport.update({
   path: '/bills',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BudgetRoute = BudgetRouteImport.update({
-  id: '/budget',
-  path: '/budget',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ExpensesRoute = ExpensesRouteImport.update({
   id: '/expenses',
   path: '/expenses',
@@ -51,7 +45,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/bills': typeof BillsRoute
-  '/budget': typeof BudgetRoute
   '/expenses': typeof ExpensesRoute
   '/settings': typeof SettingsRoute
 }
@@ -59,7 +52,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/bills': typeof BillsRoute
-  '/budget': typeof BudgetRoute
   '/expenses': typeof ExpensesRoute
   '/settings': typeof SettingsRoute
 }
@@ -68,31 +60,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/bills': typeof BillsRoute
-  '/budget': typeof BudgetRoute
   '/expenses': typeof ExpensesRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    '/' | '/accounts' | '/bills' | '/budget' | '/expenses' | '/settings'
+  fullPaths: '/' | '/accounts' | '/bills' | '/expenses' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accounts' | '/bills' | '/budget' | '/expenses' | '/settings'
-  id:
-    | '__root__'
-    | '/'
-    | '/accounts'
-    | '/bills'
-    | '/budget'
-    | '/expenses'
-    | '/settings'
+  to: '/' | '/accounts' | '/bills' | '/expenses' | '/settings'
+  id: '__root__' | '/' | '/accounts' | '/bills' | '/expenses' | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountsRoute: typeof AccountsRoute
   BillsRoute: typeof BillsRoute
-  BudgetRoute: typeof BudgetRoute
   ExpensesRoute: typeof ExpensesRoute
   SettingsRoute: typeof SettingsRoute
 }
@@ -120,13 +102,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/budget': {
-      id: '/budget'
-      path: '/budget'
-      fullPath: '/budget'
-      preLoaderRoute: typeof BudgetRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/expenses': {
       id: '/expenses'
       path: '/expenses'
@@ -148,7 +123,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountsRoute: AccountsRoute,
   BillsRoute: BillsRoute,
-  BudgetRoute: BudgetRoute,
   ExpensesRoute: ExpensesRoute,
   SettingsRoute: SettingsRoute,
 }

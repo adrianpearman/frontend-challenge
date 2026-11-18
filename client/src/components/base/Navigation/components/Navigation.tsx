@@ -16,10 +16,6 @@ export const Navigation = () => {
       to: "/bills",
     },
     {
-      name: "Budget Projection",
-      to: "/budget",
-    },
-    {
       name: "Expense Reports",
       to: "/expenses",
     },
