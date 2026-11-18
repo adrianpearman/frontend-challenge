@@ -8,32 +8,32 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/vendors/Accordion";
-import { Button } from "@/components/vendors/Buttons";
-import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/vendors/Cards";
-import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/vendors/Field";
-import { Input } from "@/components/vendors/Inputs";
-import {
+  Input,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/vendors/Select";
-import { Textarea } from "@/components/vendors/Textarea";
+  Textarea,
+} from "@/components/vendors";
+import {
+  FORM_ID,
+  STATUS_OPTIONS,
+} from "@/components/base/RootDrawer/components/AddExpenseForm/utils/consts";
+import { formSchema } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/formSchema";
+import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
 import {
   createFetchCategories,
   createFetchDashboardMetrics,
@@ -41,19 +41,9 @@ import {
   createTransactionMutation,
 } from "@/utils/api/requests";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import {
-  FORM_ID,
-  STATUS_OPTIONS,
-} from "@/components/base/RootDrawer/components/AddExpenseForm/utils/consts";
-import { formSchema } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/formSchema";
-import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
+import type { DropdownOption } from "@/utils/types";
 
 const today = () => new Date().toLocaleDateString("en-CA"); // local YYYY-MM-DD
-
-type Option = {
-  value: string;
-  label: string;
-};
 
 export const AddExpenseForm = () => {
   const { data: accounts } = useQuery(createFetchDashboardMetrics({}));
@@ -63,11 +53,11 @@ export const AddExpenseForm = () => {
   const { data: projects } = useQuery(createFetchProjects({}));
   const { mutateAsync, isPending } = useMutation(createTransactionMutation());
 
-  const accountOptions: Option[] =
+  const accountOptions: DropdownOption[] =
     accounts?.data.map((a) => ({ value: a.id, label: a.name })) ?? [];
-  const categoryOptions: Option[] =
+  const categoryOptions: DropdownOption[] =
     categories?.data.map((c) => ({ value: c.id, label: c.name })) ?? [];
-  const projectOptions: Option[] =
+  const projectOptions: DropdownOption[] =
     projects?.data.map((p) => ({ value: p.id, label: p.name })) ?? [];
 
   const form = useForm({

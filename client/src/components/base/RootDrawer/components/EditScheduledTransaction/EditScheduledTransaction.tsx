@@ -38,13 +38,11 @@ import {
   createFetchScheduledItem,
   updateScheduledItemMutation,
 } from "@/utils/api/requests";
-import type { ScheduledItem } from "@/utils/types";
+import type { DropdownOption, ScheduledItem } from "@/utils/types";
 
 const FORM_ID = "edit-scheduled-transaction-form";
 
-type Option = { value: string; label: string };
-
-const opts = (values: string[]): Option[] =>
+const opts = (values: string[]): DropdownOption[] =>
   values.map((v) => ({ value: v, label: v[0].toUpperCase() + v.slice(1) }));
 
 const KIND_OPTIONS = opts(["bill", "income"]);
@@ -82,11 +80,11 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
   const { data: projects } = useQuery(createFetchProjects({}));
   const { mutateAsync, isPending } = useMutation(updateScheduledItemMutation());
 
-  const accountOptions: Option[] =
+  const accountOptions: DropdownOption[] =
     accounts?.data.map((a) => ({ value: a.id, label: a.name })) ?? [];
-  const categoryOptions: Option[] =
+  const categoryOptions: DropdownOption[] =
     categories?.data.map((c) => ({ value: c.id, label: c.name })) ?? [];
-  const projectOptions: Option[] =
+  const projectOptions: DropdownOption[] =
     projects?.data.map((p) => ({ value: p.id, label: p.name })) ?? [];
 
   const backToDetails = () =>
