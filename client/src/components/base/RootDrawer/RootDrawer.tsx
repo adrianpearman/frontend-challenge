@@ -1,55 +1,8 @@
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { useIsMobile } from "@/components/base/RootDrawer/hooks";
+import { DRAWERS } from "@/components/base/RootDrawer/utils/drawerBarrels";
 import { Drawer, DrawerContent } from "@/components/vendors/Drawer";
 import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
-
-const AddExpenseForm = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.AddExpenseForm,
-  })),
-);
-
-const CreateAccountForm = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.CreateAccountForm,
-  })),
-);
-
-const CreateCategoryForm = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.CreateCategoryForm,
-  })),
-);
-
-const EditAccount = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.EditAccount,
-  })),
-);
-
-const EditScheduledTransaction = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.EditScheduledTransaction,
-  })),
-);
-
-const ShowAccountDetails = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.ShowAccountDetails,
-  })),
-);
-
-const ShowTransaction = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.ShowTransaction,
-  })),
-);
-
-const ShowUpcomingTransaction = lazy(() =>
-  import("@/components/base/RootDrawer/components").then((m) => ({
-    default: m.ShowUpcomingTransaction,
-  })),
-);
 
 export const RootDrawer = () => {
   const displayedDrawer = useBaseUIStore(
@@ -59,6 +12,7 @@ export const RootDrawer = () => {
     (state) => state.showApplicationDrawer,
   );
   const isMobile = useIsMobile();
+  const ActiveDrawer = displayedDrawer ? DRAWERS[displayedDrawer] : null;
 
   return (
     <Drawer
@@ -68,19 +22,9 @@ export const RootDrawer = () => {
       swipeDirection={isMobile ? "down" : "right"}
     >
       <DrawerContent className="border-transparent rounded-md bg-background-primary">
-        {/* will add state value to dynamically chose the component to render here */}
-        {showApplicationDrawer && (
+        {showApplicationDrawer && ActiveDrawer && (
           <Suspense>
-            {displayedDrawer === "add_account" && <CreateAccountForm />}
-            {displayedDrawer === "add_category" && <CreateCategoryForm />}
-            {displayedDrawer === "add_expense" && <AddExpenseForm />}
-            {displayedDrawer === "edit_account" && <EditAccount />}
-            {displayedDrawer === "edit_transaction" && (
-              <EditScheduledTransaction />
-            )}
-            {displayedDrawer === "show_account" && <ShowAccountDetails />}
-            {displayedDrawer === "show_transaction" && <ShowTransaction />}
-            {displayedDrawer === "show_upcoming" && <ShowUpcomingTransaction />}
+            <ActiveDrawer />
           </Suspense>
         )}
       </DrawerContent>
