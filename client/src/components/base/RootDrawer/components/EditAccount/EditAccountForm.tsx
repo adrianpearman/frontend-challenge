@@ -31,9 +31,8 @@ import {
   ARCHIVED_OPTIONS,
   FORM_ID,
   TEXT_FIELDS,
-  toCents,
-  toDollars,
 } from "@/components/base/RootDrawer/components/EditAccount/utils/consts";
+import { toCents, toDollars } from "@/utils/functions";
 import type { Account, AccountType } from "@/utils/types";
 
 export const EditAccountForm = ({ account }: { account: Account }) => {
@@ -196,7 +195,9 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
                     <Select
                       items={ARCHIVED_OPTIONS}
                       value={field.state.value ? "archived" : "active"}
-                      onValueChange={(v) => field.handleChange(v === "archived")}
+                      onValueChange={(v) =>
+                        field.handleChange(v === "archived")
+                      }
                     >
                       <SelectTrigger
                         id={field.name}

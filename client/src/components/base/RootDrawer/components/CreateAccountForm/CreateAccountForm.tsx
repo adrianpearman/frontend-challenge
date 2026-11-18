@@ -36,9 +36,8 @@ import {
 } from "@/components/base/RootDrawer/components/CreateAccountForm/utils/consts";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { createAccountMutation } from "@/utils/api/requests";
+import { toCents } from "@/utils/functions";
 import type { AccountType, CurrencyCode } from "@/utils/types";
-
-const toCents = (v: string) => Math.round(Number(v) * 100);
 
 export const CreateAccountForm = () => {
   const { mutateAsync, isPending } = useMutation(createAccountMutation());

@@ -39,6 +39,7 @@ import {
   createFetchScheduledItem,
   updateScheduledItemMutation,
 } from "@/utils/api/requests";
+import { toDollars, toMinor } from "@/utils/functions";
 import type { DropdownOption, ScheduledItem } from "@/utils/types";
 
 const FORM_ID = "edit-scheduled-transaction-form";
@@ -57,9 +58,6 @@ const FREQUENCY_OPTIONS = opts([
 ]);
 const STATUS_OPTIONS = opts(["active", "paused"]);
 const AUTO_PAY_OPTIONS = opts(["yes", "no"]);
-
-const toDollars = (minor: number) => (Math.abs(minor) / 100).toFixed(2);
-const toMinor = (dollars: string) => Math.round(Number(dollars) * 100);
 
 export const EditScheduledTransaction = () => {
   const transactionID = useBaseUIStore((state) => state.transactionID);

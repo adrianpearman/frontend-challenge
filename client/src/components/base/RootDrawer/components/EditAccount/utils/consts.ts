@@ -1,14 +1,7 @@
 export const FORM_ID = "edit-account-form";
 
-export const toCents = (v: string) => Math.round(Number(v) * 100);
-export const toDollars = (minor: number) => (minor / 100).toFixed(2);
-
 export type TextFieldName =
-  | "name"
-  | "openingBalance"
-  | "creditLimit"
-  | "institution"
-  | "openedAt";
+  "name" | "openingBalance" | "creditLimit" | "institution" | "openedAt";
 
 export const TEXT_FIELDS: {
   name: TextFieldName;
