@@ -29,7 +29,7 @@ export const Overview = () => {
         </div>
         <div>
           <Button
-            onClick={() => baseUIStoreActions.setShowApplicationDrawer(true)}
+            onClick={() => baseUIStoreActions.openDrawer("add_expense")}
             variant="secondary"
           >
             Add Expense

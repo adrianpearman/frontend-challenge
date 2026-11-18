@@ -1,4 +1,5 @@
 import { Button } from "@/components/vendors";
+import { baseUIStoreActions } from "@/store/BaseUIStore";
 
 type AccountsHeaderProps = {
   resetStateFn: () => void;
@@ -23,7 +24,7 @@ export const AccountsHeader = ({ resetStateFn }: AccountsHeaderProps) => {
             Add Expense
           </Button>
           <Button
-            // onClick={() => baseUIStoreActions.setShowApplicationDrawer(true)}
+            onClick={() => baseUIStoreActions.openDrawer("add_account")}
             variant="default"
           >
             Add Account

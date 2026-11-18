@@ -109,14 +109,14 @@ export const AddExpenseForm = () => {
             "Could not add the expense.",
         );
       } finally {
-        baseUIStoreActions.setShowApplicationDrawer(false);
+        baseUIStoreActions.closeDrawer();
       }
     },
   });
 
   const handleResetButton = () => {
     form.reset();
-    baseUIStoreActions.setShowApplicationDrawer(false);
+    baseUIStoreActions.closeDrawer();
   };
 
   return (
