@@ -18,7 +18,7 @@ export const Accounts = () => {
   );
 
   const accountsMap = new Map(
-    (data === undefined ? [] : data.data).map(({ id, name }) => [id, name]),
+    (data?.data ?? []).map(({ id, name }) => [id, name]),
   );
 
   const handleResetSelectedAccounts = () => setCurrentAccount("");
