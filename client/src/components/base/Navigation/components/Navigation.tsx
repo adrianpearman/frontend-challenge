@@ -22,9 +22,9 @@ export const Navigation = () => {
   ];
 
   return (
-    <nav className="w-52 px-4 pt-8 flex flex-col gap-6 bg-brand-deep-green text-text-alternate">
+    <nav className="w-full md:w-52 shrink-0 px-4 py-3 md:pt-8 flex flex-col sm:flex-row md:flex-col sm:items-center md:items-stretch gap-2 sm:gap-6 bg-brand-deep-green text-text-alternate">
       <p>Ledgerly</p>
-      <ul className="flex flex-col">
+      <ul className="flex md:flex-col overflow-x-auto">
         {navLinks.map((link, i) => {
           return <NavigationItem key={`navigation-link-item-${i}`} {...link} />;
         })}

@@ -69,15 +69,15 @@ export const ExpensesCharts = ({
 
   if (isLoading) {
     return (
-      <div className="flex gap-2 ">
-        <LoadingCharts className="w-2/3" />
-        <LoadingCharts className="w-1/3" />
+      <div className="flex flex-col lg:flex-row gap-2">
+        <LoadingCharts className="lg:w-2/3" />
+        <LoadingCharts className="lg:w-1/3" />
       </div>
     );
   }
 
   return (
-    <div className="flex gap-2 ">
+    <div className="flex flex-col lg:flex-row gap-2">
       <CategoryPercentageChart data={categoryData} />
       <HistoricalMonthlyExpenseChart data={historicalData} />
     </div>

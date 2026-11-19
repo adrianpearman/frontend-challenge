@@ -5,7 +5,7 @@ export const NavigationItem = ({ name, to }: NavigationItemProps) => {
   return (
     <li>
       <Link
-        className="block py-2.5 px-4 rounded-md"
+        className="block py-2.5 px-4 rounded-md whitespace-nowrap"
         activeProps={{
           className: "bg-brand-slate-green text-brand-mint-accent",
         }}

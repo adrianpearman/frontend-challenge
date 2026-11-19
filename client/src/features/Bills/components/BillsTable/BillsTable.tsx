@@ -45,7 +45,7 @@ export const BillsTable = () => {
 
   return (
     <div className="flex flex-col flex-1 border border-neutral-border rounded-md">
-      <div className="flex justify-between p-3">
+      <div className="flex flex-wrap gap-2 justify-between p-3 max-[500px]:flex-col">
         <div className="flex gap-2">
           {SCHEDULED_ITEM_KINDS.map((item, i) => {
             const isSelected = item === selectedScheduleItem;
@@ -61,7 +61,7 @@ export const BillsTable = () => {
             );
           })}
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center max-[500px]:flex-col max-[500px]:items-stretch">
           <div className={buttonVariants({ variant: "secondary" })}>
             <span>{formatDate({ date: formattedDate, showYear: true })}</span>{" "}
             to{" "}

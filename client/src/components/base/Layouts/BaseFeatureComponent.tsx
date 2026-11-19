@@ -6,5 +6,5 @@ type BaseFeatureComponentProps = {
 export const BaseFeatureComponent = ({
   children,
 }: BaseFeatureComponentProps) => {
-  return <div className="flex flex-col gap-2 p-10">{children}</div>;
+  return <div className="flex flex-col gap-2 p-4 md:p-10">{children}</div>;
 };

@@ -44,7 +44,7 @@ export const Accounts = () => {
 
   return (
     <div className="flex-1 border border-neutral-border rounded-md flex flex-col">
-      <div className="flex justify-between p-3.5">
+      <div className="flex flex-wrap gap-2 justify-between p-3.5">
         <h2 className="text-h5">Accounts Overview</h2>
       </div>
       <AccountsAndBillingTable

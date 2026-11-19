@@ -146,7 +146,7 @@ export const DashboardTransactions = () => {
 
   return (
     <div className="flex flex-col border border-neutral-border rounded-md">
-      <div className="flex justify-between p-3">
+      <div className="flex flex-wrap gap-2 justify-between p-3">
         <h2 className="text-h5">Recent Transactions</h2>
         <Link to="/accounts" className={buttonVariants()}>
           View More Transactions

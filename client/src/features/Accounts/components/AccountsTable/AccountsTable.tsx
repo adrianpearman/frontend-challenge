@@ -3,7 +3,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { format, subDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { FilterDropdown } from "@/components/base";
-import { LoadingDetails } from "@/components/base/LoadingDetails";
+import { LoadingDetails } from "@/components/base/RootDrawer/components";
 import {
   Button,
   Calendar,
@@ -108,13 +108,13 @@ export const AccountsTable = ({
 
   return (
     <div className="border border-neutral-border rounded-md flex flex-col">
-      <div className="flex flex-wrap items-center justify-between gap-2 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-3 max-[600px]:flex-col">
         <p>
           {currentAccount === ""
             ? `Transactions for all ${numberOfAccounts} account(s)`
             : `Transactions for: ${accountsMap.get(currentAccount)}`}
         </p>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 flex-wrap  items-center max-[600px]:flex-1 max-[600px]:flex-col max-[600px]:items-stretch  max-[600px]:w-full">
           <FilterDropdown
             label="Status"
             onChange={setStatus}

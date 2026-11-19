@@ -30,7 +30,7 @@ export const RightYAxisComponents = ({
             showCurrency: false,
           })}
         </span>
-        <span className="w-12 text-right">
+        <span className="w-12 text-right max-[500px]:hidden">
           {`${(row.percentage * 100).toFixed(1)}%`}
         </span>
       </div>

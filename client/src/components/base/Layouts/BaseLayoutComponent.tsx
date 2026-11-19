@@ -7,9 +7,9 @@ type BaseLayoutComponent = {
 // The QueryClient comes from main.tsx; a second provider here would give each page its own cache and defaults.
 export const BaseLayoutComponent = ({ children }: BaseLayoutComponent) => {
   return (
-    <div className="min-h-screen w-full flex relative">
+    <div className="min-h-screen w-full flex flex-col md:flex-row relative">
       <Navigation />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 min-w-0">{children}</main>
       <RootDrawer />
     </div>
   );

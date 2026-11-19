@@ -24,7 +24,7 @@ export const CategoryPercentageChart = ({
   data,
 }: CategoryPercentageChartProps) => {
   return (
-    <div className="w-3/5 flex flex-col gap-3 border border-neutral-border rounded-md p-4">
+    <div className="w-3/5 flex flex-col gap-3 border border-neutral-border rounded-md p-4 max-lg:w-full">
       <h2 className="text-h5">By category</h2>
       <div className="max-h-80 overflow-y-auto">
         <BarChart

@@ -47,7 +47,7 @@ export const Billing = () => {
 
   return (
     <div className="flex-1 border border-neutral-border rounded-md flex flex-col">
-      <div className="flex justify-between p-3">
+      <div className="flex flex-wrap gap-2 justify-between p-3">
         <h2 className="text-h5">Upcoming bills & income</h2>
         <div className="flex gap-2">
           <Link to="/bills" className={buttonVariants()}>
