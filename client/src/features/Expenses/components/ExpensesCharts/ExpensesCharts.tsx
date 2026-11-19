@@ -4,8 +4,8 @@ import {
   HistoricalMonthlyExpenseChart,
 } from "@/features/Expenses/components/ExpensesCharts/components";
 import { LoadingCharts } from "@/features/Expenses/components/ExpensesCharts";
-import { createFetchMonthlyExpenses } from "@/utils/api/requests";
-import { formatDate, shiftMonth } from "@/utils/functions";
+import { expensesReportQuery } from "@/features/Expenses/utils/expensesReportQuery";
+import { formatDate } from "@/utils/functions";
 import type {
   CategoryChartDataObject,
   ExpensesChartDataObject,
@@ -25,12 +25,6 @@ export const ExpensesCharts = ({
   earliestMonth,
   selectedAccount,
 }: ExpensesChartsProps) => {
-  const sixMonthsAgo = shiftMonth(currentMonth, -5);
-  const from =
-    earliestMonth && earliestMonth > sixMonthsAgo
-      ? earliestMonth
-      : sixMonthsAgo;
-
   const {
     data: { categoryData, historicalData } = {
       categoryData: [],
@@ -39,17 +33,12 @@ export const ExpensesCharts = ({
     isError,
     isLoading,
   } = useQuery({
-    ...createFetchMonthlyExpenses({
-      params: {
-        from,
-        to: currentMonth,
-        ...(selectedAccount !== "all" && {
-          accountId: selectedAccount,
-          currency,
-        }),
-      },
+    ...expensesReportQuery({
+      currency,
+      currentMonth,
+      earliestMonth,
+      selectedAccount,
     }),
-    enabled: earliestMonth !== undefined,
     select: (report) => {
       // The range ends at currentMonth, so its category breakdown is already here.
       const current = report.months.find((m) => m.month === currentMonth);

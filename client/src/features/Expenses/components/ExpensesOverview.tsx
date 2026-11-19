@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  LoadingOverviewItem,
+  LoadingOverviewItems,
   OverviewItem,
   OverviewItemsContainer,
 } from "@/components/base";
-import { createFetchMonthlyExpenses } from "@/utils/api/requests";
+import { expensesReportQuery } from "@/features/Expenses/utils/expensesReportQuery";
 import {
   cn,
   formatCurrency,
@@ -31,20 +31,15 @@ export const ExpensesOverview = ({
     earliestMonth !== undefined && currentMonth > earliestMonth;
   const previousMonth = shiftMonth(currentMonth, -1);
 
-  // One request covers both months: the report returns one entry per month in the range.
-  const { data, isError, isLoading } = useQuery({
-    ...createFetchMonthlyExpenses({
-      params: {
-        from: hasPreviousMonth ? previousMonth : currentMonth,
-        to: currentMonth,
-        ...(selectedAccount !== "all" && {
-          accountId: selectedAccount,
-          currency,
-        }),
-      },
+  // Same query as the charts, so this reuses their request; previous month is in the range.
+  const { data, isError, isLoading } = useQuery(
+    expensesReportQuery({
+      currency,
+      currentMonth,
+      earliestMonth,
+      selectedAccount,
     }),
-    enabled: earliestMonth !== undefined,
-  });
+  );
 
   const findMonth = (month: string) =>
     data?.months.find((entry) => entry.month === month) ?? null;
@@ -85,13 +80,7 @@ export const ExpensesOverview = ({
   }
 
   if (isLoading) {
-    return (
-      <OverviewItemsContainer>
-        <LoadingOverviewItem />
-        <LoadingOverviewItem />
-        <LoadingOverviewItem />
-      </OverviewItemsContainer>
-    );
+    return <LoadingOverviewItems />;
   }
 
   return (

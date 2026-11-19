@@ -3,8 +3,14 @@ import type { VirtualizedTableColumn } from "@/components/vendors/Tables/Virtual
 import type { Occurrence } from "@/utils/types";
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
 
+// An occurrence with its account and category ids resolved to display names.
+export type BillRow = Occurrence & {
+  accountName: string;
+  categoryName: string;
+};
+
 // Module scope keeps references stable between renders.
-export const RenderedBillTableColumns: VirtualizedTableColumn<Occurrence>[] = [
+export const RenderedBillTableColumns: VirtualizedTableColumn<BillRow>[] = [
   {
     accessorKey: "name",
     cell: ({ row }) => <RenderedBillTableCell content={row.original.name} />,
@@ -28,17 +34,17 @@ export const RenderedBillTableColumns: VirtualizedTableColumn<Occurrence>[] = [
     size: 100,
   },
   {
-    accessorKey: "categoryId",
+    accessorKey: "categoryName",
     cell: ({ row }) => (
-      <RenderedBillTableCell content={row.original.categoryId ?? "N/A"} />
+      <RenderedBillTableCell content={row.original.categoryName || "N/A"} />
     ),
     header: "Category",
     size: 110,
   },
   {
-    accessorKey: "accountId",
+    accessorKey: "accountName",
     cell: ({ row }) => (
-      <RenderedBillTableCell content={row.original.accountId} />
+      <RenderedBillTableCell content={row.original.accountName} />
     ),
     header: "Account",
     size: 200,

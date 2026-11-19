@@ -1,4 +1,4 @@
-import { isValidElement, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   Table,
   TableBody,
@@ -7,46 +7,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/vendors/Tables/NonVirtualizedTables";
-import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { cn } from "@/utils/functions";
 
+export type AccountsAndBillingRow = { id: string; cells: ReactNode[] };
+
 type AccountsAndBillingTableProps = {
-  table: "accounts" | "billing";
+  onRowClick: (id: string) => void;
   tableHeader: string[];
-  tableRows: React.ReactNode[][];
+  tableRows: AccountsAndBillingRow[];
 };
 
 const cellClassName = "h-auto py-2 px-3 whitespace-normal";
 const rowClassName = "border-b-0 hover:bg-transparent";
 
 export const AccountsAndBillingTable = ({
-  table,
+  onRowClick,
   tableHeader,
   tableRows,
 }: AccountsAndBillingTableProps) => {
   const lastIndex = tableHeader.length - 1;
-
-  const handleSelectedRow = (row: ReactNode[]) => {
-    if (!row) {
-      return;
-    }
-
-    const categoryRow =
-      isValidElement<{ "data-row-category-id"?: string }>(row[0]) &&
-      row[0].props["data-row-category-id"];
-
-    if (!categoryRow) return;
-
-    const tableType = table === "accounts";
-
-    if (tableType) {
-      baseUIStoreActions.setAccountID(categoryRow);
-    } else {
-      baseUIStoreActions.setTransactionID(categoryRow);
-    }
-
-    baseUIStoreActions.openDrawer(tableType ? "show_account" : "show_upcoming");
-  };
 
   return (
     <Table className="text-base">
@@ -72,22 +51,22 @@ export const AccountsAndBillingTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tableRows.map((row, i) => (
+        {tableRows.map(({ id, cells }) => (
           <TableRow
             className={rowClassName}
-            key={`table-row-item-${i}`}
+            key={id}
             tabIndex={0}
-            onClick={() => handleSelectedRow(row)}
+            onClick={() => onRowClick(id)}
             onKeyDown={(e: React.KeyboardEvent<HTMLTableRowElement>) =>
-              e.key === "Enter" && handleSelectedRow(row)
+              e.key === "Enter" && onRowClick(id)
             }
           >
-            {row.map((cell, j) => (
+            {cells.map((cell, j) => (
               <TableCell
                 className={cn(
                   cellClassName,
                   "text-left cursor-pointer text-body-small",
-                  j === row.length - 1 && "text-right",
+                  j === cells.length - 1 && "text-right",
                 )}
                 key={`table-row-cell-item-${j}`}
               >

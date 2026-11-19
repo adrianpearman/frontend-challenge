@@ -1,6 +1,9 @@
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
 import { VirtualizedTable } from "@/components/vendors";
-import { RenderedBillTableColumns } from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
+import {
+  type BillRow,
+  RenderedBillTableColumns,
+} from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
 import type { Occurrence } from "@/utils/types";
 
@@ -34,22 +37,13 @@ export const RenderedBillTable = ({
     return "";
   }
 
-  const formattedBillOccurrenceData = data.map((bill) => {
-    const data: Occurrence = {
-      ...bill,
-      accountId: accountsMap.get(bill.accountId) ?? "",
-      categoryId:
-        bill.categoryId === null
-          ? ""
-          : (categoriesMap.get(bill.categoryId) ?? ""),
-    };
-    return data;
-  });
+  const rows: BillRow[] = data.map((bill) => ({
+    ...bill,
+    accountName: accountsMap.get(bill.accountId) ?? "",
+    categoryName: bill.categoryId
+      ? (categoriesMap.get(bill.categoryId) ?? "")
+      : "",
+  }));
 
-  return (
-    <VirtualizedTable
-      columns={RenderedBillTableColumns}
-      data={formattedBillOccurrenceData}
-    />
-  );
+  return <VirtualizedTable columns={RenderedBillTableColumns} data={rows} />;
 };
