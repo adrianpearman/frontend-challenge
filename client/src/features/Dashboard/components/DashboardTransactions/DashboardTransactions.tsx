@@ -154,7 +154,7 @@ export const DashboardTransactions = () => {
       </div>
       <Table>
         <TableCaption className="my-2">
-          A list of your recent invoices.
+          A list of recent transactions.
         </TableCaption>
         <TableHeader>
           <TableRow className="bg-brand-slate-green text-accent p-3">
