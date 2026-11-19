@@ -1,13 +1,14 @@
-import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { TruncateText } from "@/components/base";
 import { buttonVariants } from "@/components/vendors";
 import {
   AccountsAndBillingTable,
+  type AccountsAndBillingRow,
   BalanceCell,
   LoadingTableComponent,
 } from "@/features/Dashboard/components/DashboardAccountsAndBilling/components/AccountsAndBillingTable";
+import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { createFetchScheduledTransactions } from "@/utils/api/requests";
 import { formatDate } from "@/utils/functions";
 
@@ -16,27 +17,21 @@ export const Billing = () => {
     createFetchScheduledTransactions({}),
   );
 
-  const formattedRowData = useMemo(() => {
-    if (!data || data === undefined) {
-      return [];
-    }
-    const rowData: React.ReactNode[][] = data.data.slice(0, 5).map((row) => {
-      return [
-        <TruncateText
-          content={<span>{row.name}</span>}
-          data-row-category-id={row.id}
-          key={`billing-row-item-${row.id}`}
-        />,
-        formatDate({
-          date: row.nextDueDate,
-          format: "short",
-        }),
+  const rows: AccountsAndBillingRow[] = (data?.data ?? [])
+    .slice(0, 5)
+    .map((row) => ({
+      id: row.id,
+      cells: [
+        <TruncateText content={<span>{row.name}</span>} />,
+        formatDate({ date: row.nextDueDate, format: "short" }),
         <BalanceCell amount={row.amount} currency={row.currency} />,
-      ];
-    });
+      ],
+    }));
 
-    return rowData;
-  }, [data]);
+  const handleRowClick = (id: string) => {
+    baseUIStoreActions.setTransactionID(id);
+    baseUIStoreActions.openDrawer("show_upcoming");
+  };
 
   if (isError) {
     return (
@@ -61,9 +56,9 @@ export const Billing = () => {
         </div>
       </div>
       <AccountsAndBillingTable
-        table="billing"
+        onRowClick={handleRowClick}
         tableHeader={["Bill", "Date", "Amount"]}
-        tableRows={formattedRowData}
+        tableRows={rows}
       />
     </div>
   );

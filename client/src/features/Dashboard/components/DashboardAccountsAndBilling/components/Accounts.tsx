@@ -1,40 +1,34 @@
-import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { TruncateText } from "@/components/base";
 import {
   AccountsAndBillingTable,
+  type AccountsAndBillingRow,
   BalanceCell,
   LoadingTableComponent,
 } from "@/features/Dashboard/components/DashboardAccountsAndBilling/components/AccountsAndBillingTable";
-import { createFetchDashboardMetrics } from "@/utils/api/requests";
+import { baseUIStoreActions } from "@/store/BaseUIStore";
+import { createFetchAccounts } from "@/utils/api/requests";
 import { AccountTypeMap } from "@/utils/consts";
 
 export const Accounts = () => {
-  const { data, isError, isLoading } = useQuery(
-    createFetchDashboardMetrics({}),
-  );
+  const { data, isError, isLoading } = useQuery(createFetchAccounts({}));
 
-  const formattedRowData = useMemo(() => {
-    if (!data || data === undefined) {
-      return [];
-    }
+  const rows: AccountsAndBillingRow[] = (data?.data ?? []).map((row) => ({
+    id: row.id,
+    cells: [
+      <TruncateText content={<span>{row.name}</span>} />,
+      AccountTypeMap[row.type],
+      <BalanceCell
+        amount={row.balance?.available ?? 0}
+        currency={row.currency}
+      />,
+    ],
+  }));
 
-    const rowData: React.ReactNode[][] = data.data.map((row) => {
-      return [
-        <TruncateText
-          content={<span>{row.name}</span>}
-          data-row-category-id={row.id}
-        />,
-        AccountTypeMap[row.type],
-        <BalanceCell
-          amount={row.balance?.available ?? 0}
-          currency={row.currency}
-        />,
-      ];
-    });
-
-    return rowData;
-  }, [data]);
+  const handleRowClick = (id: string) => {
+    baseUIStoreActions.setAccountID(id);
+    baseUIStoreActions.openDrawer("show_account");
+  };
 
   if (isError) {
     return (
@@ -54,9 +48,9 @@ export const Accounts = () => {
         <h2 className="text-h5">Accounts Overview</h2>
       </div>
       <AccountsAndBillingTable
-        table="accounts"
+        onRowClick={handleRowClick}
         tableHeader={["Account", "Type", "Balance"]}
-        tableRows={formattedRowData}
+        tableRows={rows}
       />
     </div>
   );
