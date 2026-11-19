@@ -70,31 +70,39 @@ export const DashboardTransactions = () => {
   } = useQuery(createFetchCategories({ params: {} }));
 
   const isLoading =
-    transactionLoading || accountFetchingLoading || categoriesFetchingError;
+    transactionLoading || accountFetchingLoading || categoriesFetchingLoading;
   const isError =
-    transactionError || accountFetchingError || categoriesFetchingLoading;
+    transactionError || accountFetchingError || categoriesFetchingError;
 
   const tableRows = useMemo(() => {
     if (!transactionData || !accountData || !categoriesData) {
       return [];
     }
 
+    const accountsMap = new Map(
+      accountData.data.map((data) => [data.id, data.name]),
+    );
+    const categoriesMap = new Map(
+      categoriesData.data.map((data) => [data.id, data.name]),
+    );
+
     const formattedExpenses: TableRowItem[] = transactionData.data.map(
       (expense) => {
-        const { accountId, amount, category, currency, date, description, id } =
-          expense;
-
-        const accountsMap = new Map(
-          accountData.data.map((data) => [data.id, data.name]),
-        );
-        const categoriesMap = new Map(
-          categoriesData.data.map((data) => [data.id, data.name]),
-        );
+        const {
+          accountId,
+          amount,
+          categoryId,
+          currency,
+          date,
+          description,
+          id,
+        } = expense;
 
         const getAccountName = accountsMap.get(accountId) ?? "";
 
-        const categoryName =
-          category && category.name ? categoriesMap.get(category.name) : "";
+        const categoryName = categoryId
+          ? (categoriesMap.get(categoryId) ?? "")
+          : "";
 
         return {
           id,

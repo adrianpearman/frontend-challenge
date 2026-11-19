@@ -19,7 +19,7 @@ export const BillsOverview = () => {
   } = useQuery(
     createFetchOccurrences({
       params: {
-        kind: "",
+        kind: "bill",
         from: today.toLocaleDateString("en-CA"),
         to: in30Days.toLocaleDateString("en-CA"),
       },
@@ -57,13 +57,14 @@ export const BillsOverview = () => {
     return "error";
   }
 
+  // Bill amounts are negative, so a bill-only net is already money out.
   const differentialIncomeBilling =
-    (incomeData?.totals.net ?? 0) - (billData?.totals.net ?? 0);
+    (incomeData?.totals.net ?? 0) + (billData?.totals.net ?? 0);
 
   return (
     <OverviewItemsContainer>
       <OverviewItem
-        content={billData?.totals.net ?? 0}
+        content={billData?.totals.outflow ?? 0}
         subContent={
           <p
             className={cn(
@@ -100,7 +101,7 @@ export const BillsOverview = () => {
           <p
             className={cn(
               "text-body-small",
-              (incomeData?.totals.net ?? 0) > 0
+              differentialIncomeBilling >= 0
                 ? "text-text-success"
                 : "text-text-error",
             )}

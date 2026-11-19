@@ -24,7 +24,7 @@ const getEarliestMonth = ({
 
 export const Expenses = () => {
   const [currentMonth, setCurrentMonth] = useState<string>(() =>
-    new Date().toISOString().slice(0, 7),
+    new Date().toLocaleDateString("en-CA").slice(0, 7),
   );
   const [selectedAccount, setSelectedAccount] = useState<string>("all");
   const { data, isError, isLoading } = useQuery(
