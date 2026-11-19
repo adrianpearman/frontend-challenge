@@ -71,8 +71,9 @@ All of this is defined as design tokens in `client/src/assets/styles/styles.css`
 - **Finish the two partial stories:**
   - an "as of" date picker on account details, with a balance-over-time chart (data from `balances/history`)
   - a budget projection screen built on `/projections`
+- **Add a budget planning screen** expand on the budget planning and provide a user with dedicated views for future planning 
 - **URL state on Bills:** keep the timeframe and kind filters in the URL, as Accounts and Expenses already do.
-- **Tests:** unit tests for the pure helpers (`validate*Search`, `convertCurrency`, `expensesReportQuery`), then component tests for the drawer forms.
+- **Tests:** unit tests for the pure helpers (`validate*Search`, `convertCurrency`, `expensesReportQuery`), then component tests for the drawer forms and util functions.
 - **Precise cache updates:** scope the remaining mutations to the query keys they affect instead of clearing the whole cache.
 - **Product features:**
   - transfers between accounts
