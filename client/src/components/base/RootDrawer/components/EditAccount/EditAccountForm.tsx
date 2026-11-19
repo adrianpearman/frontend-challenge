@@ -121,7 +121,16 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
                 <form.AppField
                   key={name}
                   name={name}
-                  children={(f) => <f.TextField {...props} />}
+                  children={(f) =>
+                    props.type === "date" ? (
+                      <f.DatePickerField
+                        label={props.label}
+                        description={props.description}
+                      />
+                    ) : (
+                      <f.TextField {...props} />
+                    )
+                  }
                 />
               ))}
               <form.Field
