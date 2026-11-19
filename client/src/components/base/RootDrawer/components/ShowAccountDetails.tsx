@@ -54,8 +54,10 @@ export const ShowAccountDetails = () => {
   const isLoading = transactionsLoading || accountsDataLoading;
 
   const handleNavigate = () => {
+    // Open the accounts page already filtered to this account.
     navigate({
       to: "/accounts",
+      search: { account: accountID ?? undefined },
     });
 
     baseUIStoreActions.closeDrawer();

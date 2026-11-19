@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { format, subDays } from "date-fns";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { format, parseISO, subDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { FilterDropdown } from "@/components/base";
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
@@ -17,14 +17,16 @@ import {
   createFetchCategories,
   createFetchRecentTransactions,
 } from "@/utils/api/requests";
+import {
+  type AccountsSearch,
+  PAGE_SIZES,
+} from "@/features/Accounts/utils/accountsSearch";
 import type { TransactionStatus } from "@/utils/types";
 import { formatDate } from "@/utils/functions";
 
-type PageSize = 50 | 100 | 150;
-
-const PAGE_SIZE_OPTIONS = [50, 100, 150].map((size) => ({
+const PAGE_SIZE_OPTIONS = PAGE_SIZES.map((size) => ({
   label: String(size),
-  value: size as PageSize,
+  value: size,
 }));
 
 // "all" is a UI-only value; it is sent as no filter.
@@ -52,32 +54,38 @@ export const AccountsTable = ({
   currentAccount,
   numberOfAccounts,
 }: AccountsTableProps) => {
-  const [pageSize, setPageSize] = useState<PageSize>(50);
-  const [status, setStatus] = useState<TransactionStatus | typeof ALL>(ALL);
-  const [categoryId, setCategoryId] = useState<string>(ALL);
-  // Default: the two weeks ending today.
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(() => {
-    const today = new Date();
-    return { from: subDays(today, 13), to: today };
-  });
+  const search = useSearch({ from: "/accounts" });
+  const navigate = useNavigate({ from: "/accounts" });
+
+  const pageSize = search.pageSize ?? 50;
+  const status = search.status ?? ALL;
+  const categoryId = search.category ?? ALL;
+  const page = search.page ?? 1;
+
+  // No dates in the URL means the default: the two weeks ending today.
+  const today = new Date();
+  const dateRange: DateRange | undefined =
+    search.from || search.to
+      ? {
+          from: search.from ? parseISO(search.from) : undefined,
+          to: search.to ? parseISO(search.to) : undefined,
+        }
+      : { from: subDays(today, 13), to: today };
 
   // While a new range is half-picked (only `from`), query that single day.
   const from = dateRange?.from ? toIsoDate(dateRange.from) : undefined;
   const to = dateRange?.to ? toIsoDate(dateRange.to) : from;
 
-  // The page is remembered per filter combination, so any filter change (including the account) starts at page 1.
-  const filterKey = [
-    currentAccount,
-    categoryId,
-    status,
-    pageSize,
-    from,
-    to,
-  ].join("|");
-  const [paging, setPaging] = useState({ filterKey, page: 1 });
-  const page = paging.filterKey === filterKey ? paging.page : 1;
+  // Any filter change starts at page 1, so `page` is dropped from the URL.
+  const setFilters = (patch: Partial<AccountsSearch>) =>
+    navigate({ search: (prev) => ({ ...prev, ...patch, page: undefined }) });
   const goToPage = (nextPage: number) =>
-    setPaging({ filterKey, page: nextPage });
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        page: nextPage > 1 ? nextPage : undefined,
+      }),
+    });
 
   const { data, isError, isLoading } = useQuery({
     ...createFetchRecentTransactions({
@@ -117,7 +125,9 @@ export const AccountsTable = ({
         <div className="flex gap-2 flex-wrap  items-center max-[600px]:flex-1 max-[600px]:flex-col max-[600px]:items-stretch  max-[600px]:w-full">
           <FilterDropdown
             label="Status"
-            onChange={setStatus}
+            onChange={(value) =>
+              setFilters({ status: value === ALL ? undefined : value })
+            }
             options={STATUS_OPTIONS}
             triggerLabel={
               STATUS_OPTIONS.find((o) => o.value === status)?.label ??
@@ -127,7 +137,9 @@ export const AccountsTable = ({
           />
           <FilterDropdown
             label="Category"
-            onChange={setCategoryId}
+            onChange={(value) =>
+              setFilters({ category: value === ALL ? undefined : value })
+            }
             options={categoryOptions}
             triggerLabel={
               categoryOptions.find((o) => o.value === categoryId)?.label ??
@@ -137,7 +149,9 @@ export const AccountsTable = ({
           />
           <FilterDropdown
             label="Results per page"
-            onChange={setPageSize}
+            onChange={(value) =>
+              setFilters({ pageSize: value === 50 ? undefined : value })
+            }
             options={PAGE_SIZE_OPTIONS}
             triggerLabel={`${pageSize} per page`}
             value={pageSize}
@@ -158,7 +172,12 @@ export const AccountsTable = ({
                 disabled={{ after: new Date() }}
                 mode="range"
                 numberOfMonths={2}
-                onSelect={setDateRange}
+                onSelect={(range) =>
+                  setFilters({
+                    from: range?.from ? toIsoDate(range.from) : undefined,
+                    to: range?.to ? toIsoDate(range.to) : undefined,
+                  })
+                }
                 selected={dateRange}
               />
             </PopoverContent>

@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { BaseLayoutComponent, BaseFeatureComponent } from "@/components/base";
 import {
   AccountsHeader,
@@ -9,8 +9,21 @@ import {
 import { createFetchAccounts } from "@/utils/api/requests";
 
 export const Accounts = () => {
-  const [currentAccount, setCurrentAccount] = useState<string>("");
-  const [showArchived, setShowArchived] = useState(false);
+  const search = useSearch({ from: "/accounts" });
+  const navigate = useNavigate({ from: "/accounts" });
+  const currentAccount = search.account ?? "";
+  const showArchived = search.archived ?? false;
+
+  // Changing the account starts the table at page 1.
+  const setCurrentAccount = (id: string) =>
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        account: id || undefined,
+        page: undefined,
+      }),
+    });
+
   const { data, isError, isLoading } = useQuery(
     createFetchAccounts({
       params: showArchived ? { includeArchived: true } : undefined,
@@ -29,11 +42,17 @@ export const Accounts = () => {
           currentAccount={currentAccount}
           resetStateFn={handleResetSelectedAccounts}
           showArchived={showArchived}
-          toggleShowArchivedFn={() => {
+          toggleShowArchivedFn={() =>
             // A selected archived account would vanish when hiding, so clear the selection.
-            setShowArchived((v) => !v);
-            setCurrentAccount("");
-          }}
+            navigate({
+              search: (prev) => ({
+                ...prev,
+                archived: !showArchived || undefined,
+                account: undefined,
+                page: undefined,
+              }),
+            })
+          }
         />
         <AccountSelection
           accounts={(data && data.data) ?? []}

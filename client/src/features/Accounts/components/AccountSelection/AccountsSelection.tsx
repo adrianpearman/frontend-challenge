@@ -1,4 +1,4 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState } from "react";
 import { EllipsisVerticalIcon } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
@@ -27,7 +27,7 @@ type AccountSelectionProps = {
   currentAccount: string;
   isError: boolean;
   isLoading: boolean;
-  updateStateFn: Dispatch<SetStateAction<string>>;
+  updateStateFn: (accountId: string) => void;
 };
 
 export const AccountSelection = ({
