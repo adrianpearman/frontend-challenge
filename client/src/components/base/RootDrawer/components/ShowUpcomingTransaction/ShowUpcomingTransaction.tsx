@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   ErrorLoadingDrawerComponent,
-  LoadingDrawerDetails,
+  LoadingDetails,
 } from "@/components/base/RootDrawer/components";
 import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
@@ -68,7 +68,7 @@ export const ShowUpcomingTransaction = () => {
   }
 
   if (isLoading) {
-    return <LoadingDrawerDetails />;
+    return <LoadingDetails />;
   }
 
   return (

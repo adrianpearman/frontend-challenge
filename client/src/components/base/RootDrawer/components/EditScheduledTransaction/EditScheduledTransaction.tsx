@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
-import { LoadingDrawerDetails } from "@/components/base/RootDrawer/components/LoadingDrawerDetails";
+import { LoadingDetails } from "@/components/base/RootDrawer/components";
 import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent";
 import { formSchema } from "@/components/base/RootDrawer/components/EditScheduledTransaction/utils/formSchema";
 import { Button } from "@/components/vendors/Buttons";
@@ -54,7 +54,7 @@ export const EditScheduledTransaction = () => {
   if (!transactionID) return null;
   if (isError)
     return <ErrorLoadingDrawerComponent drawerName="scheduled transaction" />;
-  if (isLoading || !data) return <LoadingDrawerDetails />;
+  if (isLoading || !data) return <LoadingDetails />;
 
   // Mounted only once the item has loaded so the form's defaultValues are the real values.
   return <EditScheduledTransactionForm item={data.data} />;

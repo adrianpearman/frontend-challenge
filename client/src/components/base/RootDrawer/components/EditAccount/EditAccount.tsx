@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import {
   ErrorLoadingDrawerComponent,
-  LoadingDrawerDetails,
+  LoadingDetails,
 } from "@/components/base/RootDrawer/components";
 import { EditAccountForm } from "@/components/base/RootDrawer/components/EditAccount/EditAccountForm";
 import { useBaseUIStore } from "@/store/BaseUIStore";
@@ -17,7 +17,7 @@ export const EditAccount = () => {
 
   if (!accountID) return null;
   if (isError) return <ErrorLoadingDrawerComponent drawerName="account" />;
-  if (isLoading || !data) return <LoadingDrawerDetails />;
+  if (isLoading || !data) return <LoadingDetails />;
 
   // Mounted only once the account has loaded so the form's defaultValues are the real values.
   return <EditAccountForm account={data.data} />;

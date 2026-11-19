@@ -3,7 +3,7 @@ export { CreateAccountForm } from "@/components/base/RootDrawer/components/Creat
 export { CreateCategoryForm } from "@/components/base/RootDrawer/components/CreateCategoryForm";
 export { EditAccount } from "@/components/base/RootDrawer/components/EditAccount";
 export { EditScheduledTransaction } from "@/components/base/RootDrawer/components/EditScheduledTransaction";
-export { LoadingDrawerDetails } from "@/components/base/RootDrawer/components/LoadingDrawerDetails";
+export { LoadingDetails } from "@/components/base/RootDrawer/components/LoadingDetails";
 export { ShowAccountDetails } from "@/components/base/RootDrawer/components/ShowAccountDetails";
 export { ShowTransaction } from "@/components/base/RootDrawer/components/ShowTransaction";
 export { ShowUpcomingTransaction } from "@/components/base/RootDrawer/components/ShowUpcomingTransaction";

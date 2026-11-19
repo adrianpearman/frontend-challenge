@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useBaseUIStore } from "@/store/BaseUIStore";
 import {
   ErrorLoadingDrawerComponent,
-  LoadingDrawerDetails,
+  LoadingDetails,
 } from "@/components/base/RootDrawer/components";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
 import { createFetchTransaction } from "@/utils/api/requests";
@@ -38,7 +38,7 @@ export const ShowTransaction = () => {
   const isLoading = isFetchLoading || transactionFetchingLoading;
 
   if (isLoading) {
-    return <LoadingDrawerDetails />;
+    return <LoadingDetails />;
   }
 
   if (isError) {
