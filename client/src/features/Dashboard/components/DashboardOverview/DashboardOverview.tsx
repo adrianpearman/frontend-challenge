@@ -13,15 +13,19 @@ import { formatDate } from "@/utils/functions";
 export const DashboardOverview = () => {
   const { dataUpdatedAt } = useQuery(createFetchAccounts({}));
 
+  const displayedUpdateValue = dataUpdatedAt
+    ? `Updated at: ${formatDate({
+        date: dataUpdatedAt,
+        showTime: true,
+        showYear: true,
+      })}`
+    : "Unable to fetch data";
+
   return (
     <div className="flex flex-col gap-4">
       <PageHeader
         title="Overview"
-        description={`Updated at: ${formatDate({
-          date: dataUpdatedAt,
-          showTime: true,
-          showYear: true,
-        })}`}
+        description={displayedUpdateValue}
         actions={
           <Button
             onClick={() => baseUIStoreActions.openDrawer("add_expense")}
