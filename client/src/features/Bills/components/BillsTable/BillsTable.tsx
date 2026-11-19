@@ -2,6 +2,7 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   Button,
+  buttonVariants,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -61,13 +62,13 @@ export const BillsTable = () => {
           })}
         </div>
         <div className="flex gap-2 items-center">
-          <Button variant="secondary">
+          <div className={buttonVariants({ variant: "secondary" })}>
             <span>{formatDate({ date: formattedDate, showYear: true })}</span>{" "}
             to{" "}
             <span>
               {formatDate({ date: formattedEndDate, showYear: true })}
             </span>
-          </Button>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger
               render={<Button variant="default">Select Timeframe</Button>}
