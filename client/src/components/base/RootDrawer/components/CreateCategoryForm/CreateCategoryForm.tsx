@@ -1,13 +1,13 @@
 import { useSelector } from "@tanstack/react-form";
+import {
+  CATEGORY_KIND_OPTIONS,
+  CREATE_CATEGORY_FORM_ID,
+} from "@/components/base/RootDrawer/utils/consts";
 import { useAppForm } from "@/components/base/AppForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
-import {
-  FORM_ID,
-  KIND_OPTIONS,
-} from "@/components/base/RootDrawer/components/CreateCategoryForm/utils/consts";
 import {
   Accordion,
   AccordionContent,
@@ -93,7 +93,7 @@ export const CreateCategoryForm = () => {
         </CardHeader>
         <CardContent>
           <form
-            id={FORM_ID}
+            id={CREATE_CATEGORY_FORM_ID}
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -111,7 +111,7 @@ export const CreateCategoryForm = () => {
                 children={(f) => (
                   <f.SelectField
                     label="Kind"
-                    options={KIND_OPTIONS}
+                    options={CATEGORY_KIND_OPTIONS}
                     placeholder="Select a kind"
                     // The old parent belongs to the other kind.
                     onValueChange={() => form.setFieldValue("parentId", "")}
@@ -164,7 +164,11 @@ export const CreateCategoryForm = () => {
           <Button type="button" variant="outline" onClick={handleResetButton}>
             Reset
           </Button>
-          <Button type="submit" form={FORM_ID} disabled={isPending}>
+          <Button
+            type="submit"
+            form={CREATE_CATEGORY_FORM_ID}
+            disabled={isPending}
+          >
             {isPending ? "Saving…" : "Create category"}
           </Button>
         </Field>

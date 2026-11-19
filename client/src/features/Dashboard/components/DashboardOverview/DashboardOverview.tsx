@@ -27,12 +27,20 @@ export const DashboardOverview = () => {
         title="Overview"
         description={displayedUpdateValue}
         actions={
-          <Button
-            onClick={() => baseUIStoreActions.openDrawer("add_expense")}
-            variant="secondary"
-          >
-            Add Expense
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => baseUIStoreActions.openDrawer("add_upcoming")}
+              variant="secondary"
+            >
+              Add Scheduled Item
+            </Button>
+            <Button
+              onClick={() => baseUIStoreActions.openDrawer("add_expense")}
+              variant="default"
+            >
+              Add Expense
+            </Button>
+          </div>
         }
       />
       <OverviewItemsContainer>

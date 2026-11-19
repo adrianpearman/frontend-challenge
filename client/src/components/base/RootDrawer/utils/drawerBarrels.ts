@@ -21,6 +21,11 @@ export const DRAWERS: Record<
       (m) => ({ default: m.AddExpenseForm }),
     ),
   ),
+  add_upcoming: lazy(() =>
+    import("@/components/base/RootDrawer/components/CreateScheduledItemForm/CreateScheduledItemForm").then(
+      (m) => ({ default: m.CreateScheduledItemForm }),
+    ),
+  ),
   edit_account: lazy(() =>
     import("@/components/base/RootDrawer/components/EditAccount/EditAccount").then(
       (m) => ({ default: m.EditAccount }),
@@ -37,7 +42,7 @@ export const DRAWERS: Record<
     ),
   ),
   show_account: lazy(() =>
-    import("@/components/base/RootDrawer/components/ShowAccountDetails").then(
+    import("@/components/base/RootDrawer/components/ShowAccountDetails/ShowAccountDetails").then(
       (m) => ({ default: m.ShowAccountDetails }),
     ),
   ),

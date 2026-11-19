@@ -1,11 +1,12 @@
 export { AddExpenseForm } from "@/components/base/RootDrawer/components/AddExpenseForm";
 export { CreateAccountForm } from "@/components/base/RootDrawer/components/CreateAccountForm";
+export { CreateScheduledItemForm } from "@/components/base/RootDrawer/components/CreateScheduledItemForm";
 export { CreateCategoryForm } from "@/components/base/RootDrawer/components/CreateCategoryForm";
 export { EditAccount } from "@/components/base/RootDrawer/components/EditAccount";
 export { EditScheduledTransaction } from "@/components/base/RootDrawer/components/EditScheduledTransaction";
 export { EditTransaction } from "@/components/base/RootDrawer/components/EditTransaction";
+export { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent/";
 export { LoadingDetails } from "@/components/base/LoadingDetails";
-export { ShowAccountDetails } from "@/components/base/RootDrawer/components/ShowAccountDetails";
+export { ShowAccountDetails } from "@/components/base/RootDrawer/components/ShowAccountDetails/ShowAccountDetails";
 export { ShowTransaction } from "@/components/base/RootDrawer/components/ShowTransaction";
 export { ShowUpcomingTransaction } from "@/components/base/RootDrawer/components/ShowUpcomingTransaction";
-export { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent";

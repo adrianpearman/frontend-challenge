@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
+import { splitTags } from "@/components/base/RootDrawer/utils/functions";
 
 // Mirrors the server's createSchema; amount is entered in dollars and converted to cents on submit.
 export const formSchema = z.object({

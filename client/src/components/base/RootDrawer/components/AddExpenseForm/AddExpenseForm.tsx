@@ -1,4 +1,8 @@
 import { useAppForm } from "@/components/base/AppForm";
+import {
+  ADD_EXPENSE_FORM_ID,
+  EXPENSE_STATUS_OPTIONS,
+} from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -18,12 +22,9 @@ import {
   Field,
   FieldGroup,
 } from "@/components/vendors";
-import {
-  FORM_ID,
-  STATUS_OPTIONS,
-} from "@/components/base/RootDrawer/components/AddExpenseForm/utils/consts";
 import { formSchema } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/formSchema";
-import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
+import { splitTags } from "@/components/base/RootDrawer/utils/functions";
+import { toLocalDate } from "@/utils/functions";
 import {
   createFetchCategories,
   createFetchAccounts,
@@ -32,8 +33,6 @@ import {
 } from "@/utils/api/requests";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import type { DropdownOption } from "@/utils/types";
-
-const today = () => new Date().toLocaleDateString("en-CA"); // local YYYY-MM-DD
 
 export const AddExpenseForm = () => {
   const { data: accounts } = useQuery(createFetchAccounts({}));
@@ -53,7 +52,7 @@ export const AddExpenseForm = () => {
   const form = useAppForm({
     defaultValues: {
       accountId: "",
-      date: today(),
+      date: toLocalDate(),
       amount: "",
       description: "",
       merchant: "",
@@ -110,7 +109,7 @@ export const AddExpenseForm = () => {
         </CardHeader>
         <CardContent>
           <form
-            id={FORM_ID}
+            id={ADD_EXPENSE_FORM_ID}
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -167,7 +166,7 @@ export const AddExpenseForm = () => {
                         [
                           ["categoryId", "Category", categoryOptions],
                           ["projectId", "Project", projectOptions],
-                          ["status", "Status", STATUS_OPTIONS],
+                          ["status", "Status", EXPENSE_STATUS_OPTIONS],
                         ] as const
                       ).map(([name, label, options]) => (
                         <form.AppField
@@ -214,7 +213,7 @@ export const AddExpenseForm = () => {
           <Button type="button" variant="outline" onClick={handleResetButton}>
             Reset
           </Button>
-          <Button type="submit" form={FORM_ID} disabled={isPending}>
+          <Button type="submit" form={ADD_EXPENSE_FORM_ID} disabled={isPending}>
             {isPending ? "Saving…" : "Add expense"}
           </Button>
         </Field>

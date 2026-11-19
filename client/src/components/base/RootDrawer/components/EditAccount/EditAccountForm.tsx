@@ -1,10 +1,15 @@
 import { useSelector } from "@tanstack/react-form";
+import {
+  ACCOUNT_TEXT_FIELDS,
+  ACCOUNT_TYPE_OPTIONS,
+  ARCHIVED_OPTIONS,
+  EDIT_ACCOUNT_FORM_ID,
+} from "@/components/base/RootDrawer/utils/consts";
 import { useAppForm } from "@/components/base/AppForm";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
-import { ACCOUNT_TYPE_OPTIONS } from "@/components/base/RootDrawer/components/CreateAccountForm/utils/consts";
 import { formSchema } from "@/components/base/RootDrawer/components/EditAccount/utils/formSchema";
 import {
   Button,
@@ -26,11 +31,6 @@ import {
 } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { updateAccountMutation } from "@/utils/api/requests";
-import {
-  ARCHIVED_OPTIONS,
-  FORM_ID,
-  TEXT_FIELDS,
-} from "@/components/base/RootDrawer/components/EditAccount/utils/consts";
 import { toCents, toDollars } from "@/utils/functions";
 import type { Account, AccountType } from "@/utils/types";
 
@@ -96,7 +96,7 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
         </CardHeader>
         <CardContent>
           <form
-            id={FORM_ID}
+            id={EDIT_ACCOUNT_FORM_ID}
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -113,7 +113,7 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
                   />
                 )}
               />
-              {TEXT_FIELDS.filter(
+              {ACCOUNT_TEXT_FIELDS.filter(
                 ({ name }) =>
                   name !== "creditLimit" || accountType === "credit_card",
               ).map(({ name, ...props }) => (
@@ -170,7 +170,11 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
           >
             Cancel
           </Button>
-          <Button type="submit" form={FORM_ID} disabled={isPending}>
+          <Button
+            type="submit"
+            form={EDIT_ACCOUNT_FORM_ID}
+            disabled={isPending}
+          >
             {isPending ? "Saving…" : "Save changes"}
           </Button>
         </Field>

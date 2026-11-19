@@ -1,10 +1,17 @@
 import { useAppForm } from "@/components/base/AppForm";
+import {
+  AUTO_PAY_OPTIONS,
+  EDIT_SCHEDULED_TRANSACTION_FORM_ID,
+  FREQUENCY_OPTIONS,
+  SCHEDULED_KIND_OPTIONS,
+  SCHEDULED_STATUS_OPTIONS,
+} from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
-import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent";
+import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent/ErrorLoadingDrawerComponent";
 import { formSchema } from "@/components/base/RootDrawer/components/EditScheduledTransaction/utils/formSchema";
 import { Button } from "@/components/vendors/Buttons";
 import {
@@ -26,23 +33,6 @@ import {
 } from "@/utils/api/requests";
 import { toDollars, toMinor } from "@/utils/functions";
 import type { DropdownOption, ScheduledItem } from "@/utils/types";
-
-const FORM_ID = "edit-scheduled-transaction-form";
-
-const opts = (values: string[]): DropdownOption[] =>
-  values.map((v) => ({ value: v, label: v[0].toUpperCase() + v.slice(1) }));
-
-const KIND_OPTIONS = opts(["bill", "income"]);
-const FREQUENCY_OPTIONS = opts([
-  "once",
-  "weekly",
-  "biweekly",
-  "monthly",
-  "quarterly",
-  "yearly",
-]);
-const STATUS_OPTIONS = opts(["active", "paused"]);
-const AUTO_PAY_OPTIONS = opts(["yes", "no"]);
 
 export const EditScheduledTransaction = () => {
   const transactionID = useBaseUIStore((state) => state.transactionID);
@@ -155,12 +145,12 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
   ] as const;
 
   const selectFields = [
-    ["kind", "Kind", KIND_OPTIONS, true],
+    ["kind", "Kind", SCHEDULED_KIND_OPTIONS, true],
     ["accountId", "Account", accountOptions, true],
     ["frequency", "Frequency", FREQUENCY_OPTIONS, true],
     ["categoryId", "Category", categoryOptions, false],
     ["projectId", "Project", projectOptions, false],
-    ["status", "Status", STATUS_OPTIONS, true],
+    ["status", "Status", SCHEDULED_STATUS_OPTIONS, true],
     ["autoPay", "Auto pay", AUTO_PAY_OPTIONS, true],
   ] as const;
 
@@ -175,7 +165,7 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
         </CardHeader>
         <CardContent>
           <form
-            id={FORM_ID}
+            id={EDIT_SCHEDULED_TRANSACTION_FORM_ID}
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -222,7 +212,11 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
           <Button type="button" variant="outline" onClick={backToDetails}>
             Cancel
           </Button>
-          <Button type="submit" form={FORM_ID} disabled={isPending}>
+          <Button
+            type="submit"
+            form={EDIT_SCHEDULED_TRANSACTION_FORM_ID}
+            disabled={isPending}
+          >
             {isPending ? "Saving…" : "Save changes"}
           </Button>
         </Field>

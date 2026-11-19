@@ -1,4 +1,9 @@
 import { useSelector } from "@tanstack/react-form";
+import {
+  ACCOUNT_TYPE_OPTIONS,
+  CREATE_ACCOUNT_FORM_ID,
+  CURRENCY_OPTIONS,
+} from "@/components/base/RootDrawer/utils/consts";
 import { useAppForm } from "@/components/base/AppForm";
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
@@ -20,11 +25,6 @@ import {
   FieldGroup,
 } from "@/components/vendors";
 import { formSchema } from "@/components/base/RootDrawer/components/CreateAccountForm/utils/formSchema";
-import {
-  ACCOUNT_TYPE_OPTIONS,
-  CURRENCY_OPTIONS,
-  FORM_ID,
-} from "@/components/base/RootDrawer/components/CreateAccountForm/utils/consts";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { createAccountMutation } from "@/utils/api/requests";
 import { toCents } from "@/utils/functions";
@@ -96,7 +96,7 @@ export const CreateAccountForm = () => {
         </CardHeader>
         <CardContent>
           <form
-            id={FORM_ID}
+            id={CREATE_ACCOUNT_FORM_ID}
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -190,7 +190,11 @@ export const CreateAccountForm = () => {
           <Button type="button" variant="outline" onClick={handleResetButton}>
             Reset
           </Button>
-          <Button type="submit" form={FORM_ID} disabled={isPending}>
+          <Button
+            type="submit"
+            form={CREATE_ACCOUNT_FORM_ID}
+            disabled={isPending}
+          >
             {isPending ? "Saving…" : "Create account"}
           </Button>
         </Field>

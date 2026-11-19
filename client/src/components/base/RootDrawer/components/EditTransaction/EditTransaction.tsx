@@ -1,11 +1,12 @@
 import { useAppForm } from "@/components/base/AppForm";
+import { EDIT_TRANSACTION_FORM_ID } from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
-import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent";
-import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
+import { ErrorLoadingDrawerComponent } from "@/components/base/RootDrawer/components/ErrorLoadingDrawerComponent/ErrorLoadingDrawerComponent";
+import { splitTags } from "@/components/base/RootDrawer/utils/functions";
 import { formSchema } from "@/components/base/RootDrawer/components/EditTransaction/utils/formSchema";
 import { Button } from "@/components/vendors/Buttons";
 import {
@@ -25,8 +26,6 @@ import {
   updateTransactionMutation,
 } from "@/utils/api/requests";
 import type { DropdownOption, Transaction } from "@/utils/types";
-
-const FORM_ID = "edit-transaction-form";
 
 export const EditTransaction = () => {
   const transactionID = useBaseUIStore((state) => state.transactionID);
@@ -102,7 +101,7 @@ const EditTransactionForm = ({ transaction }: { transaction: Transaction }) => {
         </CardHeader>
         <CardContent>
           <form
-            id={FORM_ID}
+            id={EDIT_TRANSACTION_FORM_ID}
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -145,7 +144,11 @@ const EditTransactionForm = ({ transaction }: { transaction: Transaction }) => {
           <Button type="button" variant="outline" onClick={backToDetails}>
             Cancel
           </Button>
-          <Button type="submit" form={FORM_ID} disabled={isPending}>
+          <Button
+            type="submit"
+            form={EDIT_TRANSACTION_FORM_ID}
+            disabled={isPending}
+          >
             {isPending ? "Saving…" : "Save changes"}
           </Button>
         </Field>

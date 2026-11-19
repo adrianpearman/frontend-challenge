@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
+import { splitTags } from "@/components/base/RootDrawer/utils/functions";
 
 // Only the user-editable fields; date, amount, status and account are fixed once a transaction exists.
 export const formSchema = z.object({

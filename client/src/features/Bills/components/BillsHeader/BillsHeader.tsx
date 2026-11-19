@@ -9,7 +9,7 @@ export const BillsHeader = () => {
       description="Scheduled future transactions feed your budget projections"
       actions={
         <Button
-          onClick={() => baseUIStoreActions.openDrawer("add_expense")}
+          onClick={() => baseUIStoreActions.openDrawer("add_upcoming")}
           variant="secondary"
         >
           Add Bill or Income
