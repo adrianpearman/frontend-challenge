@@ -19,6 +19,10 @@ export const Navigation = () => {
       name: "Expense Reports",
       to: "/expenses",
     },
+    {
+      name: "Budget Projection",
+      to: "/projections",
+    },
   ];
 
   return (

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountsRouteImport } from './routes/accounts'
 import { Route as BillsRouteImport } from './routes/bills'
 import { Route as ExpensesRouteImport } from './routes/expenses'
+import { Route as ProjectionsRouteImport } from './routes/projections'
 import { Route as SettingsRouteImport } from './routes/settings'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const ExpensesRoute = ExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectionsRoute = ProjectionsRouteImport.update({
+  id: '/projections',
+  path: '/projections',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/accounts': typeof AccountsRoute
   '/bills': typeof BillsRoute
   '/expenses': typeof ExpensesRoute
+  '/projections': typeof ProjectionsRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/accounts': typeof AccountsRoute
   '/bills': typeof BillsRoute
   '/expenses': typeof ExpensesRoute
+  '/projections': typeof ProjectionsRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,23 @@ export interface FileRoutesById {
   '/accounts': typeof AccountsRoute
   '/bills': typeof BillsRoute
   '/expenses': typeof ExpensesRoute
+  '/projections': typeof ProjectionsRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/accounts' | '/bills' | '/expenses' | '/settings'
+  fullPaths:
+    '/' | '/accounts' | '/bills' | '/expenses' | '/projections' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accounts' | '/bills' | '/expenses' | '/settings'
-  id: '__root__' | '/' | '/accounts' | '/bills' | '/expenses' | '/settings'
+  to: '/' | '/accounts' | '/bills' | '/expenses' | '/projections' | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/accounts'
+    | '/bills'
+    | '/expenses'
+    | '/projections'
+    | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +93,7 @@ export interface RootRouteChildren {
   AccountsRoute: typeof AccountsRoute
   BillsRoute: typeof BillsRoute
   ExpensesRoute: typeof ExpensesRoute
+  ProjectionsRoute: typeof ProjectionsRoute
   SettingsRoute: typeof SettingsRoute
 }
 
@@ -109,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExpensesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projections': {
+      id: '/projections'
+      path: '/projections'
+      fullPath: '/projections'
+      preLoaderRoute: typeof ProjectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -124,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountsRoute: AccountsRoute,
   BillsRoute: BillsRoute,
   ExpensesRoute: ExpensesRoute,
+  ProjectionsRoute: ProjectionsRoute,
   SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
