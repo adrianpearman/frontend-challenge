@@ -1,4 +1,12 @@
 import { isAxiosError } from "axios";
 
-export const networkErrorMessage = (error: unknown, fallback: string) =>
+type NetworkErrorMessageProps = {
+  error: unknown;
+  fallback: string;
+};
+
+export const networkErrorMessage = ({
+  error,
+  fallback,
+}: NetworkErrorMessageProps) =>
   (isAxiosError(error) && error.response?.data?.error?.message) || fallback;

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { deleteScheduledItemMutation } from "@/utils/api/requests";
@@ -16,6 +15,7 @@ import {
   AlertDialogTrigger,
   Button,
 } from "@/components/vendors";
+import { networkErrorMessage } from "@/utils/functions";
 
 type DeleteConfirmationAlertProps = {
   transaction: string;
@@ -37,8 +37,10 @@ export const DeleteConfirmationAlert = ({
       baseUIStoreActions.closeDrawer();
     } catch (error) {
       toast.error(
-        (isAxiosError(error) && error.response?.data?.error?.message) ||
-          "Could not delete the upcoming transaction.",
+        networkErrorMessage({
+          error,
+          fallback: "Could not delete the upcoming transaction.",
+        }),
       );
     }
   };

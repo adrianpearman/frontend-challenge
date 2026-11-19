@@ -7,7 +7,6 @@ import {
   SCHEDULED_STATUS_OPTIONS,
 } from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
@@ -31,7 +30,7 @@ import {
   createFetchScheduledItem,
   updateScheduledItemMutation,
 } from "@/utils/api/requests";
-import { toDollars, toMinor } from "@/utils/functions";
+import { toDollars, toMinor, networkErrorMessage } from "@/utils/functions";
 import type { DropdownOption, ScheduledItem } from "@/utils/types";
 
 export const EditScheduledTransaction = () => {
@@ -111,8 +110,10 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
         backToDetails();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not update the scheduled transaction.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not update the scheduled transaction.",
+          }),
         );
       }
     },

@@ -6,7 +6,6 @@ import {
 } from "@/components/base/RootDrawer/utils/consts";
 import { useAppForm } from "@/components/base/AppForm";
 import { useMutation } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import {
@@ -27,7 +26,7 @@ import {
 import { formSchema } from "@/components/base/RootDrawer/components/CreateAccountForm/utils/formSchema";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { createAccountMutation } from "@/utils/api/requests";
-import { toCents } from "@/utils/functions";
+import { toCents, networkErrorMessage } from "@/utils/functions";
 import type { AccountType, CurrencyCode } from "@/utils/types";
 
 export const CreateAccountForm = () => {
@@ -69,8 +68,10 @@ export const CreateAccountForm = () => {
         form.reset();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not create the account.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not create the account.",
+          }),
         );
       } finally {
         baseUIStoreActions.closeDrawer();

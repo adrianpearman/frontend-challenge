@@ -7,7 +7,6 @@ import {
   SCHEDULED_STATUS_OPTIONS,
 } from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import {
@@ -33,7 +32,7 @@ import {
   createScheduledItemMutation,
 } from "@/utils/api/requests";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import { toLocalDate, toMinor } from "@/utils/functions";
+import { toLocalDate, toMinor, networkErrorMessage } from "@/utils/functions";
 import type { DropdownOption } from "@/utils/types";
 
 export const CreateScheduledItemForm = () => {
@@ -93,8 +92,10 @@ export const CreateScheduledItemForm = () => {
         baseUIStoreActions.closeDrawer();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not add the scheduled item.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not add the scheduled item.",
+          }),
         );
       }
     },

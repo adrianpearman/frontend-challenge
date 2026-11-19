@@ -7,7 +7,6 @@ import {
 } from "@/components/base/RootDrawer/utils/consts";
 import { useAppForm } from "@/components/base/AppForm";
 import { useMutation } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import { formSchema } from "@/components/base/RootDrawer/components/EditAccount/utils/formSchema";
@@ -31,7 +30,7 @@ import {
 } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { updateAccountMutation } from "@/utils/api/requests";
-import { toCents, toDollars } from "@/utils/functions";
+import { toCents, toDollars, networkErrorMessage } from "@/utils/functions";
 import type { Account, AccountType } from "@/utils/types";
 
 export const EditAccountForm = ({ account }: { account: Account }) => {
@@ -76,8 +75,10 @@ export const EditAccountForm = ({ account }: { account: Account }) => {
         baseUIStoreActions.closeDrawer();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not update the account.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not update the account.",
+          }),
         );
       }
     },

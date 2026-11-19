@@ -4,7 +4,6 @@ import {
   EXPENSE_STATUS_OPTIONS,
 } from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import {
@@ -24,7 +23,7 @@ import {
 } from "@/components/vendors";
 import { formSchema } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/formSchema";
 import { splitTags } from "@/components/base/RootDrawer/utils/functions";
-import { toLocalDate } from "@/utils/functions";
+import { toLocalDate, networkErrorMessage } from "@/utils/functions";
 import {
   createFetchCategories,
   createFetchAccounts,
@@ -84,8 +83,10 @@ export const AddExpenseForm = () => {
         form.reset();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not add the expense.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not add the expense.",
+          }),
         );
       } finally {
         baseUIStoreActions.closeDrawer();

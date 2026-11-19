@@ -5,7 +5,6 @@ import {
 } from "@/components/base/RootDrawer/utils/consts";
 import { useAppForm } from "@/components/base/AppForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import {
@@ -30,6 +29,7 @@ import {
   createFetchCategories,
 } from "@/utils/api/requests";
 import type { DropdownOption } from "@/utils/types";
+import { networkErrorMessage } from "@/utils/functions";
 
 export const CreateCategoryForm = () => {
   const { mutateAsync, isPending } = useMutation(createCategoryMutation());
@@ -60,8 +60,10 @@ export const CreateCategoryForm = () => {
         form.reset();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not create the category.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not create the category.",
+          }),
         );
       } finally {
         baseUIStoreActions.closeDrawer();

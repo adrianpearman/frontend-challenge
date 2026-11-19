@@ -1,7 +1,6 @@
 import { useAppForm } from "@/components/base/AppForm";
 import { EDIT_TRANSACTION_FORM_ID } from "@/components/base/RootDrawer/utils/consts";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
@@ -26,6 +25,7 @@ import {
   updateTransactionMutation,
 } from "@/utils/api/requests";
 import type { DropdownOption, Transaction } from "@/utils/types";
+import { networkErrorMessage } from "@/utils/functions";
 
 export const EditTransaction = () => {
   const transactionID = useBaseUIStore((state) => state.transactionID);
@@ -78,8 +78,10 @@ const EditTransactionForm = ({ transaction }: { transaction: Transaction }) => {
         backToDetails();
       } catch (error) {
         toast.error(
-          (isAxiosError(error) && error.response?.data?.error?.message) ||
-            "Could not update the transaction.",
+          networkErrorMessage({
+            error,
+            fallback: "Could not update the transaction.",
+          }),
         );
       }
     },

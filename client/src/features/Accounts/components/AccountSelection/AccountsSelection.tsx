@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { EllipsisVerticalIcon } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
 import { deleteAccountMutation } from "@/utils/api/requests";
 import {
@@ -18,7 +17,7 @@ import {
   TruncateText,
 } from "@/components/base";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import { cn, formatDate } from "@/utils/functions";
+import { cn, formatDate, networkErrorMessage } from "@/utils/functions";
 import type { Account } from "@/utils/types";
 import { AccountSelectionDialog } from "./AccountSelectionDialog";
 
@@ -49,11 +48,12 @@ export const AccountSelection = ({
       if (currentAccount === accountToDelete.id) updateStateFn("");
       setAccountToDelete(null);
     } catch (error) {
-      const message =
-        (isAxiosError(error) && error.response?.data?.error?.message) ||
-        "Could not delete the account.";
-      console.error(message, error);
-      toast.error(message);
+      toast.error(
+        networkErrorMessage({
+          error,
+          fallback: "Could not delete the account.",
+        }),
+      );
     }
   };
 
