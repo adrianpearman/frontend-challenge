@@ -13,11 +13,8 @@ import {
   TableRow,
 } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import {
-  createFetchCategories,
-  createFetchDashboardMetrics,
-  createFetchRecentTransactions,
-} from "@/utils/api/requests";
+import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
+import { createFetchRecentTransactions } from "@/utils/api/requests";
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
 import type { TableCellType, TableRowItem } from "@/utils/types";
 
@@ -58,33 +55,19 @@ export const DashboardTransactions = () => {
   );
 
   const {
-    data: accountData,
-    isError: accountFetchingError,
-    isLoading: accountFetchingLoading,
-  } = useQuery(createFetchDashboardMetrics({}));
+    accountsMap,
+    categoriesMap,
+    isError: lookupsError,
+    isLoading: lookupsLoading,
+  } = useAccountsAndCategories();
 
-  const {
-    data: categoriesData,
-    isError: categoriesFetchingError,
-    isLoading: categoriesFetchingLoading,
-  } = useQuery(createFetchCategories({ params: {} }));
-
-  const isLoading =
-    transactionLoading || accountFetchingLoading || categoriesFetchingLoading;
-  const isError =
-    transactionError || accountFetchingError || categoriesFetchingError;
+  const isLoading = transactionLoading || lookupsLoading;
+  const isError = transactionError || lookupsError;
 
   const tableRows = useMemo(() => {
-    if (!transactionData || !accountData || !categoriesData) {
+    if (!transactionData) {
       return [];
     }
-
-    const accountsMap = new Map(
-      accountData.data.map((data) => [data.id, data.name]),
-    );
-    const categoriesMap = new Map(
-      categoriesData.data.map((data) => [data.id, data.name]),
-    );
 
     const formattedExpenses: TableRowItem[] = transactionData.data.map(
       (expense) => {
@@ -140,7 +123,7 @@ export const DashboardTransactions = () => {
     );
 
     return formattedExpenses;
-  }, [accountData, categoriesData, transactionData]);
+  }, [accountsMap, categoriesMap, transactionData]);
 
   const handleRowSelected = (row: TableRowItem) => {
     baseUIStoreActions.setTransactionID(row.id);
