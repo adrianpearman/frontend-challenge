@@ -1,6 +1,13 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { FilterDropdown, PageHeader } from "@/components/base";
-import { Button } from "@/components/vendors";
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/vendors";
+import { EditCategoriesDialog } from "@/features/Expenses/components/EditCategoriesDialog";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { shiftMonth, toLocalMonth } from "@/utils/functions";
 
@@ -28,6 +35,7 @@ export const ExpensesHeader = ({
   });
   // Same source as the initial state in Expenses, so they always agree.
   const isCurrentMonth = currentMonth >= toLocalMonth();
+  const [isEditCategoriesOpen, setIsEditCategoriesOpen] = useState(false);
 
   return (
     <PageHeader
@@ -35,14 +43,25 @@ export const ExpensesHeader = ({
       description="Spending by category per month"
       actions={
         <>
-          <div>
-            <Button
-              onClick={() => baseUIStoreActions.openDrawer("add_category")}
-              variant="secondary"
-            >
-              Add Category
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<Button variant="secondary">Categories</Button>}
+            />
+            <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuItem
+                onClick={() => baseUIStoreActions.openDrawer("add_category")}
+              >
+                Add category
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsEditCategoriesOpen(true)}>
+                Edit categories
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <EditCategoriesDialog
+            open={isEditCategoriesOpen}
+            onOpenChange={setIsEditCategoriesOpen}
+          />
           <Button
             aria-label="Previous month"
             disabled={
