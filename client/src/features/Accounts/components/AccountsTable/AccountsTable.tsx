@@ -77,6 +77,7 @@ export const AccountsTable = ({
   // While a new range is half-picked (only `from`), query that single day.
   const from = dateRange.from ? toIsoDate(dateRange.from) : undefined;
   const to = dateRange.to ? toIsoDate(dateRange.to) : from;
+  const dateLabel = `${formatDate({ date: from ?? "", showYear: true })} – ${formatDate({ date: to ?? from ?? "", showYear: true })}`;
 
   // Any filter change starts at page 1, so `page` is dropped from the URL.
   const setFilters = (patch: Partial<AccountsSearch>) =>
@@ -161,8 +162,11 @@ export const AccountsTable = ({
           <Popover>
             <PopoverTrigger
               render={
-                <Button variant="default">
-                  {`${formatDate({ date: from ?? "", showYear: true })} – ${formatDate({ date: to ?? from ?? "", showYear: true })}`}
+                <Button
+                  aria-label={`Date range: ${dateLabel}`}
+                  variant="default"
+                >
+                  {dateLabel}
                 </Button>
               }
             />

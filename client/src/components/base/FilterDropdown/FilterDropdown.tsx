@@ -32,7 +32,11 @@ export const FilterDropdown = <T extends string | number>({
 }: FilterDropdownProps<T>) => (
   <DropdownMenu>
     <DropdownMenuTrigger
-      render={<Button variant="secondary">{triggerLabel}</Button>}
+      render={
+        <Button aria-label={`${label}: ${triggerLabel}`} variant="secondary">
+          {triggerLabel}
+        </Button>
+      }
     />
     <DropdownMenuContent className={cn("w-48", dropdownClassName)}>
       <DropdownMenuGroup>

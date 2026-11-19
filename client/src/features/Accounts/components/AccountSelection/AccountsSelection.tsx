@@ -95,6 +95,7 @@ export const AccountSelection = ({
               currency={balance?.currency}
               key={account.id}
               onClickFn={() => updateStateFn(id)}
+              pressed={isSelected}
               subContent={
                 <p className="text-body-small">
                   Opened:{" "}
@@ -128,7 +129,7 @@ export const AccountSelection = ({
                       <DropdownMenuTrigger
                         render={
                           <Button
-                            aria-label="Account actions"
+                            aria-label={`Actions for ${name}`}
                             variant="secondary"
                             size="icon-sm"
                           >

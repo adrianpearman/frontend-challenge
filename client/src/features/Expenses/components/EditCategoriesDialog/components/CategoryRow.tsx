@@ -42,10 +42,18 @@ export const CategoryRow = ({
         <span className="text-body-small capitalize">({category.kind})</span>
       </span>
       <span className="flex gap-1 shrink-0">
-        <Button variant="secondary" onClick={() => setMode("edit")}>
+        <Button
+          aria-label={`Edit ${category.name}`}
+          variant="secondary"
+          onClick={() => setMode("edit")}
+        >
           Edit
         </Button>
-        <Button variant="destructive" onClick={() => setMode("delete")}>
+        <Button
+          aria-label={`Delete ${category.name}`}
+          variant="destructive"
+          onClick={() => setMode("delete")}
+        >
           Delete
         </Button>
       </span>

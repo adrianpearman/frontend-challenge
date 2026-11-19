@@ -51,6 +51,7 @@ export const BillsTable = () => {
             const isSelected = item === selectedScheduleItem;
             return (
               <Button
+                aria-pressed={isSelected}
                 className="capitalize"
                 key={item}
                 onClick={() => setSelectedScheduleItem(item)}

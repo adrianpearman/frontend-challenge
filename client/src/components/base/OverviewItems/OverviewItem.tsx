@@ -7,6 +7,7 @@ type OverviewItemProps = {
   content: number | string;
   currency?: CurrencyCode;
   onClickFn?: () => void;
+  pressed?: boolean;
   subContent: React.ReactNode;
   style?: CSSProperties;
   tabIndex?: number;
@@ -18,6 +19,7 @@ export const OverviewItem = ({
   content,
   currency = "CAD",
   onClickFn,
+  pressed,
   subContent,
   style,
   tabIndex = -1,
@@ -35,12 +37,14 @@ export const OverviewItem = ({
       className={cn(
         `flex-1 border border-neutral-border rounded-md p-4 flex flex-col gap-2 min-h-32 ${className}`,
       )}
+      aria-pressed={onClickFn ? pressed : undefined}
       onClick={handleClick}
       onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key !== "Enter" && e.key !== " ") return;
         e.preventDefault();
         handleClick();
       }}
+      role={onClickFn ? "button" : undefined}
       style={style}
       tabIndex={tabIndex}
     >
