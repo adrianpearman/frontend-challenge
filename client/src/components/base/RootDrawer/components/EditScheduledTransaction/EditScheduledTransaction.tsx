@@ -137,18 +137,20 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
       placeholder: "1200.00",
       description: "Positive number; the sign comes from the kind.",
     },
-    { name: "startDate", label: "Start date", type: "date" },
-    {
-      name: "endDate",
-      label: "End date",
-      type: "date",
-      description: "Leave empty to repeat indefinitely.",
-    },
     {
       name: "variance",
       label: "Variance",
       inputMode: "decimal",
       placeholder: "0.00",
+    },
+  ] as const;
+
+  const dateFields = [
+    { name: "startDate", label: "Start date" },
+    {
+      name: "endDate",
+      label: "End date",
+      description: "Leave empty to repeat indefinitely.",
     },
   ] as const;
 
@@ -185,6 +187,13 @@ const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
                   key={name}
                   name={name}
                   children={(f) => <f.TextField {...props} />}
+                />
+              ))}
+              {dateFields.map(({ name, ...props }) => (
+                <form.AppField
+                  key={name}
+                  name={name}
+                  children={(f) => <f.DatePickerField {...props} />}
                 />
               ))}
               {selectFields.map(([name, label, options, required]) => (
