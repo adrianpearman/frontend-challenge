@@ -27,6 +27,11 @@ export const DRAWERS: Record<
     ),
   ),
   edit_transaction: lazy(() =>
+    import("@/components/base/RootDrawer/components/EditTransaction/EditTransaction").then(
+      (m) => ({ default: m.EditTransaction }),
+    ),
+  ),
+  edit_upcoming: lazy(() =>
     import("@/components/base/RootDrawer/components/EditScheduledTransaction/EditScheduledTransaction").then(
       (m) => ({ default: m.EditScheduledTransaction }),
     ),

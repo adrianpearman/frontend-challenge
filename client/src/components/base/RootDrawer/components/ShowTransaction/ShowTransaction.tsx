@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useBaseUIStore } from "@/store/BaseUIStore";
+import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
 import {
   ErrorLoadingDrawerComponent,
   LoadingDetails,
@@ -7,6 +7,7 @@ import {
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
 import { createFetchTransaction } from "@/utils/api/requests";
 import { formatCurrency, formatDate } from "@/utils/functions";
+import { Button } from "@/components/vendors";
 
 export const ShowTransaction = () => {
   const today = new Date();
@@ -116,6 +117,15 @@ export const ShowTransaction = () => {
             </div>
           );
         })}
+      </div>
+      <div className="bg-background-secondary p-4 flex gap-1 justify-end mt-auto sticky bottom-0">
+        <Button
+          onClick={() =>
+            baseUIStoreActions.setDisplayedDrawerOptions("edit_transaction")
+          }
+        >
+          Edit Transaction
+        </Button>
       </div>
     </div>
   );

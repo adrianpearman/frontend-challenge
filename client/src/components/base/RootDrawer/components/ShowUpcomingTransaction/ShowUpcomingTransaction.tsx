@@ -60,7 +60,7 @@ export const ShowUpcomingTransaction = () => {
   ];
 
   const handleShowEditForm = () => {
-    baseUIStoreActions.setDisplayedDrawerOptions("edit_transaction");
+    baseUIStoreActions.setDisplayedDrawerOptions("edit_upcoming");
   };
 
   if (isError) {
