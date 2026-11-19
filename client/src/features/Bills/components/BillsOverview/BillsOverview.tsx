@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   OverviewItem,
   OverviewItemsContainer,
-  LoadingOverviewItem,
+  LoadingOverviewItems,
 } from "@/components/base";
 import { createFetchOccurrences } from "@/utils/api/requests";
 import { addDays, cn, toLocalDate } from "@/utils/functions";
@@ -43,13 +43,7 @@ export const BillsOverview = () => {
   const isLoading = fetchBillDataLoading || fetchIncomeDataLoading;
 
   if (isLoading) {
-    return (
-      <OverviewItemsContainer>
-        <LoadingOverviewItem />
-        <LoadingOverviewItem />
-        <LoadingOverviewItem />
-      </OverviewItemsContainer>
-    );
+    return <LoadingOverviewItems />;
   }
 
   if (isError) {
