@@ -11,8 +11,6 @@ export const RightYAxisComponents = ({
 }: YAxisTickContentProps & { data: CategoryChartDataObject[] }) => {
   const row = data[payload.index];
 
-  console.log(row);
-
   return (
     <foreignObject height={20} width={Number(width)} x={x} y={Number(y) - 10}>
       <div
