@@ -3,7 +3,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { format, subDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { FilterDropdown } from "@/components/base";
-import { LoadingDetails } from "@/components/base/RootDrawer/components";
+import { LoadingDetails } from "@/components/base/LoadingDetails";
 import {
   Button,
   Calendar,

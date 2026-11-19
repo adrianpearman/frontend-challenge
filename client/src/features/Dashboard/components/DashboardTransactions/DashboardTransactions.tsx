@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { LoadingDetails } from "@/components/base/RootDrawer/components/";
+import { LoadingDetails } from "@/components/base/LoadingDetails";
 import {
   buttonVariants,
   Table,

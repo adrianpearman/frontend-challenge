@@ -1,4 +1,4 @@
-import { LoadingDetails } from "@/components/base/RootDrawer/components";
+import { LoadingDetails } from "@/components/base/LoadingDetails";
 import { VirtualizedTable } from "@/components/vendors";
 import { RenderedBillTableColumns } from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
