@@ -1,10 +1,8 @@
 import { LoadingDetails } from "@/components/base/RootDrawer/components";
 import { VirtualizedTable } from "@/components/vendors";
-import {
-  type BillRow,
-  RenderedBillTableColumns,
-} from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
+import { RenderedBillTableColumns } from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
 import { useAccountsAndCategories } from "@/utils/api/hooks/useAccountsAndCategories";
+import type { BillRow } from "@/features/Bills/utils/types";
 import type { Occurrence } from "@/utils/types";
 
 type RenderedTableProps = {

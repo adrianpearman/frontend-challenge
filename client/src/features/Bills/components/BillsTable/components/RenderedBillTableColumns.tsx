@@ -1,13 +1,7 @@
 import { RenderedBillTableCell } from "@/features/Bills/components/BillsTable/components/RenderedBillTableCell";
-import type { VirtualizedTableColumn } from "@/components/vendors/Tables/VirtualizedTables";
-import type { Occurrence } from "@/utils/types";
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
-
-// An occurrence with its account and category ids resolved to display names.
-export type BillRow = Occurrence & {
-  accountName: string;
-  categoryName: string;
-};
+import type { VirtualizedTableColumn } from "@/components/vendors/Tables/VirtualizedTables";
+import type { BillRow } from "@/features/Bills/utils/types";
 
 // Module scope keeps references stable between renders.
 export const RenderedBillTableColumns: VirtualizedTableColumn<BillRow>[] = [
