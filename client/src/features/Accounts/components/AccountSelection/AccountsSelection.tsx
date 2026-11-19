@@ -14,6 +14,7 @@ import {
   LoadingOverviewItems,
   OverviewItem,
   OverviewItemsContainer,
+  SectionError,
   TruncateText,
 } from "@/components/base";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
@@ -62,11 +63,7 @@ export const AccountSelection = ({
   }
 
   if (isError) {
-    return (
-      <p className="text-body-small text-text-error">
-        Could not load accounts.
-      </p>
-    );
+    return <SectionError message="Could not load accounts." />;
   }
 
   return (
@@ -152,14 +149,12 @@ export const AccountSelection = ({
                           Edit account
                         </DropdownMenuItem>
                         {archivedAt !== null && (
-                          <>
-                            <DropdownMenuItem
-                              variant="destructive"
-                              onClick={() => setAccountToDelete(account)}
-                            >
-                              Delete account
-                            </DropdownMenuItem>
-                          </>
+                          <DropdownMenuItem
+                            variant="destructive"
+                            onClick={() => setAccountToDelete(account)}
+                          >
+                            Delete account
+                          </DropdownMenuItem>
                         )}
                       </DropdownMenuContent>
                     </DropdownMenu>

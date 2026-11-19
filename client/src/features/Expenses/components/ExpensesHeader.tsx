@@ -1,4 +1,5 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useState } from "react";
 import { FilterDropdown, PageHeader } from "@/components/base";
 import {
   Button,
@@ -9,32 +10,29 @@ import {
 } from "@/components/vendors";
 import { EditCategoriesDialog } from "@/features/Expenses/components/EditCategoriesDialog";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import { shiftMonth, toLocalMonth } from "@/utils/functions";
+import { useExpensesFilters } from "@/features/Expenses/utils/expensesSearch";
+import { shiftMonth } from "@/utils/functions";
 
-type ExpensesHeaderProps = {
-  accountOptions: { label: string; value: string }[];
-  currentMonth: string;
-  earliestMonth: string | undefined;
-  selectedAccount: string;
-  setCurrentMonth: Dispatch<SetStateAction<string>>;
-  setSelectedAccount: (id: string) => void;
-};
-
-export const ExpensesHeader = ({
-  accountOptions,
-  currentMonth,
-  earliestMonth,
-  selectedAccount,
-  setCurrentMonth,
-  setSelectedAccount,
-}: ExpensesHeaderProps) => {
+export const ExpensesHeader = () => {
+  const {
+    accounts,
+    currentMonth,
+    earliestMonth,
+    selectedAccount,
+    setAccount,
+    setMonth,
+    thisMonth,
+  } = useExpensesFilters();
+  const accountOptions = [
+    { label: "All accounts", value: "all" },
+    ...accounts.map(({ id, name }) => ({ label: name, value: id })),
+  ];
   const [year, m] = currentMonth.split("-").map(Number);
   const monthLabel = new Date(year, m - 1).toLocaleString("default", {
     month: "long",
     year: "numeric",
   });
-  // Same source as the initial state in Expenses, so they always agree.
-  const isCurrentMonth = currentMonth >= toLocalMonth();
+  const isCurrentMonth = currentMonth >= thisMonth;
   const [isEditCategoriesOpen, setIsEditCategoriesOpen] = useState(false);
 
   return (
@@ -68,23 +66,23 @@ export const ExpensesHeader = ({
               earliestMonth === undefined || currentMonth <= earliestMonth
             }
             variant="secondary"
-            onClick={() => setCurrentMonth((month) => shiftMonth(month, -1))}
+            onClick={() => setMonth(shiftMonth(currentMonth, -1))}
           >
-            {"<"}
+            <ChevronLeftIcon />
           </Button>
           <p className="text-body min-w-32 text-center">{monthLabel}</p>
           <Button
             aria-label="Next month"
             disabled={isCurrentMonth}
             variant="secondary"
-            onClick={() => setCurrentMonth((month) => shiftMonth(month, +1))}
+            onClick={() => setMonth(shiftMonth(currentMonth, 1))}
           >
-            {">"}
+            <ChevronRightIcon />
           </Button>
           <FilterDropdown
             dropdownClassName=" w-52"
             label="Account"
-            onChange={setSelectedAccount}
+            onChange={setAccount}
             options={accountOptions}
             triggerLabel={
               accountOptions.find(({ value }) => value === selectedAccount)

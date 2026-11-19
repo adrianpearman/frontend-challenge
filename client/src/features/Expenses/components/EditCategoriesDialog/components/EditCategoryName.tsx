@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button, Input } from "@/components/vendors";
-import { formSchema } from "@/components/base/RootDrawer/components/CreateCategoryForm/utils/formSchema";
+import { categoryNameSchema } from "@/utils/schemas/category";
 import { networkErrorMessage } from "@/utils/functions";
 import { updateCategoryMutation } from "@/utils/api/requests";
 import type { Category } from "@/utils/types";
@@ -21,14 +21,19 @@ export const EditCategoryName = ({
   const { mutateAsync, isPending } = useMutation(updateCategoryMutation());
 
   const handleSave = async () => {
-    const parsed = formSchema.shape.name.safeParse(name);
+    const parsed = categoryNameSchema.safeParse(name);
     if (!parsed.success) return setNameError(parsed.error.issues[0].message);
     try {
       await mutateAsync({ id: category.id, body: { name: parsed.data } });
       toast.success("Category updated.");
       onDone();
     } catch (error) {
-      toast.error(networkErrorMessage(error, "Could not update the category."));
+      toast.error(
+        networkErrorMessage({
+          error,
+          fallback: "Could not update the category.",
+        }),
+      );
     }
   };
 

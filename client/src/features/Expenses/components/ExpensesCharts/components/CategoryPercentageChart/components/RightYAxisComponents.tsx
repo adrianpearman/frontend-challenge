@@ -16,7 +16,7 @@ export const RightYAxisComponents = ({
       <div
         className="flex h-full items-center justify-end gap-3 pr-4 tabular-nums"
         style={{
-          color: "#666",
+          color: "var(--color-text-secondary)",
           fontFamily: "var(--font-display)",
           fontSize: "var(--text-body-small)",
         }}

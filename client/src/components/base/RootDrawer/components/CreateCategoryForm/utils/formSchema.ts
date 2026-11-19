@@ -1,12 +1,9 @@
 import * as z from "zod";
+import { categoryNameSchema } from "@/utils/schemas/category";
 
 // Mirrors the server's category createSchema; budget is entered in dollars and converted to cents on submit.
 export const formSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Name is required.")
-    .max(200, "Name must be at most 200 characters."),
+  name: categoryNameSchema,
   kind: z.enum(["expense", "income"], { message: "Select a kind." }),
   parentId: z.string(),
   monthlyBudget: z

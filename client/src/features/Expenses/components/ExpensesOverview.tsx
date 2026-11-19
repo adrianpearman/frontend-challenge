@@ -6,6 +6,7 @@ import {
   SectionError,
 } from "@/components/base";
 import { expensesReportQuery } from "@/features/Expenses/utils/expensesReportQuery";
+import { useExpensesFilters } from "@/features/Expenses/utils/expensesSearch";
 import {
   cn,
   formatCurrency,
@@ -13,21 +14,11 @@ import {
   safeDivide,
   shiftMonth,
 } from "@/utils/functions";
-import type { CategoryTotals, CurrencyCode } from "@/utils/types";
+import type { CategoryTotals } from "@/utils/types";
 
-type ExpensesOverviewProps = {
-  currency?: CurrencyCode;
-  currentMonth: string;
-  earliestMonth?: string;
-  selectedAccount: string;
-};
-
-export const ExpensesOverview = ({
-  currency,
-  currentMonth,
-  earliestMonth,
-  selectedAccount,
-}: ExpensesOverviewProps) => {
+export const ExpensesOverview = () => {
+  const { currency, currentMonth, earliestMonth, selectedAccount } =
+    useExpensesFilters();
   const hasPreviousMonth =
     earliestMonth !== undefined && currentMonth > earliestMonth;
   const previousMonth = shiftMonth(currentMonth, -1);
@@ -72,16 +63,16 @@ export const ExpensesOverview = ({
   const averagePerTransaction =
     safeDivide(currentOutflow, transactionCount) ?? 0;
 
+  if (isLoading) {
+    return <LoadingOverviewItems />;
+  }
+
   if (isError) {
     return (
       <OverviewItemsContainer>
         <SectionError message="Could not load the expense summary." />
       </OverviewItemsContainer>
     );
-  }
-
-  if (isLoading) {
-    return <LoadingOverviewItems />;
   }
 
   return (

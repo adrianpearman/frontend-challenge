@@ -11,7 +11,7 @@ import { RechartsDevtools } from "@recharts/devtools";
 import {
   LeftYAxisComponent,
   RightYAxisComponents,
-} from "@/features/Expenses/components/ExpensesCharts/components/CategoryPercentageChart/components/index.ts";
+} from "@/features/Expenses/components/ExpensesCharts/components/CategoryPercentageChart/components";
 import type { CategoryChartDataObject } from "@/features/Expenses/utils/types";
 
 const ROW_HEIGHT = 32; // bar (16) + gap
@@ -81,7 +81,7 @@ export const CategoryPercentageChart = ({
               <Rectangle {...props} fill={props.payload.color} />
             )}
           />
-          <RechartsDevtools />
+          {import.meta.env.DEV && <RechartsDevtools />}
         </BarChart>
       </div>
     </div>

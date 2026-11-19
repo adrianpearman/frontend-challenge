@@ -1,16 +1,16 @@
 import { cn } from "@/utils/functions";
 
-type RenderedBillTableCellProps = {
+type TableTextCellProps = {
   className?: string;
   content: string;
   pill?: boolean;
 };
 
-export const RenderedBillTableCell = ({
+export const TableTextCell = ({
   className = "",
   content,
   pill = false,
-}: RenderedBillTableCellProps) => {
+}: TableTextCellProps) => {
   return (
     <span
       className={cn(

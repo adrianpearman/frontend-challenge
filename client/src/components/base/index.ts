@@ -7,3 +7,5 @@ export { TruncateText } from "@/components/base/TruncateText";
 export { DatePicker } from "@/components/base/DatePicker";
 export { PageHeader } from "@/components/base/PageHeader";
 export { SectionError } from "@/components/base/SectionError";
+export { TableTextCell } from "@/components/base/TableTextCell";
+export * from "@/components/base/ClickableTable";

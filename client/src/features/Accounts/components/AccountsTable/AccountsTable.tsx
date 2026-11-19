@@ -3,7 +3,7 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { format, parseISO, subDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { FilterDropdown } from "@/components/base";
-import { LoadingDetails } from "@/components/base/RootDrawer/components";
+import { LoadingDetails } from "@/components/base/LoadingDetails";
 import {
   Button,
   Calendar,
@@ -62,19 +62,21 @@ export const AccountsTable = ({
   const categoryId = search.category ?? ALL;
   const page = search.page ?? 1;
 
-  // No dates in the URL means the default: the two weeks ending today.
+  // No dates in the URL means the default: the two weeks ending today, so a
+  // cleared range falls back to it and `from` is always set.
   const today = new Date();
-  const dateRange: DateRange | undefined =
+  const dateRange: DateRange =
     search.from || search.to
       ? {
-          from: search.from ? parseISO(search.from) : undefined,
+          // A `to`-only URL is treated as a single day.
+          from: parseISO((search.from ?? search.to) as string),
           to: search.to ? parseISO(search.to) : undefined,
         }
       : { from: subDays(today, 13), to: today };
 
   // While a new range is half-picked (only `from`), query that single day.
-  const from = dateRange?.from ? toIsoDate(dateRange.from) : undefined;
-  const to = dateRange?.to ? toIsoDate(dateRange.to) : from;
+  const from = dateRange.from ? toIsoDate(dateRange.from) : undefined;
+  const to = dateRange.to ? toIsoDate(dateRange.to) : from;
 
   // Any filter change starts at page 1, so `page` is dropped from the URL.
   const setFilters = (patch: Partial<AccountsSearch>) =>
@@ -160,15 +162,13 @@ export const AccountsTable = ({
             <PopoverTrigger
               render={
                 <Button variant="default">
-                  {from
-                    ? `${formatDate({ date: from, showYear: true })} – ${formatDate({ date: to ?? from, showYear: true })}`
-                    : "Select dates"}
+                  {`${formatDate({ date: from ?? "", showYear: true })} – ${formatDate({ date: to ?? from ?? "", showYear: true })}`}
                 </Button>
               }
             />
             <PopoverContent align="end" className="w-auto p-0">
               <Calendar
-                defaultMonth={dateRange?.from}
+                defaultMonth={dateRange.from}
                 disabled={{ after: new Date() }}
                 mode="range"
                 numberOfMonths={2}

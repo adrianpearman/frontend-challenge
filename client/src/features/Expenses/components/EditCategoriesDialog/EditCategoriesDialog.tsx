@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/vendors";
+import { LoadingDetails } from "@/components/base/LoadingDetails";
 import { CategoryRow } from "@/features/Expenses/components/EditCategoriesDialog/components";
 import { createFetchCategories } from "@/utils/api/requests";
 
@@ -35,7 +36,11 @@ export const EditCategoriesDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <ul className="flex flex-col gap-2 min-h-0 overflow-y-auto px-4">
-          {isLoading && <li className="text-body-small">Loading…</li>}
+          {isLoading && (
+            <li className="flex flex-col gap-2">
+              <LoadingDetails overrideLength={5} />
+            </li>
+          )}
           {isError && (
             <li className="text-body-small text-text-error">
               Could not load categories.

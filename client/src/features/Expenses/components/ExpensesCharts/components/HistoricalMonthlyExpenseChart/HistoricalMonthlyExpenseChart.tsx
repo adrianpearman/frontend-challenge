@@ -69,7 +69,7 @@ export const HistoricalMonthlyExpenseChart = ({
             position="top"
           />
         </Bar>
-        <RechartsDevtools />
+        {import.meta.env.DEV && <RechartsDevtools />}
       </BarChart>
     </div>
   );

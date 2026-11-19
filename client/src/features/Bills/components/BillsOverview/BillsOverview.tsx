@@ -64,26 +64,19 @@ export const BillsOverview = () => {
       <OverviewItem
         content={billData?.totals.outflow ?? 0}
         subContent={
-          <p
-            className={cn(
-              "text-body-small",
-              (billData?.totals.net ?? 0) > 0
-                ? "text-text-success"
-                : "text-text-error",
-            )}
-          >
+          <p className="text-body-small text-text-secondary">
             {billData?.totals.occurrenceCount ?? 0} source(s)
           </p>
         }
         title={<p className="text-body-small">Bills due (30 days)</p>}
       />
       <OverviewItem
-        content={incomeData?.totals.net ?? 0}
+        content={incomeData?.totals.inflow ?? 0}
         subContent={
           <p
             className={cn(
               "text-body-small",
-              (incomeData?.totals.net ?? 0) > 0
+              (incomeData?.totals.inflow ?? 0) > 0
                 ? "text-text-success"
                 : "text-text-error",
             )}

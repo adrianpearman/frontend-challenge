@@ -1,4 +1,4 @@
-import { RenderedBillTableCell } from "@/features/Bills/components/BillsTable/components/RenderedBillTableCell";
+import { TableTextCell } from "@/components/base/TableTextCell";
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
 import type { VirtualizedTableColumn } from "@/components/vendors/Tables/VirtualizedTables";
 import type { BillRow } from "@/features/Bills/utils/types";
@@ -7,14 +7,14 @@ import type { BillRow } from "@/features/Bills/utils/types";
 export const RenderedBillTableColumns: VirtualizedTableColumn<BillRow>[] = [
   {
     accessorKey: "name",
-    cell: ({ row }) => <RenderedBillTableCell content={row.original.name} />,
+    cell: ({ row }) => <TableTextCell content={row.original.name} />,
     header: "Name",
     size: 250,
   },
   {
     accessorKey: "kind",
     cell: ({ row }) => (
-      <RenderedBillTableCell
+      <TableTextCell
         className={cn(
           "capitalize",
           row.original.kind === "income" &&
@@ -30,23 +30,21 @@ export const RenderedBillTableColumns: VirtualizedTableColumn<BillRow>[] = [
   {
     accessorKey: "categoryName",
     cell: ({ row }) => (
-      <RenderedBillTableCell content={row.original.categoryName || "N/A"} />
+      <TableTextCell content={row.original.categoryName || "N/A"} />
     ),
     header: "Category",
     size: 110,
   },
   {
     accessorKey: "accountName",
-    cell: ({ row }) => (
-      <RenderedBillTableCell content={row.original.accountName} />
-    ),
+    cell: ({ row }) => <TableTextCell content={row.original.accountName} />,
     header: "Account",
     size: 200,
   },
   {
     accessorKey: "date",
     cell: ({ row }) => (
-      <RenderedBillTableCell
+      <TableTextCell
         content={formatDate({ date: row.original.date, showYear: true })}
       />
     ),
@@ -56,7 +54,7 @@ export const RenderedBillTableColumns: VirtualizedTableColumn<BillRow>[] = [
   {
     accessorKey: "amount",
     cell: ({ row }) => (
-      <RenderedBillTableCell
+      <TableTextCell
         className={cn(
           "",
           row.original.amount < 0 ? "text-text-error" : "text-text-success",

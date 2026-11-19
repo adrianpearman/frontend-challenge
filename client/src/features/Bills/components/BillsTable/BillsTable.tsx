@@ -47,12 +47,12 @@ export const BillsTable = () => {
     <div className="flex flex-col flex-1 border border-neutral-border rounded-md">
       <div className="flex flex-wrap gap-2 justify-between p-3 max-[500px]:flex-col">
         <div className="flex gap-2">
-          {SCHEDULED_ITEM_KINDS.map((item, i) => {
+          {SCHEDULED_ITEM_KINDS.map((item) => {
             const isSelected = item === selectedScheduleItem;
             return (
               <Button
                 className="capitalize"
-                key={`scheduled-item-button-${i}`}
+                key={item}
                 onClick={() => setSelectedScheduleItem(item)}
                 variant={isSelected ? "default" : "secondary"}
               >
@@ -80,11 +80,11 @@ export const BillsTable = () => {
                   value={dateRangeValue}
                   onValueChange={setDateRangeValue}
                 >
-                  {DATE_RANGES.map((date, i) => {
+                  {DATE_RANGES.map((date) => {
                     return (
                       <DropdownMenuRadioItem
                         closeOnClick
-                        key={`date-range-item-${i}`}
+                        key={date}
                         value={date}
                       >
                         {date} days

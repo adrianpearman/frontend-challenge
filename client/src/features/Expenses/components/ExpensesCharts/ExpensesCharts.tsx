@@ -8,26 +8,16 @@ import {
   LoadingCharts,
 } from "@/features/Expenses/components/ExpensesCharts";
 import { expensesReportQuery } from "@/features/Expenses/utils/expensesReportQuery";
+import { useExpensesFilters } from "@/features/Expenses/utils/expensesSearch";
 import { formatDate } from "@/utils/functions";
 import type {
   CategoryChartDataObject,
   ExpensesChartDataObject,
 } from "@/features/Expenses/utils/types";
-import type { CurrencyCode } from "@/utils/types";
 
-type ExpensesChartsProps = {
-  currency?: CurrencyCode;
-  currentMonth: string; // YYYY-MM
-  earliestMonth?: string; // YYYY-MM, undefined while accounts load
-  selectedAccount: string; // "all" = every account
-};
-
-export const ExpensesCharts = ({
-  currency,
-  currentMonth,
-  earliestMonth,
-  selectedAccount,
-}: ExpensesChartsProps) => {
+export const ExpensesCharts = () => {
+  const { currency, currentMonth, earliestMonth, selectedAccount } =
+    useExpensesFilters();
   const {
     data: { categoryData, historicalData } = {
       categoryData: [],
@@ -67,10 +57,6 @@ export const ExpensesCharts = ({
     },
   });
 
-  if (isError) {
-    return <ErrorCharts />;
-  }
-
   if (isLoading) {
     return (
       <div className="flex flex-col lg:flex-row gap-2">
@@ -78,6 +64,10 @@ export const ExpensesCharts = ({
         <LoadingCharts className="lg:w-1/3" />
       </div>
     );
+  }
+
+  if (isError) {
+    return <ErrorCharts />;
   }
 
   return (

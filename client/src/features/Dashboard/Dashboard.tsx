@@ -1,4 +1,4 @@
-import { BaseLayoutComponent } from "@/components/base/Layouts/BaseLayoutComponent";
+import { BaseLayoutComponent } from "@/components/base";
 import {
   DashboardAccountsAndBilling,
   DashboardOverview,

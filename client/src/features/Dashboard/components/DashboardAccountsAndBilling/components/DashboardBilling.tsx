@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { SectionError, TruncateText } from "@/components/base";
+import {
+  ClickableTable,
+  type ClickableTableRow,
+  SectionError,
+  TruncateText,
+} from "@/components/base";
 import { buttonVariants } from "@/components/vendors";
 import {
-  AccountsAndBillingTable,
-  type AccountsAndBillingRow,
   BalanceCell,
   LoadingTableComponent,
 } from "@/features/Dashboard/components/DashboardAccountsAndBilling/components/AccountsAndBillingTable";
@@ -12,12 +15,12 @@ import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { createFetchScheduledTransactions } from "@/utils/api/requests";
 import { formatDate } from "@/utils/functions";
 
-export const Billing = () => {
+export const DashboardBilling = () => {
   const { data, isError, isLoading } = useQuery(
     createFetchScheduledTransactions({}),
   );
 
-  const rows: AccountsAndBillingRow[] = (data?.data ?? [])
+  const rows: ClickableTableRow[] = (data?.data ?? [])
     .slice(0, 5)
     .map((row) => ({
       id: row.id,
@@ -33,12 +36,12 @@ export const Billing = () => {
     baseUIStoreActions.openDrawer("show_upcoming");
   };
 
-  if (isError) {
-    return <SectionError message="Could not load upcoming bills & income." />;
-  }
-
   if (isLoading) {
     return <LoadingTableComponent />;
+  }
+
+  if (isError) {
+    return <SectionError message="Could not load upcoming bills & income." />;
   }
 
   return (
@@ -51,7 +54,7 @@ export const Billing = () => {
           </Link>
         </div>
       </div>
-      <AccountsAndBillingTable
+      <ClickableTable
         onRowClick={handleRowClick}
         tableHeader={["Bill", "Date", "Amount"]}
         tableRows={rows}

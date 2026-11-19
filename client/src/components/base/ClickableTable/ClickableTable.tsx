@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -9,26 +10,30 @@ import {
 } from "@/components/vendors/Tables/NonVirtualizedTables";
 import { cn } from "@/utils/functions";
 
-export type AccountsAndBillingRow = { id: string; cells: ReactNode[] };
+// The last column is right-aligned (amounts).
+export type ClickableTableRow = { id: string; cells: ReactNode[] };
 
-type AccountsAndBillingTableProps = {
+type ClickableTableProps = {
+  caption?: string;
   onRowClick: (id: string) => void;
   tableHeader: string[];
-  tableRows: AccountsAndBillingRow[];
+  tableRows: ClickableTableRow[];
 };
 
 const cellClassName = "h-auto py-2 px-3 whitespace-normal";
 const rowClassName = "border-b-0 hover:bg-transparent";
 
-export const AccountsAndBillingTable = ({
+export const ClickableTable = ({
+  caption,
   onRowClick,
   tableHeader,
   tableRows,
-}: AccountsAndBillingTableProps) => {
+}: ClickableTableProps) => {
   const lastIndex = tableHeader.length - 1;
 
   return (
     <Table className="text-base">
+      {caption && <TableCaption className="my-2">{caption}</TableCaption>}
       <TableHeader className="[&_tr]:border-b-0">
         <TableRow
           className={cn(
