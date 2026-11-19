@@ -7,7 +7,7 @@ import {
   ExpensesHeader,
   ExpensesOverview,
 } from "@/features/Expenses/components";
-import { createFetchDashboardMetrics } from "@/utils/api/requests";
+import { createFetchAccounts } from "@/utils/api/requests";
 import { toLocalMonth } from "@/utils/functions";
 import type { Account } from "@/utils/types";
 
@@ -28,9 +28,7 @@ export const Expenses = () => {
     toLocalMonth(),
   );
   const [selectedAccount, setSelectedAccount] = useState<string>("all");
-  const { data, isError, isLoading } = useQuery(
-    createFetchDashboardMetrics({}),
-  );
+  const { data, isError, isLoading } = useQuery(createFetchAccounts({}));
 
   const accountOptions = [
     { label: "All accounts", value: "all" },

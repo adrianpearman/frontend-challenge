@@ -19,7 +19,7 @@ import { Field, FieldGroup } from "@/components/vendors/Field";
 import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
 import {
   createFetchCategories,
-  createFetchDashboardMetrics,
+  createFetchAccounts,
   createFetchProjects,
   createFetchScheduledItem,
   updateScheduledItemMutation,
@@ -61,7 +61,7 @@ export const EditScheduledTransaction = () => {
 };
 
 const EditScheduledTransactionForm = ({ item }: { item: ScheduledItem }) => {
-  const { data: accounts } = useQuery(createFetchDashboardMetrics({}));
+  const { data: accounts } = useQuery(createFetchAccounts({}));
   const { data: categories } = useQuery(createFetchCategories({}));
   const { data: projects } = useQuery(createFetchProjects({}));
   const { mutateAsync, isPending } = useMutation(updateScheduledItemMutation());

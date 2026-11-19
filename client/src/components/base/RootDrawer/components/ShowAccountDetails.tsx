@@ -14,7 +14,7 @@ import {
 } from "@/components/vendors";
 import { baseUIStoreActions, useBaseUIStore } from "@/store/BaseUIStore";
 import {
-  createFetchDashboardMetrics,
+  createFetchAccounts,
   createFetchRecentTransactions,
 } from "@/utils/api/requests";
 import { cn, formatCurrency, formatDate } from "@/utils/functions";
@@ -28,7 +28,7 @@ export const ShowAccountDetails = () => {
     data: accountsData,
     isError: accountsDataError,
     isLoading: accountsDataLoading,
-  } = useQuery(createFetchDashboardMetrics({}));
+  } = useQuery(createFetchAccounts({}));
 
   const accountsMap = new Map(
     (accountsData === undefined ? [] : accountsData.data).map(

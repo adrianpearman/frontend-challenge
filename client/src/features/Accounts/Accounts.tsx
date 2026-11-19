@@ -6,13 +6,13 @@ import {
   AccountSelection,
   AccountsTable,
 } from "@/features/Accounts/components";
-import { createFetchDashboardMetrics } from "@/utils/api/requests";
+import { createFetchAccounts } from "@/utils/api/requests";
 
 export const Accounts = () => {
   const [currentAccount, setCurrentAccount] = useState<string>("");
   const [showArchived, setShowArchived] = useState(false);
   const { data, isError, isLoading } = useQuery(
-    createFetchDashboardMetrics({
+    createFetchAccounts({
       params: showArchived ? { includeArchived: true } : undefined,
     }),
   );

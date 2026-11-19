@@ -26,7 +26,7 @@ import { formSchema } from "@/components/base/RootDrawer/components/AddExpenseFo
 import { splitTags } from "@/components/base/RootDrawer/components/AddExpenseForm/utils/functions";
 import {
   createFetchCategories,
-  createFetchDashboardMetrics,
+  createFetchAccounts,
   createFetchProjects,
   createTransactionMutation,
 } from "@/utils/api/requests";
@@ -36,7 +36,7 @@ import type { DropdownOption } from "@/utils/types";
 const today = () => new Date().toLocaleDateString("en-CA"); // local YYYY-MM-DD
 
 export const AddExpenseForm = () => {
-  const { data: accounts } = useQuery(createFetchDashboardMetrics({}));
+  const { data: accounts } = useQuery(createFetchAccounts({}));
   const { data: categories } = useQuery(
     createFetchCategories({ params: { kind: "expense" } }),
   );

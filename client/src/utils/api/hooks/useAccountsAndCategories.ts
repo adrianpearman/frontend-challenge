@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   createFetchCategories,
-  createFetchDashboardMetrics,
+  createFetchAccounts,
 } from "@/utils/api/requests";
 
 export const useAccountsAndCategories = () => {
-  const accounts = useQuery(createFetchDashboardMetrics({}));
+  const accounts = useQuery(createFetchAccounts({}));
   const categories = useQuery(createFetchCategories({ params: {} }));
 
   const accountsMap = useMemo(

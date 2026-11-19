@@ -2,13 +2,13 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingOverviewItem, OverviewItem } from "@/components/base";
 import { useBaseUIStore } from "@/store/BaseUIStore";
-import { createFetchDashboardMetrics } from "@/utils/api/requests";
+import { createFetchAccounts } from "@/utils/api/requests";
 import { CurrencyConversionMap } from "@/utils/consts";
 
 export const TotalBalance = () => {
   const selectedCurrency = useBaseUIStore((state) => state.selectedCurrency);
 
-  const { data, isLoading } = useQuery(createFetchDashboardMetrics({}));
+  const { data, isLoading } = useQuery(createFetchAccounts({}));
 
   const convertedTotalBalance = useMemo(() => {
     if (!data) {

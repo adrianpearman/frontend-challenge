@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/vendors";
 import {
-  LoadingOverviewItem,
+  LoadingOverviewItems,
   OverviewItem,
   OverviewItemsContainer,
   TruncateText,
@@ -58,13 +58,7 @@ export const AccountSelection = ({
   };
 
   if (isLoading) {
-    return (
-      <OverviewItemsContainer>
-        <LoadingOverviewItem />
-        <LoadingOverviewItem />
-        <LoadingOverviewItem />
-      </OverviewItemsContainer>
-    );
+    return <LoadingOverviewItems />;
   }
 
   if (isError) {

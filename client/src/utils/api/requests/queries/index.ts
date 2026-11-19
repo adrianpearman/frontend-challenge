@@ -115,7 +115,7 @@ export const createFetchCategoryBreakdown = (
     Parameters<typeof api.fetchCategoryBreakdown>[0]
   >("fetchCategoryBreakdown", api.fetchCategoryBreakdown, args);
 
-export const createFetchDashboardMetrics = (
+export const createFetchAccounts = (
   args: QueryArgs<api.AccountsParams>,
 ) =>
   createQuery<Collection<Account>, api.AccountsParams>(
