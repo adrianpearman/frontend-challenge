@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { OverviewItemsContainer } from "@/components/base";
+import { OverviewItemsContainer, PageHeader } from "@/components/base";
 import { Button } from "@/components/vendors";
 import {
   TotalBalance,
@@ -7,35 +7,30 @@ import {
   TotalCurrentMonthSpend,
 } from "@/features/Dashboard/components/DashboardOverview/components";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import { createFetchDashboardMetrics } from "@/utils/api/requests";
+import { createFetchAccounts } from "@/utils/api/requests";
 import { formatDate } from "@/utils/functions";
 
 export const DashboardOverview = () => {
-  const { dataUpdatedAt } = useQuery(createFetchDashboardMetrics({}));
+  const { dataUpdatedAt } = useQuery(createFetchAccounts({}));
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-h4">Overview</h1>
-          <p className="text-body-small">
-            Updated at:{" "}
-            {formatDate({
-              date: dataUpdatedAt,
-              showTime: true,
-              showYear: true,
-            })}
-          </p>
-        </div>
-        <div>
+      <PageHeader
+        title="Overview"
+        description={`Updated at: ${formatDate({
+          date: dataUpdatedAt,
+          showTime: true,
+          showYear: true,
+        })}`}
+        actions={
           <Button
             onClick={() => baseUIStoreActions.openDrawer("add_expense")}
             variant="secondary"
           >
             Add Expense
           </Button>
-        </div>
-      </div>
+        }
+      />
       <OverviewItemsContainer>
         <TotalBalance />
         <TotalCurrentMonthSpend />

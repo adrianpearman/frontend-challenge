@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { FilterDropdown } from "@/components/base";
+import { FilterDropdown, PageHeader } from "@/components/base";
 import { Button } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 import { shiftMonth, toLocalMonth } from "@/utils/functions";
@@ -30,51 +30,51 @@ export const ExpensesHeader = ({
   const isCurrentMonth = currentMonth >= toLocalMonth();
 
   return (
-    <div className="flex justify-between p-3">
-      <div className="flex flex-col">
-        <h1 className="text-h4">Expense Report</h1>
-        <p className="text-body-small">Spending by category per month</p>
-      </div>
-      <div className="flex gap-2 items-center">
-        <div>
+    <PageHeader
+      title="Expense Report"
+      description="Spending by category per month"
+      actions={
+        <>
+          <div>
+            <Button
+              onClick={() => baseUIStoreActions.openDrawer("add_category")}
+              variant="secondary"
+            >
+              Add Category
+            </Button>
+          </div>
           <Button
-            onClick={() => baseUIStoreActions.openDrawer("add_category")}
+            aria-label="Previous month"
+            disabled={
+              earliestMonth === undefined || currentMonth <= earliestMonth
+            }
             variant="secondary"
+            onClick={() => setCurrentMonth((month) => shiftMonth(month, -1))}
           >
-            Add Category
+            {"<"}
           </Button>
-        </div>
-        <Button
-          aria-label="Previous month"
-          disabled={
-            earliestMonth === undefined || currentMonth <= earliestMonth
-          }
-          variant="secondary"
-          onClick={() => setCurrentMonth((month) => shiftMonth(month, -1))}
-        >
-          {"<"}
-        </Button>
-        <p className="text-body min-w-32 text-center">{monthLabel}</p>
-        <Button
-          aria-label="Next month"
-          disabled={isCurrentMonth}
-          variant="secondary"
-          onClick={() => setCurrentMonth((month) => shiftMonth(month, +1))}
-        >
-          {">"}
-        </Button>
-        <FilterDropdown
-          dropdownClassName=" w-52"
-          label="Account"
-          onChange={setSelectedAccount}
-          options={accountOptions}
-          triggerLabel={
-            accountOptions.find(({ value }) => value === selectedAccount)
-              ?.label ?? "All accounts"
-          }
-          value={selectedAccount}
-        />
-      </div>
-    </div>
+          <p className="text-body min-w-32 text-center">{monthLabel}</p>
+          <Button
+            aria-label="Next month"
+            disabled={isCurrentMonth}
+            variant="secondary"
+            onClick={() => setCurrentMonth((month) => shiftMonth(month, +1))}
+          >
+            {">"}
+          </Button>
+          <FilterDropdown
+            dropdownClassName=" w-52"
+            label="Account"
+            onChange={setSelectedAccount}
+            options={accountOptions}
+            triggerLabel={
+              accountOptions.find(({ value }) => value === selectedAccount)
+                ?.label ?? "All accounts"
+            }
+            value={selectedAccount}
+          />
+        </>
+      }
+    />
   );
 };

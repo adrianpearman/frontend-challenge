@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/base";
 import { Button } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
 
@@ -15,13 +16,11 @@ export const AccountsHeader = ({
   toggleShowArchivedFn,
 }: AccountsHeaderProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-h4">Accounts & ledger</h1>
-          <p className="text-body-small">Every account and it's transactions</p>
-        </div>
-        <div className="flex gap-2">
+    <PageHeader
+      title="Accounts & ledger"
+      description="Every account and its transactions"
+      actions={
+        <>
           {currentAccount !== "" && (
             <Button onClick={resetStateFn} variant="outline">
               Show all account transactions
@@ -46,8 +45,8 @@ export const AccountsHeader = ({
           >
             Add Account
           </Button>
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    />
   );
 };
