@@ -27,14 +27,14 @@ export const EditCategoriesDialog = ({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="rounded-sm">
+      <AlertDialogContent className="rounded-sm w-[60vw] h-[75vh] grid-rows-[auto_1fr_auto] data-[size=default]:max-w-none data-[size=default]:sm:max-w-none">
         <AlertDialogHeader>
           <AlertDialogTitle>Edit categories</AlertDialogTitle>
           <AlertDialogDescription>
             Rename or delete a category.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <ul className="flex flex-col gap-2 max-h-96 overflow-y-auto px-4">
+        <ul className="flex flex-col gap-2 min-h-0 overflow-y-auto px-4">
           {isLoading && <li className="text-body-small">Loading…</li>}
           {isError && (
             <li className="text-body-small text-text-error">
