@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { BaseFeatureComponent, BaseLayoutComponent } from "@/components/base";
+import {
+  BaseFeatureComponent,
+  BaseLayoutComponent,
+  SectionError,
+} from "@/components/base";
 import { Skeleton } from "@/components/vendors";
 import {
   ExpensesCharts,
@@ -69,7 +73,13 @@ export const Expenses = () => {
   }
 
   if (isError) {
-    return <div>isError</div>;
+    return (
+      <BaseLayoutComponent>
+        <BaseFeatureComponent>
+          <SectionError message="Could not load accounts." />
+        </BaseFeatureComponent>
+      </BaseLayoutComponent>
+    );
   }
 
   return (

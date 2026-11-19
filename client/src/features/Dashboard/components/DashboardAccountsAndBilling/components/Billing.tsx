@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { TruncateText } from "@/components/base";
+import { SectionError, TruncateText } from "@/components/base";
 import { buttonVariants } from "@/components/vendors";
 import {
   AccountsAndBillingTable,
@@ -34,11 +34,7 @@ export const Billing = () => {
   };
 
   if (isError) {
-    return (
-      <p className="flex-1 border border-neutral-border rounded-md p-3 text-body-small text-text-error">
-        Could not load upcoming bills & income.
-      </p>
-    );
+    return <SectionError message="Could not load upcoming bills & income." />;
   }
 
   if (isLoading) {

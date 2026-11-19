@@ -3,7 +3,10 @@ import {
   CategoryPercentageChart,
   HistoricalMonthlyExpenseChart,
 } from "@/features/Expenses/components/ExpensesCharts/components";
-import { LoadingCharts } from "@/features/Expenses/components/ExpensesCharts";
+import {
+  ErrorCharts,
+  LoadingCharts,
+} from "@/features/Expenses/components/ExpensesCharts";
 import { expensesReportQuery } from "@/features/Expenses/utils/expensesReportQuery";
 import { formatDate } from "@/utils/functions";
 import type {
@@ -65,6 +68,7 @@ export const ExpensesCharts = ({
   });
 
   if (isError) {
+    return <ErrorCharts />;
   }
 
   if (isLoading) {

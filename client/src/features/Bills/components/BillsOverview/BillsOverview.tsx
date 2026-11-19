@@ -3,6 +3,7 @@ import {
   OverviewItem,
   OverviewItemsContainer,
   LoadingOverviewItems,
+  SectionError,
 } from "@/components/base";
 import { createFetchOccurrences } from "@/utils/api/requests";
 import { addDays, cn, toLocalDate } from "@/utils/functions";
@@ -47,7 +48,11 @@ export const BillsOverview = () => {
   }
 
   if (isError) {
-    return "error";
+    return (
+      <OverviewItemsContainer>
+        <SectionError message="Could not load bill & income totals." />
+      </OverviewItemsContainer>
+    );
   }
 
   // Bill amounts are negative, so a bill-only net is already money out.

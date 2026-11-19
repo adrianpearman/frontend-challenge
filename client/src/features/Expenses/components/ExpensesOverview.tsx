@@ -3,6 +3,7 @@ import {
   LoadingOverviewItems,
   OverviewItem,
   OverviewItemsContainer,
+  SectionError,
 } from "@/components/base";
 import { expensesReportQuery } from "@/features/Expenses/utils/expensesReportQuery";
 import {
@@ -74,7 +75,7 @@ export const ExpensesOverview = ({
   if (isError) {
     return (
       <OverviewItemsContainer>
-        <p>ERROr</p>
+        <SectionError message="Could not load the expense summary." />
       </OverviewItemsContainer>
     );
   }

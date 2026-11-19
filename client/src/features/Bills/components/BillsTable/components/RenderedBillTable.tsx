@@ -1,3 +1,4 @@
+import { SectionError } from "@/components/base";
 import { LoadingDetails } from "@/components/base/LoadingDetails";
 import { VirtualizedTable } from "@/components/vendors";
 import { RenderedBillTableColumns } from "@/features/Bills/components/BillsTable/components/RenderedBillTableColumns";
@@ -32,7 +33,13 @@ export const RenderedBillTable = ({
   }
 
   if (isError || lookupsError) {
-    return "";
+    // The parent card already draws the border.
+    return (
+      <SectionError
+        className="border-0"
+        message="Could not load bills & income."
+      />
+    );
   }
 
   const rows: BillRow[] = data.map((bill) => ({

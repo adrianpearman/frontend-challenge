@@ -1,8 +1,8 @@
-export const ErrorCharts = () => {
-  return (
-    <div className="flex flex-col w-full min-h-95 gap-3">
-      <p>asdasdasd</p>
-      <p>asdasdasd</p>
-    </div>
-  );
-};
+import { SectionError } from "@/components/base";
+
+export const ErrorCharts = () => (
+  <SectionError
+    className="min-h-95 flex items-center justify-center"
+    message="Could not load expense charts."
+  />
+);

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { TruncateText } from "@/components/base";
+import { SectionError, TruncateText } from "@/components/base";
 import {
   AccountsAndBillingTable,
   type AccountsAndBillingRow,
@@ -31,11 +31,7 @@ export const Accounts = () => {
   };
 
   if (isError) {
-    return (
-      <p className="flex-1 border border-neutral-border rounded-md p-3 text-body-small text-text-error">
-        Could not load accounts.
-      </p>
-    );
+    return <SectionError message="Could not load accounts." />;
   }
 
   if (isLoading) {

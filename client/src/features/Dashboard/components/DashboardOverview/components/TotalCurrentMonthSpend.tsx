@@ -1,5 +1,9 @@
 import { useQueries } from "@tanstack/react-query";
-import { LoadingOverviewItem, OverviewItem } from "@/components/base";
+import {
+  LoadingOverviewItem,
+  OverviewItem,
+  SectionError,
+} from "@/components/base";
 import { createFetchMonthlyExpenses } from "@/utils/api/requests";
 import { cn, formatDate, safeDivide, toLocalMonth } from "@/utils/functions";
 
@@ -36,7 +40,12 @@ export const TotalCurrentMonthSpend = () => {
   }
 
   if (isError) {
-    return "Error";
+    return (
+      <SectionError
+        className="min-h-32 p-4"
+        message="Could not load this month's spending."
+      />
+    );
   }
 
   const displayedContent = () => {

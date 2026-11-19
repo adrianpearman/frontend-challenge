@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { SectionError } from "@/components/base";
 import { LoadingDetails } from "@/components/base/LoadingDetails";
 import {
   buttonVariants,
@@ -141,7 +142,7 @@ export const DashboardTransactions = () => {
   }
 
   if (isError) {
-    return "ERROR";
+    return <SectionError message="Could not load recent transactions." />;
   }
 
   return (
