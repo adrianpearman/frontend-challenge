@@ -5,12 +5,11 @@ import {
   LoadingOverviewItem,
 } from "@/components/base";
 import { createFetchOccurrences } from "@/utils/api/requests";
-import { cn } from "@/utils/functions";
+import { addDays, cn, toLocalDate } from "@/utils/functions";
 
 export const BillsOverview = () => {
-  const today = new Date();
-  const in30Days = new Date(today);
-  in30Days.setDate(today.getDate() + 30);
+  const from = toLocalDate();
+  const to = toLocalDate(addDays(30));
 
   const {
     data: billData,
@@ -20,8 +19,8 @@ export const BillsOverview = () => {
     createFetchOccurrences({
       params: {
         kind: "bill",
-        from: today.toLocaleDateString("en-CA"),
-        to: in30Days.toLocaleDateString("en-CA"),
+        from,
+        to,
       },
     }),
   );
@@ -34,8 +33,8 @@ export const BillsOverview = () => {
     createFetchOccurrences({
       params: {
         kind: "income",
-        from: today.toLocaleDateString("en-CA"),
-        to: in30Days.toLocaleDateString("en-CA"),
+        from,
+        to,
       },
     }),
   );

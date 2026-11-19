@@ -10,7 +10,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/vendors";
-import { formatDate } from "@/utils/functions";
+import { addDays, formatDate, toLocalDate } from "@/utils/functions";
 import { createFetchOccurrences } from "@/utils/api/requests";
 import { RenderedBillTable } from "@/features/Bills/components/BillsTable/components";
 import type { ScheduledItemKind } from "@/utils/types";
@@ -28,12 +28,8 @@ export const BillsTable = () => {
   const [selectedScheduleItem, setSelectedScheduleItem] =
     useState<ScheduledItems>("all");
 
-  const today = new Date();
-  const endDateRange = new Date(today);
-  endDateRange.setDate(today.getDate() + dateRangeValue);
-
-  const formattedDate = today.toLocaleDateString("en-CA");
-  const formattedEndDate = endDateRange.toLocaleDateString("en-CA");
+  const formattedDate = toLocalDate();
+  const formattedEndDate = toLocalDate(addDays(dateRangeValue));
 
   const { data, isError, isLoading } = useQuery({
     ...createFetchOccurrences({

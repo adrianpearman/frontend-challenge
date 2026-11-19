@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { FilterDropdown } from "@/components/base";
 import { Button } from "@/components/vendors";
 import { baseUIStoreActions } from "@/store/BaseUIStore";
-import { shiftMonth } from "@/utils/functions";
+import { shiftMonth, toLocalMonth } from "@/utils/functions";
 
 type ExpensesHeaderProps = {
   accountOptions: { label: string; value: string }[];
@@ -27,7 +27,7 @@ export const ExpensesHeader = ({
     year: "numeric",
   });
   // Same source as the initial state in Expenses, so they always agree.
-  const isCurrentMonth = currentMonth >= new Date().toISOString().slice(0, 7);
+  const isCurrentMonth = currentMonth >= toLocalMonth();
 
   return (
     <div className="flex justify-between p-3">

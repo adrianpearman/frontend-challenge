@@ -4,17 +4,13 @@ import { LoadingOverviewItem, OverviewItem } from "@/components/base";
 import { useBaseUIStore } from "@/store/BaseUIStore";
 import { createFetchOccurrences } from "@/utils/api/requests";
 import { CurrencyConversionMap } from "@/utils/consts";
+import { addDays, toLocalDate } from "@/utils/functions";
 
 export const TotalBillsWithinThirtyDays = () => {
   const selectedCurrency = useBaseUIStore((state) => state.selectedCurrency);
 
-  const today = new Date();
-  const from = today.toLocaleDateString("en-CA");
-  const to = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() + 30,
-  ).toLocaleDateString("en-CA");
+  const from = toLocalDate();
+  const to = toLocalDate(addDays(30));
 
   const { data, isLoading } = useQuery(
     createFetchOccurrences({ params: { from, to, kind: "bill" } }),

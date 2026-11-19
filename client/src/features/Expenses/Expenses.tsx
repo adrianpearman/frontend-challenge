@@ -8,6 +8,7 @@ import {
   ExpensesOverview,
 } from "@/features/Expenses/components";
 import { createFetchDashboardMetrics } from "@/utils/api/requests";
+import { toLocalMonth } from "@/utils/functions";
 import type { Account } from "@/utils/types";
 
 const getEarliestMonth = ({
@@ -24,7 +25,7 @@ const getEarliestMonth = ({
 
 export const Expenses = () => {
   const [currentMonth, setCurrentMonth] = useState<string>(() =>
-    new Date().toLocaleDateString("en-CA").slice(0, 7),
+    toLocalMonth(),
   );
   const [selectedAccount, setSelectedAccount] = useState<string>("all");
   const { data, isError, isLoading } = useQuery(

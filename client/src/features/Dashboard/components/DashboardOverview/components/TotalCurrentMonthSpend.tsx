@@ -1,7 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import { LoadingOverviewItem, OverviewItem } from "@/components/base";
 import { createFetchMonthlyExpenses } from "@/utils/api/requests";
-import { cn, formatDate, safeDivide } from "@/utils/functions";
+import { cn, formatDate, safeDivide, toLocalMonth } from "@/utils/functions";
 
 export const TotalCurrentMonthSpend = () => {
   const currentDate = new Date();
@@ -11,10 +11,8 @@ export const TotalCurrentMonthSpend = () => {
     1,
   );
 
-  const monthParam = currentDate.toLocaleDateString("en-CA").slice(0, 7); // returns YYYY-MM
-  const previousMonthParam = previousDate
-    .toLocaleDateString("en-CA")
-    .slice(0, 7); // returns YYYY-MM
+  const monthParam = toLocalMonth(currentDate);
+  const previousMonthParam = toLocalMonth(previousDate);
 
   const [current, previous] = useQueries({
     queries: [
