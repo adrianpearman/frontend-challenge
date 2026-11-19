@@ -21,6 +21,7 @@ import type {
   UpcomingResponse,
 } from "@/utils/types";
 import * as api from "@/utils/api/endpoints";
+import { queryKeys } from "@/utils/api/requests/queryKeys";
 import {
   DEFAULT_STALE_TIME,
   DEFAULT_REFRESH_INTERVAL,
@@ -28,9 +29,9 @@ import {
 
 type QueryArgs<P = undefined> = BaseQueryArgs & { params?: P };
 
-// Shared shape for every query: params are part of the key so each filter set caches separately.
+// Shared shape for every query: params are appended to the key so each filter set caches separately.
 const createQuery = <T, P>(
-  key: string,
+  key: readonly unknown[],
   fetcher: (params?: P) => Promise<{ data: T }>,
   {
     params,
@@ -39,7 +40,7 @@ const createQuery = <T, P>(
   }: QueryArgs<P>,
 ) =>
   queryOptions({
-    queryKey: [key, params ?? {}],
+    queryKey: [...key, params ?? {}],
     queryFn: async (): Promise<T> => (await fetcher(params)).data,
     refetchInterval,
     staleTime,
@@ -50,7 +51,7 @@ export const createFetchAccount = (
   args: QueryArgs<{ asOf?: string }>,
 ) =>
   createQuery<Single<Account>, { asOf?: string }>(
-    `fetchAccount:${id}`,
+    queryKeys.accounts.detail(id),
     (p) => api.fetchAccount(id, p),
     args,
   );
@@ -60,7 +61,7 @@ export const createFetchAccountBalance = (
   args: QueryArgs<{ asOf?: string }>,
 ) =>
   createQuery<Single<Balance>, { asOf?: string }>(
-    `fetchAccountBalance:${id}`,
+    queryKeys.accounts.balance(id),
     (p) => api.fetchAccountBalance(id, p),
     args,
   );
@@ -71,7 +72,7 @@ export const createFetchAccountsBalances = (
   createQuery<
     Single<BalanceSnapshot>,
     Parameters<typeof api.fetchAccountsBalances>[0]
-  >("fetchAccountsBalances", api.fetchAccountsBalances, args);
+  >(queryKeys.accounts.balances(), api.fetchAccountsBalances, args);
 
 export const createFetchBalanceHistory = (
   id: string,
@@ -80,13 +81,17 @@ export const createFetchBalanceHistory = (
   createQuery<
     Single<BalanceHistory>,
     Parameters<typeof api.fetchBalanceHistory>[1]
-  >(`fetchBalanceHistory:${id}`, (p) => api.fetchBalanceHistory(id, p), args);
+  >(
+    queryKeys.accounts.history(id),
+    (p) => api.fetchBalanceHistory(id, p),
+    args,
+  );
 
 export const createFetchCashFlow = (
   args: QueryArgs<Parameters<typeof api.fetchCashFlow>[0]>,
 ) =>
   createQuery<CashFlowReport, Parameters<typeof api.fetchCashFlow>[0]>(
-    "fetchCashFlow",
+    queryKeys.reports.cashFlow(),
     api.fetchCashFlow,
     args,
   );
@@ -95,14 +100,14 @@ export const createFetchCategories = (
   args: QueryArgs<Parameters<typeof api.fetchCategories>[0]>,
 ) =>
   createQuery<Collection<Category>, Parameters<typeof api.fetchCategories>[0]>(
-    "fetchCategories",
+    queryKeys.categories.list(),
     api.fetchCategories,
     args,
   );
 
 export const createFetchCategory = (id: string, args: QueryArgs) =>
   createQuery<Single<Category>, undefined>(
-    `fetchCategory:${id}`,
+    queryKeys.categories.detail(id),
     () => api.fetchCategory(id),
     args,
   );
@@ -113,13 +118,11 @@ export const createFetchCategoryBreakdown = (
   createQuery<
     CategoryBreakdownReport,
     Parameters<typeof api.fetchCategoryBreakdown>[0]
-  >("fetchCategoryBreakdown", api.fetchCategoryBreakdown, args);
+  >(queryKeys.reports.categoryBreakdown(), api.fetchCategoryBreakdown, args);
 
-export const createFetchAccounts = (
-  args: QueryArgs<api.AccountsParams>,
-) =>
+export const createFetchAccounts = (args: QueryArgs<api.AccountsParams>) =>
   createQuery<Collection<Account>, api.AccountsParams>(
-    "fetchAccounts",
+    queryKeys.accounts.list(),
     api.fetchAccounts,
     args,
   );
@@ -131,27 +134,27 @@ export const createFetchMonthlyExpenses = (
   createQuery<
     MonthlyExpensesReport,
     Parameters<typeof api.fetchExpensesPerProject>[0]
-  >("fetchMonthlyExpenses", api.fetchExpensesPerProject, args);
+  >(queryKeys.reports.monthlyExpenses(), api.fetchExpensesPerProject, args);
 
 export const createFetchOccurrences = (
   args: QueryArgs<api.OccurrencesParams>,
 ) =>
   createQuery<UpcomingResponse, api.OccurrencesParams>(
-    "fetchOccurrences",
+    queryKeys.scheduledItems.occurrences(),
     api.fetchTransactionOccurrences,
     args,
   );
 
 export const createFetchProject = (id: string, args: QueryArgs) =>
   createQuery<Single<Project>, undefined>(
-    `fetchProject:${id}`,
+    queryKeys.projects.detail(id),
     () => api.fetchProject(id),
     args,
   );
 
 export const createFetchProjectSummary = (id: string, args: QueryArgs) =>
   createQuery<Single<ProjectSummary>, undefined>(
-    `fetchProjectSummary:${id}`,
+    queryKeys.projects.summary(id),
     () => api.fetchProjectedSpending(id),
     args,
   );
@@ -160,7 +163,7 @@ export const createFetchProjectedBudget = (
   args: QueryArgs<api.BudgetProjectionParams>,
 ) =>
   createQuery<BudgetProjection, api.BudgetProjectionParams>(
-    "fetchProjectedBudget",
+    queryKeys.reports.projectedBudget(),
     api.fetchProjectedBudget,
     args,
   );
@@ -169,7 +172,7 @@ export const createFetchProjects = (
   args: QueryArgs<Parameters<typeof api.fetchProjects>[0]>,
 ) =>
   createQuery<Collection<Project>, Parameters<typeof api.fetchProjects>[0]>(
-    "fetchProjects",
+    queryKeys.projects.list(),
     api.fetchProjects,
     args,
   );
@@ -178,14 +181,14 @@ export const createFetchRecentTransactions = (
   args: QueryArgs<api.TransactionsParams>,
 ) =>
   createQuery<Collection<Transaction>, api.TransactionsParams>(
-    "fetchTransactions",
+    queryKeys.transactions.list(),
     api.fetchTransactions,
     args,
   );
 
 export const createFetchScheduledItem = (id: string, args: QueryArgs) =>
   createQuery<Single<ScheduledItem>, undefined>(
-    `fetchScheduledItem:${id}`,
+    queryKeys.scheduledItems.detail(id),
     () => api.fetchScheduledItem(id),
     args,
   );
@@ -198,7 +201,7 @@ export const createFetchScheduledItemOccurrences = (
     Collection<Occurrence>,
     Parameters<typeof api.fetchScheduledItemOccurrences>[1]
   >(
-    `fetchScheduledItemOccurrences:${id}`,
+    queryKeys.scheduledItems.itemOccurrences(id),
     (p) => api.fetchScheduledItemOccurrences(id, p),
     args,
   );
@@ -207,7 +210,7 @@ export const createFetchScheduledTransactions = (
   args: QueryArgs<api.ScheduledItemsParams>,
 ) =>
   createQuery<Collection<ScheduledItem>, api.ScheduledItemsParams>(
-    "fetchScheduledItems",
+    queryKeys.scheduledItems.list(),
     api.fetchScheduledItems,
     args,
   );
@@ -217,21 +220,21 @@ export const createFetchTransaction = (
   args: QueryArgs<{ include?: string }>,
 ) =>
   createQuery<Single<Transaction>, { include?: string }>(
-    `fetchTransaction:${id}`,
+    queryKeys.transactions.detail(id),
     (p) => api.fetchTransaction(id, p),
     args,
   );
 
 export const createFetchTransfer = (transferId: string, args: QueryArgs) =>
   createQuery<Single<Transfer>, undefined>(
-    `fetchTransfer:${transferId}`,
+    queryKeys.transfers.detail(transferId),
     () => api.fetchTransfer(transferId),
     args,
   );
 
 export const createFetchTransfers = (args: QueryArgs) =>
   createQuery<Collection<Transfer>, undefined>(
-    "fetchTransfers",
+    queryKeys.transfers.list(),
     api.fetchTransfers,
     args,
   );

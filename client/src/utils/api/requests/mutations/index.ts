@@ -1,12 +1,23 @@
-import { mutationOptions } from "@tanstack/react-query";
+import { mutationOptions, type QueryKey } from "@tanstack/react-query";
 import * as api from "@/utils/api/endpoints";
+import { queryKeys } from "@/utils/api/requests/queryKeys";
 
-// shortcut: every mutation invalidates all queries (balances/reports depend on everything); scope keys if refetching gets heavy.
-const createMutation = <V>(fn: (vars: V) => Promise<unknown>) =>
+// Mutations name the key prefixes they make stale. Without `invalidates`, every query is
+// refetched. shortcut: most mutations still use that fallback; give each one its own list.
+const createMutation = <V>(
+  fn: (vars: V) => Promise<unknown>,
+  invalidates?: (vars: V) => QueryKey[],
+) =>
   mutationOptions({
     mutationFn: fn,
-    onSuccess: (_data, _vars, _result, { client }) =>
-      client.invalidateQueries(),
+    onSuccess: (_data, vars, _result, { client }) =>
+      invalidates
+        ? Promise.all(
+            invalidates(vars).map((queryKey) =>
+              client.invalidateQueries({ queryKey }),
+            ),
+          )
+        : client.invalidateQueries(),
   });
 
 type Args<F extends (...a: never[]) => unknown> = Parameters<F>;
@@ -96,6 +107,15 @@ export const updateAccountMutation = () =>
   createMutation(
     ({ id, body }: { id: string; body: Args<typeof api.updateAccount>[1] }) =>
       api.updateAccount(id, body),
+    // Name, type, opening balance or archive state changed: every account query
+    // (lists, this detail, balances, history), reports that total across accounts, and
+    // transaction lists, which embed the account name via include=account.
+    // Categories, projects and scheduled items are untouched, so they stay cached.
+    () => [
+      queryKeys.accounts.all,
+      queryKeys.reports.all,
+      queryKeys.transactions.list(),
+    ],
   );
 
 export const updateCategoryMutation = () =>
